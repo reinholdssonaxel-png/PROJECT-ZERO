@@ -84,3 +84,11 @@ Planned composition per team: **1 Tank, 2 Damage, 2 Support**. Eight heroes:
 
 ## Acceptance criteria for first playable milestone
 Player can join in first person as VEX, move, aim, fire VX-7, reload, see health/ammo, hit a target or bot with server-validated damage, use Dash, die and respawn on a basic industrial map. README explains Rojo/Studio setup and exact manual test steps. Do not claim finished features until they are implemented and tested.
+
+## First prototype implementation decisions (2026-10-17)
+- Headshots use **1.5× damage** (19.5 HP); body damage remains 13.
+- Unit conversion: **1 stud = 0.28 m**; Dash is 64.286 studs/s for 0.18 s with an 8 s cooldown. Weapon range is 650 studs. These are prototype tuning values.
+- One Bravo VEX AI opponent; humans join Alpha in training. Optional `Workspace.ZeroPvP` alternates human factions for local opponent testing. This is not the final 5v5 team/match system.
+- Compact original Parts blockout, R15 placeholder rigs, procedural gait/reload poses and one documented free Creator Store shot sound. Production meshes and authored Animator clips remain later work.
+- Spawn rooms are safe zones and respawns also have two seconds of protection. No damage is dealt from inside a spawn room. The initial 15-second preparation starts when the first player joins.
+- Verification evidence and untested multiplayer/publication gaps are tracked in `docs/VERIFICATION.md`; `README.md` documents the exact setup and test steps. All canonical heroes and deferred mechanics above are preserved.

@@ -1,0 +1,30 @@
+name: Validate Roblox prototype
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download pinned official build tools
+        shell: bash
+        run: |
+          mkdir -p .tools/rojo .tools/luau build
+          curl -fL --retry 3 https://github.com/rojo-rbx/rojo/releases/download/v7.7.1/rojo-7.7.1-linux-x86_64.zip -o .tools/rojo.zip
+          curl -fL --retry 3 https://github.com/luau-lang/luau/releases/download/0.743/luau-ubuntu.zip -o .tools/luau.zip
+          unzip -q .tools/rojo.zip -d .tools/rojo
+          unzip -q .tools/luau.zip -d .tools/luau
+          chmod +x .tools/rojo/rojo .tools/luau/luau-compile
+      - name: Compile every Luau source and build Rojo place
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do .tools/luau/luau-compile --null "$file"; done < <(find src tests -name '*.luau' -print0)
+          .tools/rojo/rojo build default.project.json -o build/PROJECT-ZERO.rbxlx
+          git diff --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PROJECT-ZERO-place
+          path: build/PROJECT-ZERO.rbxlx
