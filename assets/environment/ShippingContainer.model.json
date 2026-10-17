@@ -1,0 +1,48 @@
+{
+  "Children": [
+    {
+      "Children": [],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "http://www.roblox.com/asset/?id=4567967359",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://4571713447",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          0.00017547607421875,
+          0,
+          -0.000274658203125,
+          0.5898587703704834,
+          1.513700453870115E-08,
+          0.8075083494186401,
+          1.9355052671699013E-08,
+          1.0000042915344238,
+          4.999325398102883E-09,
+          -0.8075082302093506,
+          7.982428051889201E-09,
+          0.5898609757423401
+        ],
+        "Material": "Brick",
+        "CastShadow": false,
+        "Size": [
+          26.222993850708008,
+          18.503772735595703,
+          26.33469009399414
+        ]
+      },
+      "Name": "Shipping Container 0.164K",
+      "ClassName": "MeshPart"
+    }
+  ],
+  "ClassName": "Model"
+}

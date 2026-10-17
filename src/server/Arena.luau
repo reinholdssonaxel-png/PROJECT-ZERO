@@ -116,6 +116,7 @@ function Arena.build()
 	local cc = Lighting:FindFirstChild("ZeroColor") or Instance.new("ColorCorrectionEffect")
 	cc.Name, cc.Contrast, cc.Saturation = "ZeroColor", .08, -.12
 	cc.Parent = Lighting
+	require(script.Parent.HarborDetail).build(f)
 	return f, doors
 end
 return Arena
