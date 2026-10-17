@@ -1,4 +1,16 @@
-# First playable verification — 2026-10-17
+# Verification — 2026-10-17
+
+## Visual / eight-hero milestone
+
+- Official Luau syntax compilation and Rojo place build cover **19 Luau files** plus three sanitized JSON art templates.
+- Final combined Studio server suite: **114 assertions** — 28 combat assertions and 86 hero/art assertions. The latter check all eight canonical HP/identities, R15 skeletons, weapon registration, pose calls, Animator presence, absence of embedded scripts, honest playable flags, paired gauntlets, separate pistol grips and art budgets.
+- Armory was opened with H and all **eight cards were clicked through actual client input**. Each selection produced the matching named WorldModel rig and canonical HP. All four pose controls were clicked and their states read back. Motor6D target and actual arm transforms were compared in the client and matched.
+- TITAN, VEX and ECHO Armory captures and a wide harbor capture were visually inspected. A visor-color arithmetic error found during iteration was corrected before the final verification; the final fresh-session suite passed. Preview replacement now builds the new model before removing the old one.
+- Arena audit: **782 instances, 679 BaseParts, 34 MeshParts and 22 lights**. Mesh counts are bounded; decorative objects have no touches/queries/collision, imported meshes use Performance fidelity, and detail has no frame loop. These budgets are not a measured mobile FPS guarantee.
+- Raw imports were held in ServerStorage during edit-time audit. All four visual/reference imports contained zero scripts. The saved templates retain only geometry/material nodes, and review staging was removed from Studio after export.
+- Single-client gameplay remains VEX vs one bot. Other heroes are explicitly visual prototypes; no unimplemented kit can be deployed from Armory. The previous multiplayer/publication gaps below still apply.
+
+## First playable evidence
 
 Target: connected Roblox Studio **Place1**, single-client Play mode, VEX vs one Bravo bot. Source was synchronized into the same service layout as `default.project.json` through Studio MCP. The final arena preview contains 213 instances. Rojo 7.7.1 builds the same source into a standalone place; arena construction occurs on Play.
 

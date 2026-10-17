@@ -92,3 +92,9 @@ Player can join in first person as VEX, move, aim, fire VX-7, reload, see health
 - Compact original Parts blockout, R15 placeholder rigs, procedural gait/reload poses and one documented free Creator Store shot sound. Production meshes and authored Animator clips remain later work.
 - Spawn rooms are safe zones and respawns also have two seconds of protection. No damage is dealt from inside a spawn room. The initial 15-second preparation starts when the first player joins.
 - Verification evidence and untested multiplayer/publication gaps are tracked in `docs/VERIFICATION.md`; `README.md` documents the exact setup and test steps. All canonical heroes and deferred mechanics above are preserved.
+
+## Visual and roster milestone (2026-10-17)
+- HAMNVERKET receives Swedish industrial signage, drainage/loading rails, wet surfaces, warehouse shutters/windows/vents, cargo hardware, fencing, catwalk rails, gantry bracing/cabins, port/city background and reviewed free art templates. Three lanes, the central landmark and two symmetrical safe spawn rooms remain.
+- All eight canonical heroes now have distinct original R15 armor/weapon prototypes and Idle/Run/Fire/Reload procedural poses, with canonical identities, roles and HP in `HeroCatalog`. They remain human combatants under fitted protective equipment.
+- **H / Armory** previews all eight and reports actual implementation status. VEX remains the only playable kit; the other seven remain visual previews until their server weapon/abilities are implemented and tested. This does not substitute Armory for the later match-start hero-deployment flow.
+- Checked-in sanitized art templates contain no scripts. Asset IDs, authors, audit findings, CC0/Creator Store terms and published-permission caveats are in `docs/ASSETS.md`. Per-hero status is in `docs/HEROES.md`.

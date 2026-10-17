@@ -9,6 +9,8 @@ local Hud = require(script.Parent.Hud)
 local player = Players.LocalPlayer
 local remotes = game.ReplicatedStorage:WaitForChild("ZeroRemotes")
 local hud = Hud.create(player)
+local armory = require(script.Parent.Armory).create(player)
+local Pose = require(game.ReplicatedStorage.ZeroShared.AnimationPose)
 local character, humanoid, viewmodel
 local ammo, localReloadEnd, nextShot, recoil, hitUntil = 36, 0, 0, 0, 0
 local holding = false
@@ -16,7 +18,7 @@ local shotSound = Instance.new("Sound") shotSound.SoundId = C.ShotSound shotSoun
 local tickSound = Instance.new("Sound") tickSound.SoundId = "rbxasset://sounds/button.wav" tickSound.Volume = .15 tickSound.Parent = SoundService
 workspace:GetAttributeChangedSignal("ZeroPhase"):Connect(function() tickSound:Play() end)
 local fxFolder = Instance.new("Folder") fxFolder.Name = "ZeroLocalFX" fxFolder.Parent = workspace
-local gaitJoints = setmetatable({}, {__mode = "k"})
+local visualShots = setmetatable({}, {__mode = "k"})
 local function makeViewmodel()
 	if viewmodel then viewmodel:Destroy() end
 	viewmodel = Instance.new("Model") viewmodel.Name = "VEX_FirstPerson"
@@ -56,7 +58,7 @@ local function reload()
 	tickSound:Play()
 end
 UserInputService.InputBegan:Connect(function(input, processed)
-	if processed then return end
+	if processed or armory.isOpen then return end
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then holding = true
 	elseif input.KeyCode == Enum.KeyCode.R then reload()
 	elseif input.KeyCode == Enum.KeyCode.Q and humanoid and humanoid.Health > 0 then
@@ -80,6 +82,7 @@ local function tracer(origin, endpoint, color)
 	Debris:AddItem(impact, .1)
 end
 remotes.FX.OnClientEvent:Connect(function(shooter, origin, endpoint, hit, headshot, killed)
+	if shooter then visualShots[shooter] = os.clock() end
 	tracer(origin, endpoint, if shooter == character then Color3.fromRGB(255, 173, 73) else Color3.fromRGB(255, 83, 48))
 	if shooter == character then
 		if hit then
@@ -92,6 +95,8 @@ remotes.FX.OnClientEvent:Connect(function(shooter, origin, endpoint, hit, headsh
 	end
 end)
 RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, function(dt)
+	hud.gui.Enabled = not armory.isOpen
+	if armory.isOpen then holding = false end
 	local time = workspace:GetServerTimeNow()
 	local alive = humanoid and humanoid.Health > 0
 	local phase = workspace:GetAttribute("ZeroPhase")
@@ -125,32 +130,27 @@ RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, fun
 	end
 	recoil *= math.exp(-dt * 16)
 	if viewmodel then
-		viewmodel.Parent = if alive then workspace.CurrentCamera else nil
+		viewmodel.Parent = if alive and not armory.isOpen then workspace.CurrentCamera else nil
 		local bob = math.sin(os.clock() * 10) * math.min(humanoid.MoveDirection.Magnitude, 1) * .025
 		local tilt = if reloading then math.sin(math.clamp(1 - (math.max(serverReload, localReloadEnd) - time) / C.Weapon.ReloadTime, 0, 1) * math.pi) else 0
 		viewmodel:PivotTo(workspace.CurrentCamera.CFrame * CFrame.new(0, bob - tilt * .35, recoil) * CFrame.Angles(tilt * -.4, 0, tilt * -.65))
 	end
 	for _, p in character:GetDescendants() do if p:IsA("BasePart") then p.LocalTransparencyModifier = 1 end end
 end)
--- Lightweight original procedural R15 placeholder gait, including other players.
+-- Shared motion poses also drive all eight armory previews.
 local gaitClock = 0
 RunService.Heartbeat:Connect(function(dt)
 	gaitClock += dt
 	if gaitClock < .05 then return end
 	gaitClock = 0
 	for _, m in workspace:GetChildren() do
-		if m:IsA("Model") and m:GetAttribute("Hero") == "VEX" and m:FindFirstChild("HumanoidRootPart") then
+		if m:IsA("Model") and m:GetAttribute("Hero") and m:FindFirstChild("HumanoidRootPart") then
 			local speed = m.HumanoidRootPart.AssemblyLinearVelocity * Vector3.new(1, 0, 1)
-			local wave = math.sin(os.clock() * 11) * math.min(1, speed.Magnitude / C.WalkSpeed) * .45
-			for _, joint in m:GetDescendants() do
-				if joint:IsA("Motor6D") then
-					local base = gaitJoints[joint] or joint.C0 gaitJoints[joint] = base
-					if joint.Name == "RightUpperLegJoint" then joint.C0 = base * CFrame.Angles(wave, 0, 0)
-					elseif joint.Name == "LeftUpperLegJoint" then joint.C0 = base * CFrame.Angles(-wave, 0, 0)
-					elseif joint.Name == "RightUpperArmJoint" then joint.C0 = base * CFrame.Angles(-1.1, 0, -.1)
-					elseif joint.Name == "LeftUpperArmJoint" then joint.C0 = base * CFrame.Angles(-.9, 0, .5) end
-				end
-			end
+			local elapsed = os.clock() - (visualShots[m] or -100)
+			local reloadEnd = m:GetAttribute("ReloadEnd") or 0
+			local remaining = reloadEnd - workspace:GetServerTimeNow()
+			local action = if remaining > 0 then "Reload" elseif elapsed < .2 then "Fire" else "Idle"
+			Pose.apply(m, os.clock(), speed.Magnitude / C.WalkSpeed, action, if action == "Reload" then 1 - remaining / C.Weapon.ReloadTime else elapsed / .2)
 		end
 	end
 end)

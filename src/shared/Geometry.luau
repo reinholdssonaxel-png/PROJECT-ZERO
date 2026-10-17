@@ -12,7 +12,7 @@ end
 function Geometry.rifle(parent: Instance): Model
 	local m = Instance.new("Model")
 	m.Name = "VX7"
-	local dark, orange = Color3.fromRGB(32, 38, 45), Color3.fromRGB(255, 137, 48)
+	local dark, orange = Color3.fromRGB(40, 47, 56), Color3.fromRGB(179, 91, 30)
 	local p = Geometry.part
 	p(m, "Receiver", Vector3.new(.32, .42, 1.45), CFrame.new(0, 0, -.3), dark)
 	p(m, "Barrel", Vector3.new(.13, .13, 1.05), CFrame.new(0, .05, -1.5), dark)

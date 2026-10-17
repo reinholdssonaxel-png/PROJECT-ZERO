@@ -1,6 +1,6 @@
 # PROJECT: ZERO
 
-First playable Roblox/Luau prototype: **VEX vs one VEX AI opponent**, on a compact HAMNVERKET harbor blockout. Desktop keyboard and mouse. The canonical roster and longer-term game design remain in [PROJECT_SPEC.md](PROJECT_SPEC.md).
+Roblox/Luau prototype: **playable VEX vs one VEX AI opponent**, a detailed HAMNVERKET harbor prototype and **eight distinct R15 hero previews**. Desktop keyboard and mouse. The canonical roster and longer-term game design remain in [PROJECT_SPEC.md](PROJECT_SPEC.md).
 
 ## Play in Roblox Studio
 
@@ -14,6 +14,8 @@ Open that place in Studio and press **Play** (F5), not Run. The server creates t
 
 For source editing, run `rojo serve default.project.json`, open a dedicated development place and connect the Rojo 7 plugin to localhost:34872. Rojo maps `ZeroShared`, `ZeroServer`, `ZeroClient` and `ZeroTests`. The map builds when playing; an edit-time preview created during MCP development is optional and is rebuilt on Play. See the official [Rojo build/sync instructions](https://rojo.space/docs/v7/getting-started/new-game/).
 
+Art templates also map to `ReplicatedStorage.ZeroAssets` and `ServerStorage.ZeroArt`. When a MeshPart asset is added/changed, build and reopen the place: Roblox restricts live updates to MeshId. The checked-in sanitized `.model.json` files reproduce the imports; no manual Toolbox import is required. See [Rojo sync limitations](https://rojo.space/docs/v7/sync-details/).
+
 | Control | Action |
 | --- | --- |
 | WASD / mouse | Move / aim |
@@ -22,6 +24,7 @@ For source editing, run `rojo serve default.project.json`, open a dedicated deve
 | Q | Dash in movement direction (forward when stationary) |
 | Space | Jump |
 | Tab | Roblox player list with kills/deaths |
+| H | Armory: preview all eight heroes and Idle/Run/Fire/Reload poses; return to VEX |
 
 ## Implemented
 
@@ -31,10 +34,12 @@ For source editing, run `rojo serve default.project.json`, open a dedicated deve
 - 15 HP/sec regeneration after five seconds without taking damage; eight-second respawn; two seconds of respawn protection plus safe spawn rooms.
 - One opposing R15 AI: sensing/line of sight, reaction delay, aim spread, PathfindingService, movement, shared weapon/ammo/reload rules, death and respawn.
 - HAMNVERKET: three lanes, mirrored spawn rooms, panoramic harbor windows, opening doors, lockers, displays, cargo cover, warehouse blocks, factory catwalk/stairs, crane and ship silhouettes, evening lighting.
+- Harbor art pass: Swedish signs, warehouse shutters/windows/roof vents, container door hardware, fences, drains, loading rails, reflective puddles, crane braces/cabins, quay hardware, Norrhamn skyline and reviewed Creator Store pipe/container meshes. Simple collision proxies remain separate from visual decoration.
+- All eight canonical heroes have original fitted armor, human heads under masks/helmets, differentiated colors/silhouettes, weapons and shared procedural poses. Armory shows HP, identity and implementation status; only VEX is deployable. See [hero readiness](docs/HEROES.md).
 
 ## Architecture and security
 
-`src/shared`: immutable hero/weapon configuration, shot eligibility and vector validation, original geometry helpers. `src/server`: arena, R15 characters/health, combat, bots and match bootstrap. `src/client`: input, local camera/viewmodel effects and HUD. `tests`: Studio server integration assertions.
+`src/shared`: immutable hero/weapon catalogs, shared R15 factory, fitted hero armor/weapons, procedural poses, shot/vector validation and geometry helpers. `src/server`: arena/art, characters/health, combat, bots and match bootstrap. `src/client`: input, camera/viewmodel, HUD and Armory. `assets`: sanitized art-only Creator Store templates. `tests`: Studio server integration assertions.
 
 The client sends **only an action and normalized aim/dash direction**. The server resolves the sender's current character, alive state, phase, ammo, reload, cooldown, fire cadence, faction, safe-zone/protection status, origin, range, wall occlusion and damage. A per-player token bucket also limits malformed requests. Normal Roblox character locomotion uses client physics; this is not a complete movement anti-cheat or lag-compensated competitive shooter.
 
@@ -52,6 +57,7 @@ s.Name = "ZeroVerification"
 s.Source = [[
     local ok, result = pcall(function()
         return require(game.ServerStorage.ZeroTests["Combat.spec"]).run()
+            + require(game.ServerStorage.ZeroTests["Heroes.spec"]).run()
     end)
     workspace:SetAttribute("ZeroTestOK", ok)
     workspace:SetAttribute("ZeroTestResult", tostring(result))
@@ -70,6 +76,6 @@ For a friend online, publish a **private/restricted test experience** under the 
 
 ## Assets, scope and next milestone
 
-See [docs/ASSETS.md](docs/ASSETS.md) for Creator Store searches, imported asset review, attribution and fallback choices. No third-party gameplay scripts or FPS framework are used. All placeholder geometry and procedural animation code were written for this project. Only the documented shot sound is loaded from Creator Store at runtime.
+See [docs/ASSETS.md](docs/ASSETS.md) for Creator Store searches, imported asset review, attribution and fallback choices. No third-party gameplay scripts or FPS framework are used. The project loads the documented pipe/container/helmet meshes and shot sound; authored armor, weapons, map detail and procedural motion code remain original.
 
-Pulse Grenade, Overdrive, hero selection/cinematic, Control scoring, other heroes, 5v5 AI fill, mobile controls, polished animation clips, directional damage UI and final sound/art are **not implemented**. The central cyan pad is a visual landmark for a future Control point. Current R15 armor and gait are deliberately simple; a future Animator/Animation Editor pass should replace the procedural placeholder poses. The next milestone is two-client/friend testing, bot/navigation tuning, then licensed art and sound refinement.
+Pulse Grenade, Overdrive, full match-start hero deployment/cinematic, Control scoring, the other seven gameplay kits, 5v5 AI fill, mobile controls, authored animation clips, directional damage UI and final production art/audio are **not implemented**. The central pad marks the future Control point. Armory is a working visual archive rather than an unlock of unimplemented kits. The next milestone is two-client/friend testing and an Animator/Animation Editor pass, then implementing the next hero's server-validated weapon and abilities individually.
