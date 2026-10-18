@@ -9,13 +9,17 @@ local Hud = require(script.Parent.Hud)
 local player = Players.LocalPlayer
 local remotes = game.ReplicatedStorage:WaitForChild("ZeroRemotes")
 local hud = Hud.create(player)
-local armory = require(script.Parent.Armory).create(player)
+local menu = require(script.Parent.MainMenu).create(player, remotes:WaitForChild("Flow"))
+local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 local Pose = require(game.ReplicatedStorage.ZeroShared.AnimationPose)
 local character, humanoid, viewmodel
 local ammo, localReloadEnd, nextShot, recoil, hitUntil = 36, 0, 0, 0, 0
 local holding = false
+local yaw, pitch = 0, 0
 local shotSound = Instance.new("Sound") shotSound.SoundId = C.ShotSound shotSound.Volume = .35 shotSound.Parent = SoundService
 local tickSound = Instance.new("Sound") tickSound.SoundId = "rbxasset://sounds/button.wav" tickSound.Volume = .15 tickSound.Parent = SoundService
+shotSound.SoundGroup = SoundService:WaitForChild("ZeroAudio")
+tickSound.SoundGroup = shotSound.SoundGroup
 workspace:GetAttributeChangedSignal("ZeroPhase"):Connect(function() tickSound:Play() end)
 local fxFolder = Instance.new("Folder") fxFolder.Name = "ZeroLocalFX" fxFolder.Parent = workspace
 local visualShots = setmetatable({}, {__mode = "k"})
@@ -41,6 +45,7 @@ local function attach(m)
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
 	workspace.CurrentCamera.FieldOfView = 80
 	local root = m:WaitForChild("HumanoidRootPart")
+	yaw, pitch = math.atan2(-root.CFrame.LookVector.X, -root.CFrame.LookVector.Z), 0
 	workspace.CurrentCamera.CFrame = CFrame.lookAt(m.Head.Position, m.Head.Position + root.CFrame.LookVector * 30)
 	player.CameraMode = Enum.CameraMode.LockFirstPerson
 	UserInputService.MouseIconEnabled = false
@@ -51,6 +56,12 @@ local function attach(m)
 end
 player.CharacterAdded:Connect(attach)
 if player.Character then task.spawn(attach, player.Character) end
+player.CharacterRemoving:Connect(function(m)
+	if character ~= m then return end
+	character, humanoid, holding = nil, nil, false
+	if viewmodel then viewmodel:Destroy() viewmodel = nil end
+	if ammoConnection then ammoConnection:Disconnect() ammoConnection = nil end
+end)
 local function reload()
 	if not humanoid or humanoid.Health <= 0 or ammo == 36 or workspace:GetServerTimeNow() < localReloadEnd then return end
 	localReloadEnd = workspace:GetServerTimeNow() + C.Weapon.ReloadTime
@@ -58,7 +69,7 @@ local function reload()
 	tickSound:Play()
 end
 UserInputService.InputBegan:Connect(function(input, processed)
-	if processed or armory.isOpen then return end
+	if processed or menu.isOpen or player:GetAttribute("ZeroSession") ~= "ACTIVE" then return end
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then holding = true
 	elseif input.KeyCode == Enum.KeyCode.R then reload()
 	elseif input.KeyCode == Enum.KeyCode.Q and humanoid and humanoid.Health > 0 then
@@ -95,15 +106,30 @@ remotes.FX.OnClientEvent:Connect(function(shooter, origin, endpoint, hit, headsh
 	end
 end)
 RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, function(dt)
-	hud.gui.Enabled = not armory.isOpen
-	if armory.isOpen then holding = false end
+	hud.gui.Enabled = not menu.isOpen and character ~= nil
+	if menu.isOpen then holding = false end
 	local time = workspace:GetServerTimeNow()
 	local alive = humanoid and humanoid.Health > 0
 	local phase = workspace:GetAttribute("ZeroPhase")
 	hud.phase.Text = if phase == "PREPARE" then "PREPARE  /  " .. math.max(0, math.ceil((workspace:GetAttribute("ZeroPhaseEnd") or time) - time)) else "TRAINING  /  LIVE"
 	hud.info.Text = if phase == "PREPARE" then "VEX ONLINE  •  DOORS OPEN AT ZERO" else "ALPHA vs BRAVO  /  ELIMINATE HOSTILES"
+	if phase == "ACTIVE" then
+		local remaining = math.max(0, math.ceil((workspace:GetAttribute("ZeroRoundEnd") or time) - time))
+		hud.info.Text = string.format("TRAINING  %d:%02d  /  M: MAIN MENU", math.floor(remaining / 60), remaining % 60)
+	end
 	hud.hit.Visible = os.clock() < hitUntil
 	if not character or not humanoid then return end
+	local active = player:GetAttribute("ZeroSession") == "ACTIVE"
+	if not menu.isOpen and humanoid.Health > 0 then
+		local delta = UserInputService:GetMouseDelta()
+		local sensitivity = player:GetAttribute("ZeroAimSensitivity") or 1
+		yaw -= delta.X * .002 * sensitivity
+		pitch = math.clamp(pitch - delta.Y * .002 * sensitivity, -1.4, 1.4)
+		UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+		workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+		workspace.CurrentCamera.CFrame = CFrame.new(character.Head.Position) * CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)
+		if active then humanoid.AutoRotate = false character.HumanoidRootPart.CFrame = CFrame.new(character.HumanoidRootPart.Position) * CFrame.Angles(0, yaw, 0) end
+	end
 	hud.health.Text = tostring(math.ceil(humanoid.Health))
 	hud.healthBar.Size = UDim2.fromScale(math.clamp(humanoid.Health / C.MaxHealth, 0, 1), 1)
 	hud.ammo.Text = string.format("%02d", ammo)
@@ -113,24 +139,24 @@ RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, fun
 	local cooldown = math.max(0, (character:GetAttribute("DashReadyAt") or 0) - time)
 	hud.dash.Text = if cooldown > 0 then "Q  DASH  /  " .. string.format("%.1fs", cooldown) else "Q  DASH  /  READY"
 	local respawnAt = character:GetAttribute("RespawnAt") or time
-	hud.death.Text = if not alive then "VEX DOWN\nREDEPLOY IN " .. math.max(0, math.ceil(respawnAt - time)) .. "s" elseif math.abs(character.HumanoidRootPart.Position.Z) >= 100 then "SPAWN PROTECTED" else ""
-	if holding and alive and not reloading and phase == "ACTIVE" and time >= nextShot and math.abs(character.HumanoidRootPart.Position.Z) < 100 then
+	hud.death.Text = if not alive then "VEX DOWN\nREDEPLOY IN " .. math.max(0, math.ceil(respawnAt - time)) .. "s" elseif Layout.isSafe(character.HumanoidRootPart.Position) then "SPAWN PROTECTED" else ""
+	if holding and alive and active and not reloading and phase == "ACTIVE" and time >= nextShot and not Layout.isSafe(character.HumanoidRootPart.Position) then
 		if ammo > 0 then
 			nextShot = time + C.Weapon.FireInterval
 			ammo -= 1
 			remotes.Action:FireServer("Fire", workspace.CurrentCamera.CFrame.LookVector)
 			recoil = math.min(.16, recoil + .045)
-			workspace.CurrentCamera.CFrame *= CFrame.Angles(math.rad(.45), 0, 0)
+			pitch = math.min(1.4, pitch + math.rad(.45))
 			shotSound.PlaybackSpeed = .96 + math.random() * .08 shotSound:Play()
 			local muzzle = viewmodel and viewmodel:FindFirstChild("VX7") and viewmodel.VX7:FindFirstChild("Barrel")
-			if muzzle then
+			if muzzle and not player:GetAttribute("ZeroReducedEffects") then
 				local flash = Instance.new("PointLight") flash.Color = Color3.fromRGB(255, 181, 81) flash.Brightness = 2 flash.Range = 8 flash.Parent = muzzle Debris:AddItem(flash, .04)
 			end
 		else reload() end
 	end
 	recoil *= math.exp(-dt * 16)
 	if viewmodel then
-		viewmodel.Parent = if alive and not armory.isOpen then workspace.CurrentCamera else nil
+		viewmodel.Parent = if alive and not menu.isOpen then workspace.CurrentCamera else nil
 		local bob = math.sin(os.clock() * 10) * math.min(humanoid.MoveDirection.Magnitude, 1) * .025
 		local tilt = if reloading then math.sin(math.clamp(1 - (math.max(serverReload, localReloadEnd) - time) / C.Weapon.ReloadTime, 0, 1) * math.pi) else 0
 		viewmodel:PivotTo(workspace.CurrentCamera.CFrame * CFrame.new(0, bob - tilt * .35, recoil) * CFrame.Angles(tilt * -.4, 0, tilt * -.65))

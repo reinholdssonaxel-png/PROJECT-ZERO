@@ -1,122 +1,91 @@
---!strict
-local Lighting = game:GetService("Lighting")
-local G = require(game.ReplicatedStorage.ZeroShared.Geometry)
-local Arena = {}
-local steel = Color3.fromRGB(57, 72, 86)
-local charcoal = Color3.fromRGB(31, 39, 49)
-local orange = Color3.fromRGB(255, 143, 55)
-local cyan = Color3.fromRGB(68, 208, 240)
+local Lighting=game:GetService("Lighting")
+local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Layout=require(game.ReplicatedStorage.ZeroShared.MapLayout)
+local Arena={}
 function Arena.build()
-	local existing = workspace:FindFirstChild("ZeroArena")
-	if existing then existing:Destroy() end
-	local f = Instance.new("Folder")
-	f.Name = "ZeroArena"
-	f.Parent = workspace
-	local doors = {}
-	local function box(name, size, pos, color, mat)
-		return G.part(f, name, size, CFrame.new(pos), color, mat)
-	end
-	local function sign(part, text, face)
-		local gui = Instance.new("SurfaceGui")
-		gui.Face, gui.SizingMode, gui.PixelsPerStud = face or Enum.NormalId.Front, Enum.SurfaceGuiSizingMode.PixelsPerStud, 24
-		gui.Parent = part
-		local label = Instance.new("TextLabel")
-		label.Size, label.BackgroundTransparency = UDim2.fromScale(1, 1), 1
-		label.Font, label.TextScaled, label.TextColor3 = Enum.Font.GothamBold, true, Color3.fromRGB(223, 236, 242)
-		label.Text = text
-		label.Parent = gui
-	end
-	local function lamp(pos, color)
-		local p = box("LightPanel", Vector3.new(8, .3, 1), pos, color, Enum.Material.Neon)
-		local l = Instance.new("PointLight")
-		l.Color, l.Brightness, l.Range = color, 2, 28
-		l.Parent = p
-	end
-	local ground = box("DampAsphalt", Vector3.new(184, 2, 290), Vector3.new(0, -1, 0), charcoal, Enum.Material.Asphalt)
-	ground.Reflectance = .12
-	box("Sea", Vector3.new(900, 2, 900), Vector3.new(0, -5, 0), Color3.fromRGB(18, 48, 66), Enum.Material.Glass)
-	for _, x in {-91, 91} do box("Boundary", Vector3.new(2, 17, 290), Vector3.new(x, 8, 0), steel, Enum.Material.Concrete) end
-	for _, z in {-145, 145} do box("HarborSeawall", Vector3.new(184, 3, 2), Vector3.new(0, 1, z), steel, Enum.Material.Concrete) end
-	for _, side in {-1, 1} do
-		local accent = if side == -1 then cyan else orange
-		local faction = if side == -1 then "Alpha" else "Bravo"
-		local z = side * 121
-		box("SpawnFloor" .. faction, Vector3.new(140, 1, 42), Vector3.new(0, .5, z), steel, Enum.Material.DiamondPlate)
-		box("SpawnRoof", Vector3.new(142, 1, 44), Vector3.new(0, 19, z), charcoal)
-		for _, x in {-70, 70} do box("SpawnWall", Vector3.new(2, 19, 44), Vector3.new(x, 9.5, z), steel) end
-		-- Back wall with broad panoramic glazing overlooking the water.
-		box("WindowBase", Vector3.new(140, 4, 1), Vector3.new(0, 2, side * 142), steel)
-		local window = box("PanoramicWindow", Vector3.new(138, 13, .5), Vector3.new(0, 10.5, side * 142), cyan, Enum.Material.Glass)
-		window.Transparency = .65
-		for _, x in {-46, 0, 46} do box("WindowMullion", Vector3.new(.6, 15, 1), Vector3.new(x, 11, side * 142), charcoal) end
-		for _, x in {-43, 43} do box("SpawnFront", Vector3.new(54, 19, 2), Vector3.new(x, 9.5, side * 100), steel) end
-		box("DoorLintel", Vector3.new(32, 5, 2), Vector3.new(0, 16.5, side * 100), charcoal)
-		local door = box("Door" .. faction, Vector3.new(32, 14, 1), Vector3.new(0, 7, side * 100), accent)
-		table.insert(doors, door)
-		sign(door, "ZERO // " .. string.upper(faction), if side == -1 then Enum.NormalId.Back else Enum.NormalId.Front)
-		for _, x in {-58, -50, -42, 42, 50, 58} do
-			box("Locker", Vector3.new(5, 10, 3), Vector3.new(x, 5.5, side * 136), charcoal)
-			box("LockerStripe", Vector3.new(3, .3, 3.1), Vector3.new(x, 8, side * 136), accent, Enum.Material.Neon)
-		end
-		local map = box("MapDisplay", Vector3.new(17, 8, .4), Vector3.new(30, 9, side * 139), charcoal)
-		sign(map, "HAMNVERKET\nW  |  C  |  E", if side == -1 then Enum.NormalId.Back else Enum.NormalId.Front)
-		for _, x in {-46, 0, 46} do lamp(Vector3.new(x, 17.8, z), accent) end
-		local spawn = Instance.new("SpawnLocation")
-		spawn.Name, spawn.Size = faction .. "Spawn", Vector3.new(12, 1, 10)
-		spawn.CFrame, spawn.Anchored, spawn.Transparency = CFrame.new(0, 1, z), true, 1
-		spawn.CanCollide, spawn.CanQuery, spawn.Duration = false, false, 0
-		spawn.Parent = f
-	end
-	for _, x in {-52, 0, 52} do
-		box("LaneMarking", Vector3.new(.35, .04, 180), Vector3.new(x, .04, 0), orange)
-	end
-	-- Mirrored cover leaves three approach lanes and cross-connections.
-	for _, side in {-1, 1} do
-		for _, x in {-30, 30} do
-			for _, z in {28, 68} do
-				local color = if x < 0 then steel else Color3.fromRGB(132, 78, 43)
-				box("CargoContainer", Vector3.new(20, 12, 23), Vector3.new(x, 6, side * z), color)
-				for rib = -9, 9, 3 do box("ContainerRib", Vector3.new(.35, 11, 23.3), Vector3.new(x + rib, 6, side * z), charcoal) end
-			end
-		end
-		for _, x in {-64, 64} do
-			box("Warehouse", Vector3.new(24, 20, 32), Vector3.new(x, 10, side * 42), Color3.fromRGB(83, 64, 60), Enum.Material.Brick)
-			lamp(Vector3.new(x, 16, side * 23), cyan)
-		end
-		for _, x in {-10, 10} do box("LowCover", Vector3.new(7, 4, 7), Vector3.new(x, 2, side * 14), steel) end
-	end
-	box("ControlPoint", Vector3.new(18, .1, 18), Vector3.new(0, .08, 0), cyan, Enum.Material.Neon)
-	for _, x in {-84, 84} do
-		for _, z in {-78, 0, 78} do
-			box("FloodlightPole", Vector3.new(1, 22, 1), Vector3.new(x, 11, z), charcoal)
-			local fixture = box("Floodlight", Vector3.new(3, 1, 2), Vector3.new(x, 22, z), Color3.fromRGB(235, 219, 189), Enum.Material.Neon)
-			local light = Instance.new("PointLight") light.Brightness, light.Range, light.Color = 3, 55, Color3.fromRGB(213, 225, 242) light.Parent = fixture
-		end
-	end
-	for _, x in {48, 76} do
-		for _, z in {-14, 14} do box("CatwalkPillar", Vector3.new(1.5, 8, 1.5), Vector3.new(x, 4, z), steel) end
-	end
-	box("FactoryCatwalk", Vector3.new(30, 1, 30), Vector3.new(62, 8.5, 0), steel, Enum.Material.DiamondPlate)
-	for _, side in {-1, 1} do
-		for n = 1, 8 do box("CatwalkStair", Vector3.new(8, n, 2.5), Vector3.new(62, n / 2, side * (35 - n * 2.5)), steel) end
-	end
-	-- Harbor silhouette outside the playable boundary.
-	for _, z in {-60, 65} do
-		for _, x in {-125, -102} do box("CraneLeg", Vector3.new(3, 65, 3), Vector3.new(x, 27, z), orange) end
-		box("CraneBeam", Vector3.new(73, 4, 4), Vector3.new(-118, 60, z), orange)
-		box("CraneCable", Vector3.new(.3, 35, .3), Vector3.new(-148, 40, z), charcoal)
-	end
-	box("ShipHull", Vector3.new(28, 14, 96), Vector3.new(-165, -1, 5), charcoal)
-	box("ShipBridge", Vector3.new(22, 20, 20), Vector3.new(-165, 13, 35), steel)
-	Lighting.ClockTime, Lighting.Brightness = 20.5, 3
-	Lighting.Ambient, Lighting.OutdoorAmbient = Color3.fromRGB(82, 99, 126), Color3.fromRGB(90, 107, 135)
-	local at = Lighting:FindFirstChild("ZeroAtmosphere") or Instance.new("Atmosphere")
-	at.Name, at.Density, at.Haze, at.Color = "ZeroAtmosphere", .22, 1, Color3.fromRGB(158, 180, 206)
-	at.Parent = Lighting
-	local cc = Lighting:FindFirstChild("ZeroColor") or Instance.new("ColorCorrectionEffect")
-	cc.Name, cc.Contrast, cc.Saturation = "ZeroColor", .08, -.12
-	cc.Parent = Lighting
-	require(script.Parent.HarborDetail).build(f)
-	return f, doors
+ local old=workspace:FindFirstChild("ZeroArena") if old then old:Destroy() end
+ local arena=Instance.new("Folder") arena.Name="ZeroArena" arena.Parent=workspace arena:SetAttribute("LayoutVersion",2)
+ local steel,dark,brick=Color3.fromRGB(78,94,107),Color3.fromRGB(38,48,59),Color3.fromRGB(111,76,66)
+ local doors={}
+ local function box(name,size,pos,color,mat)
+  local p=G.part(arena,name,size,CFrame.new(pos),color or steel,mat or Enum.Material.Concrete) p.CanTouch=false return p
+ end
+ box("Quay",Vector3.new(320,3,520),Vector3.new(0,-1.5,0),dark,Enum.Material.Asphalt).Reflectance=.12
+ local sea=box("HarborWater",Vector3.new(1100,2,1100),Vector3.new(0,-6,0),Color3.fromRGB(27,62,80),Enum.Material.Glass) sea.CanCollide=false sea.CanQuery=false sea.Reflectance=.2
+ for _,x in {-159,159} do
+  box("QuayBoundary",Vector3.new(2,5,520),Vector3.new(x,2.5,0),steel)
+  local p=box("HarborBoundary",Vector3.new(2,60,520),Vector3.new(x,30,0)) p.Transparency=1 p.CanQuery=false
+ end
+ for _,z in {-259,259} do
+  local p=box("HarborBoundary",Vector3.new(320,60,2),Vector3.new(0,30,z)) p.Transparency=1 p.CanQuery=false
+  box("Seawall",Vector3.new(320,2,3),Vector3.new(0,1,z),steel)
+ end
+ -- Equal circulation footprints; different cladding and service identities.
+ for _,s in {-1,1} do
+  local faction=if s==-1 then "Alpha" else "Bravo"
+  local skin=if s==-1 then brick else steel
+  local mat=if s==-1 then Enum.Material.Brick else Enum.Material.Metal
+  box(faction.."RoomFloor",Vector3.new(132,1,40),Vector3.new(0,.5,s*232),steel,Enum.Material.DiamondPlate)
+  box(faction.."RoomRoof",Vector3.new(136,2,42),Vector3.new(0,25,s*232),dark)
+  for _,x in {-66,66} do box("RoomSide",Vector3.new(2,25,40),Vector3.new(x,12.5,s*232),skin,mat) end
+  box("WindowSill",Vector3.new(132,4,2),Vector3.new(0,2,s*252),skin,mat)
+  local glass=box(faction.."PanoramicWindow",Vector3.new(130,18,1),Vector3.new(0,13,s*252),Color3.fromRGB(123,172,188),Enum.Material.Glass) glass.Transparency=.65
+  box("WindowHeader",Vector3.new(132,3,2),Vector3.new(0,23.5,s*252),skin,mat)
+  for _,x in {-44,0,44} do box("WindowMullion",Vector3.new(.5,20,2),Vector3.new(x,14,s*252),dark,Enum.Material.Metal) end
+  for _,d in {{-58.5,15},{0,66},{58.5,15}} do box("RoomFront",Vector3.new(d[2],25,3),Vector3.new(d[1],12.5,s*212),skin,mat) end
+  for _,x in {-42,42} do
+   box("DoorHeader",Vector3.new(18,10,3),Vector3.new(x,20,s*212),skin,mat)
+   local d=box(faction..(if x<0 then "WestDoor" else "EastDoor"),Vector3.new(18,15,1),Vector3.new(x,7.5,s*212),dark,Enum.Material.Metal)
+   d:SetAttribute("ClosedCFrame",d.CFrame) table.insert(doors,d)
+  end
+  -- Split vestibules terminate at a real roofed cross-dock, forcing two turns.
+  box("VestibuleDivider",Vector3.new(3,28,26),Vector3.new(0,14,s*198),skin,mat)
+  box("CrossDock",Vector3.new(152,32,26),Vector3.new(0,16,s*172),skin,mat)
+  box("VestibuleCanopy",Vector3.new(250,2,28),Vector3.new(0,28,s*198),dark,Enum.Material.Metal)
+  for _,x in {-142,142} do box("ServiceWarehouse",Vector3.new(32,32,74),Vector3.new(x,16,s*177),skin,mat) end
+  for _,x in {-98,98} do box("WorkshopGatehouse",Vector3.new(64,32,26),Vector3.new(x,16,s*123),skin,mat) end
+  box("TransferOffice",Vector3.new(42,26,16),Vector3.new(0,13,s*110),skin,mat)
+  box("DispatchHouse",Vector3.new(36,24,22),Vector3.new(0,12,s*42),skin,mat)
+  local spawn=Instance.new("SpawnLocation") spawn.Name=faction.."Spawn" spawn.Size=Vector3.new(10,1,10) spawn.CFrame=CFrame.new(Layout.spawnPosition(faction)) spawn.Anchored=true spawn.Transparency=1 spawn.CanCollide=false spawn.CanQuery=false spawn.Duration=0 spawn.Parent=arena
+ end
+ -- West warehouse: two side portals and alternating fire compartments.
+ box("WestWarehouseFloor",Vector3.new(78,.3,168),Vector3.new(-103,.15,0),steel)
+ box("WestOuterWall",Vector3.new(3,28,168),Vector3.new(-143,14,0),brick,Enum.Material.Brick)
+ box("WestWarehouseRoof",Vector3.new(82,2,172),Vector3.new(-103,29,0),dark,Enum.Material.Metal)
+ for _,z in {-66,0,66} do box("WestInnerWall",Vector3.new(3,28,36),Vector3.new(-63,14,z),brick,Enum.Material.Brick) end
+ for _,s in {-1,1} do
+  for _,d in {{-133,22},{-81,34}} do box("WarehousePortal",Vector3.new(d[2],28,3),Vector3.new(d[1],14,s*84),brick,Enum.Material.Brick) end
+  box("PortalHeader",Vector3.new(26,10,3),Vector3.new(-110,23,s*84),brick,Enum.Material.Brick)
+ end
+ box("WarehouseFireWallA",Vector3.new(46,26,4),Vector3.new(-120,13,-22),brick,Enum.Material.Brick)
+ box("WarehouseFireWallB",Vector3.new(46,26,4),Vector3.new(-86,13,22),brick,Enum.Material.Brick)
+ -- East factory: machinery, ground flank and a protected dogleg catwalk.
+ box("FactoryOuterWall",Vector3.new(3,30,168),Vector3.new(145,15,0),steel,Enum.Material.Metal)
+ for _,z in {-66,0,66} do box("FactoryInnerWall",Vector3.new(3,30,36),Vector3.new(63,15,z),steel,Enum.Material.Metal) end
+ for _,s in {-1,1} do
+  for _,d in {{77,26},{136,18}} do box("FactoryPortal",Vector3.new(d[2],30,3),Vector3.new(d[1],15,s*84),steel,Enum.Material.Metal) end
+  box("FactoryPortalHeader",Vector3.new(36,15,3),Vector3.new(108,22.5,s*84),steel,Enum.Material.Metal)
+  box("CatwalkDeck",Vector3.new(14,1,48),Vector3.new(136,10.5,s*40),dark,Enum.Material.DiamondPlate)
+  box("CatwalkTurn",Vector3.new(38,1,14),Vector3.new(124,10.5,s*16),dark,Enum.Material.DiamondPlate)
+  for n=1,20 do box("FactoryStairs",Vector3.new(14,n*.55,1.6),Vector3.new(136,n*.275,s*(94-n*1.5)),steel,Enum.Material.Metal) end
+ end
+ box("CatwalkBypass",Vector3.new(14,1,32),Vector3.new(112,10.5,0),dark,Enum.Material.DiamondPlate)
+ box("FactoryLiftHouse",Vector3.new(22,32,16),Vector3.new(136,16,0),steel,Enum.Material.Metal)
+ box("MachineIsland",Vector3.new(18,12,48),Vector3.new(81,6,0),dark,Enum.Material.Metal)
+ for _,s in {-1,1} do box("Switchgear",Vector3.new(16,14,12),Vector3.new(114,7,s*30),steel,Enum.Material.Metal) end
+ -- Marked cargo bays; no random container grid or uninterrupted central lane.
+ for _,s in {-1,1} do
+  local cargo=box("LoadingBayCargo",Vector3.new(16,11,28),Vector3.new(-44,5.5,s*56),Color3.fromRGB(145,91,48),Enum.Material.Metal) cargo:SetAttribute("ArtContainer",true)
+  box("LoadingBayBarrier",Vector3.new(5,4,26),Vector3.new(49,2,s*60),steel)
+ end
+ box("ControlPoint",Vector3.new(34,.12,34),Vector3.new(0,.1,0),Color3.fromRGB(48,126,147),Enum.Material.Metal)
+ for _,x in {-36,36} do box("WeighbridgeControlBooth",Vector3.new(18,18,18),Vector3.new(x,9,0),steel,Enum.Material.Metal) end
+ for _,x in {-25,25} do for _,s in {-1,1} do box("ObjectiveParapet",Vector3.new(10,3.5,3),Vector3.new(x,1.75,s*15),steel) end end
+ Lighting.ClockTime=20.5 Lighting.Brightness=3 Lighting.ExposureCompensation=.5 Lighting.GlobalShadows=true Lighting.Ambient=Color3.fromRGB(110,122,142) Lighting.OutdoorAmbient=Color3.fromRGB(116,132,157)
+ local at=Lighting:FindFirstChild("ZeroAtmosphere") or Instance.new("Atmosphere") at.Name="ZeroAtmosphere" at.Density=.22 at.Haze=1 at.Color=Color3.fromRGB(185,196,208) at.Parent=Lighting
+ at.Decay=Color3.fromRGB(83,103,130) at.Glare=.1 at.Offset=0
+ local cc=Lighting:FindFirstChild("ZeroColor") or Instance.new("ColorCorrectionEffect") cc.Name="ZeroColor" cc.Contrast=.05 cc.Saturation=-.06 cc.Brightness=0 cc.TintColor=Color3.new(1,1,1) cc.Parent=Lighting
+ require(script.Parent.HarborDetail).build(arena)
+ return arena,doors
 end
 return Arena

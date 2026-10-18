@@ -1,7 +1,7 @@
 local G = require(script.Parent.Geometry)
 local Catalog = require(script.Parent.HeroCatalog)
 local Weapons = {}
-function Weapons.create(heroId, parent)
+function Weapons.create(heroId, parent, preview)
 	local hero = Catalog.Heroes[heroId]
 	if heroId == "VEX" then return G.rifle(parent) end
 	local m = Instance.new("Model") m.Name = "Weapon_" .. heroId
@@ -14,6 +14,12 @@ function Weapons.create(heroId, parent)
 	if heroId=="ATLAS" then
 		root.Transparency=1
 		-- The two powered gauntlets are fitted directly to LeftHand/RightHand by HeroStyle.
+		if preview then
+			for _,x in {-.75,.75} do
+				p("Gauntlet",Vector3.new(.9,.8,1.1),Vector3.new(x,0,0),hero.Primary)
+				p("PowerRail",Vector3.new(.35,.15,.8),Vector3.new(x,.5,0),accent,Enum.Material.Neon)
+			end
+		end
 	elseif heroId=="PHANTOM" then
 		root.Transparency=1
 		for _,x in {-.4,.4} do

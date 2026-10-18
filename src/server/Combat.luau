@@ -2,13 +2,14 @@
 local Players = game:GetService("Players")
 local C = require(game.ReplicatedStorage.ZeroShared.Config)
 local Rules = require(game.ReplicatedStorage.ZeroShared.WeaponRules)
+local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 local Combat = {states = {}, buckets = {}}
 local function now() return workspace:GetServerTimeNow() end
 local function alive(m)
 	local h = m and m:FindFirstChildOfClass("Humanoid")
 	return h and h.Health > 0 and m:FindFirstChild("Head") and m:FindFirstChild("HumanoidRootPart")
 end
-local function safe(m) return math.abs(m.HumanoidRootPart.Position.Z) >= 100 end
+local function safe(m) return Layout.isSafe(m.HumanoidRootPart.Position) end
 function Combat.init(remotes)
 	Combat.remotes = remotes
 end
@@ -27,6 +28,8 @@ function Combat.sync(m)
 	m:SetAttribute("DashReadyAt", s.nextDash)
 end
 function Combat.allowed(m)
+	local player = m and Players:GetPlayerFromCharacter(m)
+	if player and player:GetAttribute("ZeroSession") ~= "ACTIVE" then return false end
 	return alive(m) and Combat.states[m] ~= nil and workspace:GetAttribute("ZeroPhase") == "ACTIVE"
 end
 function Combat.reload(m)

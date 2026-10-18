@@ -1,5 +1,6 @@
 local C = require(game.ReplicatedStorage.ZeroShared.Config)
 local Factory = require(game.ReplicatedStorage.ZeroShared.RigFactory)
+local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 local Characters = {records = {}}
 function Characters.create(name, faction, position, heroId)
  local m = Factory.create(name, faction, position, heroId)
@@ -7,7 +8,7 @@ function Characters.create(name, faction, position, heroId)
  return m
 end
 function Characters.spawnPosition(faction)
-	return Vector3.new(0, 1.5, if faction == "Alpha" then -121 else 121)
+	return Layout.spawnPosition(faction)
 end
 function Characters.register(m, onDeath)
 	local h = m:FindFirstChildOfClass("Humanoid")
