@@ -1,0 +1,2070 @@
+<roblox version="4">
+  <Item class="Lighting" referent="0">
+    <Properties>
+      <string name="Name">Lighting</string>
+      <Color3 name="Ambient">
+        <R>0.24</R>
+        <G>0.29</G>
+        <B>0.38</B>
+      </Color3>
+      <float name="Brightness">3</float>
+      <float name="ClockTime">20.5</float>
+      <Color3 name="OutdoorAmbient">
+        <R>0.3</R>
+        <G>0.35</G>
+        <B>0.45</B>
+      </Color3>
+    </Properties>
+  </Item>
+  <Item class="ReplicatedStorage" referent="1">
+    <Properties>
+      <string name="Name">ReplicatedStorage</string>
+    </Properties>
+    <Item class="Folder" referent="2">
+      <Properties>
+        <string name="Name">ZeroAssets</string>
+      </Properties>
+      <Item class="Model" referent="3">
+        <Properties>
+          <string name="Name">HelmetReference</string>
+          <bool name="NeedsPivotMigration">false</bool>
+        </Properties>
+        <Item class="Part" referent="4">
+          <Properties>
+            <string name="Name">Handle</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0</X>
+              <Y>0</Y>
+              <Z>0</Z>
+              <R00>1</R00>
+              <R01>0</R01>
+              <R02>0</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>0</R20>
+              <R21>0</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <float name="Reflectance">0</float>
+            <token name="shape">1</token>
+            <Vector3 name="size">
+              <X>1</X>
+              <Y>1</Y>
+              <Z>1</Z>
+            </Vector3>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SpecialMesh" referent="5">
+            <Properties>
+              <string name="Name">SpecialMesh</string>
+              <Content name="MeshContent">
+                <uri>rbxassetid://15217278641</uri>
+              </Content>
+              <token name="MeshType">5</token>
+              <Vector3 name="Offset">
+                <X>0</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </Vector3>
+              <Vector3 name="Scale">
+                <X>1</X>
+                <Y>1</Y>
+                <Z>1</Z>
+              </Vector3>
+              <Content name="TextureContent">
+                <uri>http://www.roblox.com/asset/?id=15217298299</uri>
+              </Content>
+              <Vector3 name="VertexColor">
+                <X>1</X>
+                <Y>1</Y>
+                <Z>1</Z>
+              </Vector3>
+            </Properties>
+          </Item>
+        </Item>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="6">
+      <Properties>
+        <string name="Name">ZeroShared</string>
+      </Properties>
+      <Item class="ModuleScript" referent="7">
+        <Properties>
+          <string name="Name">AnimationPose</string>
+          <string name="Source"><![CDATA[-- Original R15 preview/gameplay placeholder animation, no external clip dependency.
+local Pose = {}
+local bases=setmetatable({}, {__mode="k"})
+function Pose.apply(m,time,speed,action,progress)
+	local hero=m:GetAttribute("Hero")
+	local wave=math.sin(time*10)*math.clamp(speed,0,1)*.5
+	local recoil=if action=="Fire" then math.max(0,1-progress)*.18 else 0
+	local reload=if action=="Reload" then math.sin(math.clamp(progress,0,1)*math.pi) else 0
+	for _,j in m:GetDescendants() do if j:IsA("Motor6D") then
+		local base=bases[j] or j.C0 bases[j]=base
+		local name=j.Name
+		if name=="RightUpperLegJoint" then j.C0=base*CFrame.Angles(wave,0,0)
+		elseif name=="LeftUpperLegJoint" then j.C0=base*CFrame.Angles(-wave,0,0)
+		elseif name=="RightUpperArmJoint" then
+			local pitch=if hero=="ATLAS" then -.4 elseif hero=="TITAN" then -1 else -1.1
+			j.C0=base*CFrame.Angles(pitch-recoil+reload*.7,0,-.1-reload*.25)
+		elseif name=="LeftUpperArmJoint" then
+			local pitch=if hero=="PHANTOM" then -1.1 elseif hero=="ATLAS" then -.4 else -.9
+			j.C0=base*CFrame.Angles(pitch-recoil-reload*.4,0,if hero=="PHANTOM" then .1 else .45)
+		elseif name=="UpperTorsoJoint" then j.C0=base*CFrame.Angles(0,math.sin(time*1.6)*.015,0)
+		elseif name=="HeadJoint" then j.C0=base*CFrame.Angles(.015*math.sin(time*1.4),0,0) end
+	end end
+end
+return Pose
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="8">
+        <Properties>
+          <string name="Name">Config</string>
+          <string name="Source"><![CDATA[--!strict
+-- 1 stud = 0.28 metres. All distances and speeds below use Roblox studs.
+return table.freeze({
+	Hero = "VEX", MaxHealth = 275, WalkSpeed = 22,
+	StudsPerMetre = 1 / 0.28,
+	Weapon = table.freeze({Name = "VX-7", Damage = 13, HeadMultiplier = 1.5,
+		Magazine = 36, ReloadTime = 1.8, FireInterval = 1 / 9, Range = 650}),
+	Dash = table.freeze({Speed = 18 / 0.28, Duration = 0.18, Cooldown = 8}),
+	RegenDelay = 5, RegenRate = 15, RespawnTime = 8, PreparationTime = 15,
+	BotCount = 1, BotThinkInterval = 0.15, BotReactionTime = 0.65, BotSpread = 0.035,
+	-- Free Creator Store audio; source and usage notes are in docs/ASSETS.md.
+	ShotSound = "rbxassetid://113879008765178",
+})
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="9">
+        <Properties>
+          <string name="Name">Geometry</string>
+          <string name="Source"><![CDATA[--!strict
+local Geometry = {}
+function Geometry.part(parent: Instance, name: string, size: Vector3, cf: CFrame, color: Color3, material: Enum.Material?): Part
+	local p = Instance.new("Part")
+	p.Name, p.Size, p.CFrame = name, size, cf
+	p.Color, p.Material = color, material or Enum.Material.Metal
+	p.Anchored = true
+	p.TopSurface, p.BottomSurface = Enum.SurfaceType.Smooth, Enum.SurfaceType.Smooth
+	p.Parent = parent
+	return p
+end
+function Geometry.rifle(parent: Instance): Model
+	local m = Instance.new("Model")
+	m.Name = "VX7"
+	local dark, orange = Color3.fromRGB(40, 47, 56), Color3.fromRGB(179, 91, 30)
+	local p = Geometry.part
+	p(m, "Receiver", Vector3.new(.32, .42, 1.45), CFrame.new(0, 0, -.3), dark)
+	p(m, "Barrel", Vector3.new(.13, .13, 1.05), CFrame.new(0, .05, -1.5), dark)
+	p(m, "Stock", Vector3.new(.25, .35, .55), CFrame.new(0, 0, .62), dark)
+	p(m, "Magazine", Vector3.new(.23, .58, .35), CFrame.new(0, -.43, -.1) * CFrame.Angles(-.18, 0, 0), dark)
+	p(m, "Grip", Vector3.new(.22, .48, .25), CFrame.new(0, -.4, .4) * CFrame.Angles(-.2, 0, 0), dark)
+	p(m, "Optic", Vector3.new(.19, .17, .3), CFrame.new(0, .29, -.35), orange, Enum.Material.Neon)
+	p(m, "HeatStrip", Vector3.new(.335, .05, .85), CFrame.new(0, .1, -.52), orange, Enum.Material.Neon)
+	m.PrimaryPart = m.Receiver
+	m.Parent = parent
+	return m
+end
+return Geometry
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="10">
+        <Properties>
+          <string name="Name">HeroCatalog</string>
+          <string name="Source"><![CDATA[-- Canonical roster. Only VEX has a verified gameplay kit in this milestone.
+local function c(r,g,b) return Color3.fromRGB(r,g,b) end
+local heroes = {
+	TITAN={Role="Tank",HP=700,Name="Viktor Holm",Origin="Sweden / 42",Weapon="M-90 heavy cannon",Primary=c(32,55,87),Accent=c(76,171,255),Scale=1.18,Playable=false,Kit="Shield / Slam",Silhouette="Heavy segmented armor / narrow blue visor"},
+	ATLAS={Role="Tank",HP=650,Name="Marcus Cole",Origin="United Kingdom / 36",Weapon="Mechanical gauntlets",Primary=c(177,87,30),Accent=c(255,172,62),Scale=1.13,Playable=false,Kit="Melee / Charge",Silhouette="Industrial exosuit / reinforced gauntlets"},
+	VEX={Role="Damage",HP=275,Name="Elias Berg",Origin="Sweden / 29",Weapon="VX-7 assault rifle",Primary=c(39,45,54),Accent=c(255,136,45),Scale=1,Playable=true,Kit="Dash / Pulse Grenade / Overdrive",Silhouette="Charcoal tactical armor / orange visor"},
+	PHANTOM={Role="Damage",HP=250,Name="Yuna Takahashi",Origin="Japan / 27",Weapon="Twin pistols",Primary=c(35,29,48),Accent=c(184,107,255),Scale=.96,Playable=false,Kit="Cloak / Shadow Step / Nightfall",Silhouette="Stealth suit / purple lenses / split coat"},
+	HAVOC={Role="Damage",HP=300,Name="Daniel Reyes",Origin="United States / 34",Weapon="Grenade launcher",Primary=c(127,45,43),Accent=c(255,101,65),Scale=1.05,Playable=false,Kit="Cluster Bomb / Rocket Jump / Annihilator",Silhouette="Battered red armor / explosive bandolier"},
+	SPECTRE={Role="Damage",HP=225,Name="Anton Volkov",Origin="Ukraine / 38",Weapon="Precision rifle",Primary=c(45,56,49),Accent=c(126,238,118),Scale=.99,Playable=false,Kit="Recon Dart / Grapple / Deadeye",Silhouette="Hooded marksman / green optical lenses"},
+	NOVA={Role="Support",HP=250,Name="Sofia Lind",Origin="Sweden / 31",Weapon="Energy carbine",Primary=c(201,215,220),Accent=c(72,223,239),Scale=.98,Playable=false,Kit="Healing Drone / Pulse Boost / Revival Field",Silhouette="White medical armor / cyan visor / med pack"},
+	ECHO={Role="Support",HP=275,Name="Adrian Moreau",Origin="France / 33",Weapon="Pulse carbine",Primary=c(81,111,142),Accent=c(94,190,255),Scale=1,Playable=false,Kit="Shield Pulse / Disruptor / Amplify",Silhouette="Layered tech armor / holographic shield emitters"},
+}
+for _,h in heroes do table.freeze(h) end
+return table.freeze({Order=table.freeze({"TITAN","ATLAS","VEX","PHANTOM","HAVOC","SPECTRE","NOVA","ECHO"}),Heroes=table.freeze(heroes)})
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="11">
+        <Properties>
+          <string name="Name">HeroStyle</string>
+          <string name="Source"><![CDATA[local G = require(script.Parent.Geometry)
+local Catalog = require(script.Parent.HeroCatalog)
+local Weapons = require(script.Parent.HeroWeapons)
+local Style = {}
+function Style.decorate(m, heroId, faction)
+	local h = Catalog.Heroes[heroId]
+	local primary, accent = h.Primary, h.Accent
+	local dark, metal = Color3.fromRGB(26,32,39), Color3.fromRGB(94,106,118)
+	for _,p in m:GetChildren() do if p:IsA("BasePart") then p.Color=primary end end
+	-- Human skin under a fitted mask/helmet, rather than a robotic replacement head.
+	m.Head.Color=Color3.fromRGB(179,141,116)
+	local function attach(name,body,size,offset,color,mat)
+		local limb=m[body]
+		local p=G.part(m,name,size,limb.CFrame*offset,color or primary,mat)
+		p.Anchored,p.CanCollide,p.CanQuery,p.CanTouch,p.Massless=false,false,false,false,true
+		local w=Instance.new("WeldConstraint") w.Part0,w.Part1,w.Parent=limb,p,p
+		return p
+	end
+	local function plate(name,body,size,pos,color,mat) return attach(name,body,size,CFrame.new(pos),color,mat) end
+	local bulk=if heroId=="TITAN" then 1.3 elseif heroId=="ATLAS" then 1.15 else 1
+	plate("ChestArmor","UpperTorso",Vector3.new(1.9*bulk,.9,.28),Vector3.new(0,.05,-.58))
+	plate("AbdominalPlate","LowerTorso",Vector3.new(1.55,.5,.22),Vector3.new(0,0,-.53),dark)
+	plate("Backpack","UpperTorso",Vector3.new(1.3,1.1,.5),Vector3.new(0,0,.7),dark)
+	for _,side in {"Left","Right"} do
+		local sign=if side=="Left" then -1 else 1
+		plate("Pauldron"..side,side.."UpperArm",Vector3.new(.9*bulk,.5,1),Vector3.new(sign*.06,.35,0))
+		plate("ForearmGuard"..side,side.."LowerArm",Vector3.new(.7,.75,.78),Vector3.new(0,0,0),dark)
+		plate("Kneepad"..side,side.."LowerLeg",Vector3.new(.78,.45,.2),Vector3.new(0,.35,-.47),metal)
+		plate("Boot"..side,side.."Foot",Vector3.new(.83,.45,1.14),Vector3.zero,dark)
+		plate("SuitTrim"..side,side.."UpperArm",Vector3.new(.15,.32,.08),Vector3.new(sign*.3,.35,-.53),accent,Enum.Material.Neon)
+	end
+	local shell=plate("HelmetShell","Head",Vector3.new(1.3,1.05,1.3),Vector3.new(0,.2,.02),dark)
+	plate("Mask","Head",Vector3.new(1.13,.5,.18),Vector3.new(0,-.25,-.61),primary)
+	local visorColor=Color3.new(accent.R*.65,accent.G*.65,accent.B*.65)
+	local visor=plate("Visor","Head",Vector3.new(1.18,.16,.12),Vector3.new(0,.15,-.68),visorColor,Enum.Material.Neon)
+	-- Reviewed Creator Store helmet mesh is only a base shell; recolored and augmented.
+	local template=game.ReplicatedStorage:FindFirstChild("ZeroAssets") and game.ReplicatedStorage.ZeroAssets:FindFirstChild("HelmetReference")
+	if template and (heroId=="VEX" or heroId=="TITAN" or heroId=="ECHO") then
+		local source=template:FindFirstChild("Handle")
+		if source then
+			local helmet=source:Clone() helmet.Name="AdaptedHelmet"
+			helmet.CFrame=m.Head.CFrame*CFrame.new(0,.1,0) helmet.Anchored=false helmet.Massless=true
+			helmet.CanCollide,helmet.CanQuery,helmet.CanTouch=false,false,false helmet.Color=primary
+			local mesh=helmet:FindFirstChildOfClass("SpecialMesh")
+			if mesh then mesh.TextureId="" mesh.Scale*=1.05 end
+			local w=Instance.new("WeldConstraint") w.Part0,w.Part1,w.Parent=m.Head,helmet,helmet helmet.Parent=m shell.Color=primary
+		end
+	end
+	if heroId=="TITAN" then
+		visor.Size=Vector3.new(1.1,.1,.13)
+		plate("Collar","UpperTorso",Vector3.new(2.45,.35,1.4),Vector3.new(0,.65,0),metal)
+		for _,x in {-.5,.5} do plate("CannonCell","UpperTorso",Vector3.new(.3,.8,.28),Vector3.new(x,.05,-.81),accent,Enum.Material.Neon) end
+	elseif heroId=="ATLAS" then
+		for _,side in {"Left","Right"} do
+			plate("ExoForearm"..side,side.."LowerArm",Vector3.new(1,.8,1),Vector3.zero,primary)
+			plate("DrivePiston"..side,side.."UpperLeg",Vector3.new(.22,1.05,.25),Vector3.new(.48,0,.2),metal)
+			plate("PoweredGauntlet"..side,side.."Hand",Vector3.new(1.15,.7,1.2),Vector3.new(0,-.1,-.1),primary)
+		end
+		plate("ExoSpine","UpperTorso",Vector3.new(.6,1.7,.5),Vector3.new(0,.2,.95),accent)
+	elseif heroId=="PHANTOM" then
+		shell.Color=primary visor.Transparency=1
+		for _,x in {-.3,.3} do plate("StealthLens","Head",Vector3.new(.27,.16,.12),Vector3.new(x,.12,-.7),accent,Enum.Material.Neon) end
+		for _,x in {-.48,.48} do plate("SplitCoat","LowerTorso",Vector3.new(.8,1.5,.14),Vector3.new(x,-.7,.55),dark,Enum.Material.Fabric) end
+	elseif heroId=="HAVOC" then
+		for n=1,4 do
+			attach("GrenadeBandolier","UpperTorso",Vector3.new(.23,.4,.28),CFrame.new(-.65+n*.26,.6-n*.2,-.8)*CFrame.Angles(0,0,-.6),metal)
+		end
+		plate("BlastShield","LeftUpperArm",Vector3.new(1.1,.9,1.1),Vector3.new(-.12,.15,0),dark)
+		plate("ArmorScar","UpperTorso",Vector3.new(.6,.06,.04),Vector3.new(.45,.3,-.74),metal)
+	elseif heroId=="SPECTRE" then
+		shell.Color=primary shell.Material=Enum.Material.Fabric
+		plate("HoodBack","Head",Vector3.new(1.4,1.55,.3),Vector3.new(0,-.1,.65),dark,Enum.Material.Fabric)
+		for _,x in {-.72,.72} do plate("HoodSide","Head",Vector3.new(.18,1.5,1.3),Vector3.new(x,-.05,0),dark,Enum.Material.Fabric) end
+		visor.Size=Vector3.new(.35,.28,.2) visor.CFrame=m.Head.CFrame*CFrame.new(-.3,.15,-.73)
+		plate("OpticalLens","Head",Vector3.new(.35,.28,.2),Vector3.new(.3,.15,-.73),accent,Enum.Material.Neon)
+		plate("ReconAntenna","UpperTorso",Vector3.new(.08,1.8,.08),Vector3.new(.5,1,.8),metal)
+	elseif heroId=="NOVA" then
+		shell.Color=primary
+		plate("MedicalPack","UpperTorso",Vector3.new(1.4,1.3,.4),Vector3.new(0,0,1),primary)
+		plate("MedicalCrossH","UpperTorso",Vector3.new(.65,.16,.08),Vector3.new(0,.1,-.76),accent,Enum.Material.Neon)
+		plate("MedicalCrossV","UpperTorso",Vector3.new(.16,.65,.08),Vector3.new(0,.1,-.77),accent,Enum.Material.Neon)
+		for _,x in {-.7,.7} do plate("MedCanister","UpperTorso",Vector3.new(.3,.8,.3),Vector3.new(x,0,.9),accent) end
+	elseif heroId=="ECHO" then
+		for _,side in {"Left","Right"} do
+			local panel=plate("HologramEmitter"..side,side.."LowerArm",Vector3.new(.13,.8,1.3),Vector3.new(if side=="Left" then -.5 else .5,0,0),accent,Enum.Material.Neon)
+			panel.Transparency=.45
+		end
+		plate("ProjectionCore","UpperTorso",Vector3.new(.5,.5,.2),Vector3.new(0,.05,-.8),accent,Enum.Material.Neon)
+	else
+		for _,x in {-.62,0,.62} do plate("MagazinePouch","UpperTorso",Vector3.new(.4,.55,.2),Vector3.new(x,-.25,-.78),dark) end
+	end
+	local stripe=plate("TeamStripe","UpperTorso",Vector3.new(1.45,.08,.08),Vector3.new(0,.48,-.78),if faction=="Alpha" then Color3.fromRGB(75,211,240) else Color3.fromRGB(255,121,64),Enum.Material.Neon)
+	local gun=Weapons.create(heroId,m)
+	gun:PivotTo(m.RightHand.CFrame*CFrame.new(0,-.1,-.9))
+	for _,p in gun:GetDescendants() do if p:IsA("BasePart") then
+		p.Anchored,p.CanCollide,p.CanQuery,p.CanTouch,p.Massless=false,false,false,false,true
+		local hand=if p:GetAttribute("GripHand")=="Left" then m.LeftHand else m.RightHand
+		if hand==m.LeftHand then p.CFrame=hand.CFrame*m.RightHand.CFrame:ToObjectSpace(p.CFrame) end
+		local w=Instance.new("WeldConstraint") w.Part0,w.Part1,w.Parent=hand,p,p
+	end end
+	m:SetAttribute("WeaponName",h.Weapon)
+end
+return Style
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="12">
+        <Properties>
+          <string name="Name">HeroWeapons</string>
+          <string name="Source"><![CDATA[local G = require(script.Parent.Geometry)
+local Catalog = require(script.Parent.HeroCatalog)
+local Weapons = {}
+function Weapons.create(heroId, parent)
+	local hero = Catalog.Heroes[heroId]
+	if heroId == "VEX" then return G.rifle(parent) end
+	local m = Instance.new("Model") m.Name = "Weapon_" .. heroId
+	local metal, dark, accent = Color3.fromRGB(90,103,116), Color3.fromRGB(31,38,45), hero.Accent
+	local function p(name,size,pos,color,mat)
+		return G.part(m,name,size,CFrame.new(pos),color or dark,mat)
+	end
+	local root=p("Receiver",Vector3.new(.32,.4,1.3),Vector3.zero)
+	m.PrimaryPart=root
+	if heroId=="ATLAS" then
+		root.Transparency=1
+		-- The two powered gauntlets are fitted directly to LeftHand/RightHand by HeroStyle.
+	elseif heroId=="PHANTOM" then
+		root.Transparency=1
+		for _,x in {-.4,.4} do
+			p("PistolSlide",Vector3.new(.25,.28,1.1),Vector3.new(x,.05,-.25))
+			p("PistolGrip",Vector3.new(.22,.6,.3),Vector3.new(x,-.35,.05))
+			p("SuppressedBarrel",Vector3.new(.2,.2,.5),Vector3.new(x,.03,-1),metal)
+			p("PistolSight",Vector3.new(.08,.06,.3),Vector3.new(x,.22,-.35),accent,Enum.Material.Neon)
+		end
+		for _,part in m:GetChildren() do if part:IsA("BasePart") and part~=root then part:SetAttribute("GripHand",if part.Position.X<0 then "Left" else "Right") end end
+	elseif heroId=="TITAN" then
+		root.Size=Vector3.new(.7,.65,1.6) root.Color=hero.Primary
+		for _,x in {-.2,.2} do for _,y in {-.16,.16} do p("CannonBarrel",Vector3.new(.2,.2,1.8),Vector3.new(x,y,-1.35),metal) end end
+		p("Drum",Vector3.new(.95,.8,.8),Vector3.new(0,-.6,.15),metal)
+		p("TopRail",Vector3.new(.18,.1,1.6),Vector3.new(0,.4,-.2),accent,Enum.Material.Neon)
+	elseif heroId=="HAVOC" then
+		root.Color=hero.Primary
+		local drum=p("GrenadeDrum",Vector3.new(.8,.9,.9),Vector3.new(0,-.3,0),metal) drum.Shape=Enum.PartType.Ball
+		p("WideMuzzle",Vector3.new(.5,.5,.85),Vector3.new(0,.1,-1.1),metal)
+		p("MuzzleOpening",Vector3.new(.3,.3,.03),Vector3.new(0,.1,-1.54),dark)
+		p("WarningStripe",Vector3.new(.34,.08,.8),Vector3.new(0,.3,-.6),accent)
+	elseif heroId=="SPECTRE" then
+		p("LongBarrel",Vector3.new(.12,.12,2.3),Vector3.new(0,.05,-1.7),metal)
+		p("Scope",Vector3.new(.27,.3,.85),Vector3.new(0,.45,-.2))
+		p("ScopeLens",Vector3.new(.24,.24,.03),Vector3.new(0,.45,-.64),accent,Enum.Material.Neon)
+		p("PrecisionStock",Vector3.new(.26,.45,.8),Vector3.new(0,-.05,.9),hero.Primary)
+		p("Bolt",Vector3.new(.28,.12,.15),Vector3.new(.26,0,.15),metal)
+	else
+		root.Color=hero.Primary
+		p("EnergyBarrel",Vector3.new(.22,.22,1.2),Vector3.new(0,.05,-1.15),metal)
+		for _,x in {-.23,.23} do p("EnergyRail",Vector3.new(.08,.16,1.35),Vector3.new(x,.05,-.5),accent,Enum.Material.Neon) end
+		p("Cell",Vector3.new(.26,.65,.3),Vector3.new(0,-.4,.2),accent,Enum.Material.Neon)
+		p("Optic",Vector3.new(.2,.15,.3),Vector3.new(0,.3,-.2),accent,Enum.Material.Neon)
+	end
+	if heroId~="ATLAS" and heroId~="PHANTOM" then p("Grip",Vector3.new(.23,.55,.28),Vector3.new(0,-.4,.4)) end
+	m.Parent=parent
+	return m
+end
+return Weapons
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="13">
+        <Properties>
+          <string name="Name">RigFactory</string>
+          <string name="Source"><![CDATA[local C = require(script.Parent.Config)
+local G = require(script.Parent.Geometry)
+local Catalog = require(script.Parent.HeroCatalog)
+local Style = require(script.Parent.HeroStyle)
+local Factory = {}
+function Factory.create(name, faction, position, heroId)
+ heroId = heroId or "VEX"
+ local hero = assert(Catalog.Heroes[heroId], "Unknown hero")
+	local m = Instance.new("Model")
+	m.Name = name
+	m:SetAttribute("Faction", faction)
+	m:SetAttribute("Hero", heroId)
+	local dark = Color3.fromRGB(38, 43, 51)
+	local pieces = {
+		{"HumanoidRootPart", Vector3.new(2, 2, 1), Vector3.new(0, 3.1, 0)},
+		{"LowerTorso", Vector3.new(1.8, .6, .9), Vector3.new(0, 2.8, 0), "HumanoidRootPart"},
+		{"UpperTorso", Vector3.new(2, 1.2, 1), Vector3.new(0, 3.7, 0), "LowerTorso"},
+		{"Head", Vector3.new(1.2, 1.2, 1.2), Vector3.new(0, 4.9, 0), "UpperTorso"},
+	}
+	for _, side in {"Left", "Right"} do
+		local s = if side == "Left" then -1 else 1
+		table.insert(pieces, {side .. "UpperArm", Vector3.new(.65, 1.1, .7), Vector3.new(s * 1.35, 3.7, 0), "UpperTorso"})
+		table.insert(pieces, {side .. "LowerArm", Vector3.new(.6, 1, .65), Vector3.new(s * 1.35, 2.65, 0), side .. "UpperArm"})
+		table.insert(pieces, {side .. "Hand", Vector3.new(.6, .4, .65), Vector3.new(s * 1.35, 1.95, 0), side .. "LowerArm"})
+		table.insert(pieces, {side .. "UpperLeg", Vector3.new(.8, 1, .85), Vector3.new(s * .5, 2, 0), "LowerTorso"})
+		table.insert(pieces, {side .. "LowerLeg", Vector3.new(.75, 1, .8), Vector3.new(s * .5, 1, 0), side .. "UpperLeg"})
+		table.insert(pieces, {side .. "Foot", Vector3.new(.8, .5, 1.1), Vector3.new(s * .5, .25, -.15), side .. "LowerLeg"})
+	end
+	local origin = CFrame.new(position)
+	for _, data in pieces do
+		local p = G.part(m, data[1], data[2], origin * CFrame.new(data[3]), dark)
+		p.Anchored = false
+		p.CanCollide = data[1] == "UpperTorso" or data[1] == "LowerTorso"
+		p.Massless = data[1] ~= "HumanoidRootPart"
+		if data[1] == "HumanoidRootPart" then p.Transparency = 1 end
+		if data[4] then
+			local parent = m[data[4]]
+			local joint = Instance.new("Motor6D")
+			joint.Name, joint.Part0, joint.Part1 = data[1] .. "Joint", parent, p
+			joint.C0 = parent.CFrame:ToObjectSpace(p.CFrame)
+			joint.Parent = parent
+		end
+	end
+	local h = Instance.new("Humanoid")
+	h.RigType, h.MaxHealth, h.Health, h.WalkSpeed, h.HipHeight = Enum.HumanoidRigType.R15, hero.HP, hero.HP, C.WalkSpeed, 2.1
+	h.DisplayName, h.BreakJointsOnDeath = heroId, false
+	h.Parent = m
+	Instance.new("Animator", h)
+	Style.decorate(m, heroId, faction)
+	m.PrimaryPart = m.HumanoidRootPart
+	m:ScaleTo(hero.Scale)
+	return m
+end
+
+return Factory
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="14">
+        <Properties>
+          <string name="Name">WeaponRules</string>
+          <string name="Source"><![CDATA[--!strict
+local Rules = {}
+function Rules.finiteNumber(n: any): boolean
+	return type(n) == "number" and n == n and math.abs(n) < math.huge
+end
+function Rules.direction(v: any): boolean
+	return typeof(v) == "Vector3" and Rules.finiteNumber(v.X)
+		and Rules.finiteNumber(v.Y) and Rules.finiteNumber(v.Z)
+		and v.Magnitude > 0.95 and v.Magnitude < 1.05
+end
+function Rules.canFire(state: any, now: number, interval: number): boolean
+	return state.ammo > 0 and state.reloadEnd == 0 and now - state.lastShot >= interval
+end
+function Rules.enemy(a: Model, b: Model): boolean
+	return a ~= b and a:GetAttribute("Faction") ~= nil
+		and b:GetAttribute("Faction") ~= nil and a:GetAttribute("Faction") ~= b:GetAttribute("Faction")
+end
+return Rules
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="ServerScriptService" referent="15">
+    <Properties>
+      <string name="Name">ServerScriptService</string>
+    </Properties>
+    <Item class="Folder" referent="16">
+      <Properties>
+        <string name="Name">ZeroServer</string>
+      </Properties>
+      <Item class="ModuleScript" referent="17">
+        <Properties>
+          <string name="Name">Arena</string>
+          <string name="Source"><![CDATA[--!strict
+local Lighting = game:GetService("Lighting")
+local G = require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Arena = {}
+local steel = Color3.fromRGB(57, 72, 86)
+local charcoal = Color3.fromRGB(31, 39, 49)
+local orange = Color3.fromRGB(255, 143, 55)
+local cyan = Color3.fromRGB(68, 208, 240)
+function Arena.build()
+	local existing = workspace:FindFirstChild("ZeroArena")
+	if existing then existing:Destroy() end
+	local f = Instance.new("Folder")
+	f.Name = "ZeroArena"
+	f.Parent = workspace
+	local doors = {}
+	local function box(name, size, pos, color, mat)
+		return G.part(f, name, size, CFrame.new(pos), color, mat)
+	end
+	local function sign(part, text, face)
+		local gui = Instance.new("SurfaceGui")
+		gui.Face, gui.SizingMode, gui.PixelsPerStud = face or Enum.NormalId.Front, Enum.SurfaceGuiSizingMode.PixelsPerStud, 24
+		gui.Parent = part
+		local label = Instance.new("TextLabel")
+		label.Size, label.BackgroundTransparency = UDim2.fromScale(1, 1), 1
+		label.Font, label.TextScaled, label.TextColor3 = Enum.Font.GothamBold, true, Color3.fromRGB(223, 236, 242)
+		label.Text = text
+		label.Parent = gui
+	end
+	local function lamp(pos, color)
+		local p = box("LightPanel", Vector3.new(8, .3, 1), pos, color, Enum.Material.Neon)
+		local l = Instance.new("PointLight")
+		l.Color, l.Brightness, l.Range = color, 2, 28
+		l.Parent = p
+	end
+	local ground = box("DampAsphalt", Vector3.new(184, 2, 290), Vector3.new(0, -1, 0), charcoal, Enum.Material.Asphalt)
+	ground.Reflectance = .12
+	box("Sea", Vector3.new(900, 2, 900), Vector3.new(0, -5, 0), Color3.fromRGB(18, 48, 66), Enum.Material.Glass)
+	for _, x in {-91, 91} do box("Boundary", Vector3.new(2, 17, 290), Vector3.new(x, 8, 0), steel, Enum.Material.Concrete) end
+	for _, z in {-145, 145} do box("HarborSeawall", Vector3.new(184, 3, 2), Vector3.new(0, 1, z), steel, Enum.Material.Concrete) end
+	for _, side in {-1, 1} do
+		local accent = if side == -1 then cyan else orange
+		local faction = if side == -1 then "Alpha" else "Bravo"
+		local z = side * 121
+		box("SpawnFloor" .. faction, Vector3.new(140, 1, 42), Vector3.new(0, .5, z), steel, Enum.Material.DiamondPlate)
+		box("SpawnRoof", Vector3.new(142, 1, 44), Vector3.new(0, 19, z), charcoal)
+		for _, x in {-70, 70} do box("SpawnWall", Vector3.new(2, 19, 44), Vector3.new(x, 9.5, z), steel) end
+		-- Back wall with broad panoramic glazing overlooking the water.
+		box("WindowBase", Vector3.new(140, 4, 1), Vector3.new(0, 2, side * 142), steel)
+		local window = box("PanoramicWindow", Vector3.new(138, 13, .5), Vector3.new(0, 10.5, side * 142), cyan, Enum.Material.Glass)
+		window.Transparency = .65
+		for _, x in {-46, 0, 46} do box("WindowMullion", Vector3.new(.6, 15, 1), Vector3.new(x, 11, side * 142), charcoal) end
+		for _, x in {-43, 43} do box("SpawnFront", Vector3.new(54, 19, 2), Vector3.new(x, 9.5, side * 100), steel) end
+		box("DoorLintel", Vector3.new(32, 5, 2), Vector3.new(0, 16.5, side * 100), charcoal)
+		local door = box("Door" .. faction, Vector3.new(32, 14, 1), Vector3.new(0, 7, side * 100), accent)
+		table.insert(doors, door)
+		sign(door, "ZERO // " .. string.upper(faction), if side == -1 then Enum.NormalId.Back else Enum.NormalId.Front)
+		for _, x in {-58, -50, -42, 42, 50, 58} do
+			box("Locker", Vector3.new(5, 10, 3), Vector3.new(x, 5.5, side * 136), charcoal)
+			box("LockerStripe", Vector3.new(3, .3, 3.1), Vector3.new(x, 8, side * 136), accent, Enum.Material.Neon)
+		end
+		local map = box("MapDisplay", Vector3.new(17, 8, .4), Vector3.new(30, 9, side * 139), charcoal)
+		sign(map, "HAMNVERKET\nW  |  C  |  E", if side == -1 then Enum.NormalId.Back else Enum.NormalId.Front)
+		for _, x in {-46, 0, 46} do lamp(Vector3.new(x, 17.8, z), accent) end
+		local spawn = Instance.new("SpawnLocation")
+		spawn.Name, spawn.Size = faction .. "Spawn", Vector3.new(12, 1, 10)
+		spawn.CFrame, spawn.Anchored, spawn.Transparency = CFrame.new(0, 1, z), true, 1
+		spawn.CanCollide, spawn.CanQuery, spawn.Duration = false, false, 0
+		spawn.Parent = f
+	end
+	for _, x in {-52, 0, 52} do
+		box("LaneMarking", Vector3.new(.35, .04, 180), Vector3.new(x, .04, 0), orange)
+	end
+	-- Mirrored cover leaves three approach lanes and cross-connections.
+	for _, side in {-1, 1} do
+		for _, x in {-30, 30} do
+			for _, z in {28, 68} do
+				local color = if x < 0 then steel else Color3.fromRGB(132, 78, 43)
+				box("CargoContainer", Vector3.new(20, 12, 23), Vector3.new(x, 6, side * z), color)
+				for rib = -9, 9, 3 do box("ContainerRib", Vector3.new(.35, 11, 23.3), Vector3.new(x + rib, 6, side * z), charcoal) end
+			end
+		end
+		for _, x in {-64, 64} do
+			box("Warehouse", Vector3.new(24, 20, 32), Vector3.new(x, 10, side * 42), Color3.fromRGB(83, 64, 60), Enum.Material.Brick)
+			lamp(Vector3.new(x, 16, side * 23), cyan)
+		end
+		for _, x in {-10, 10} do box("LowCover", Vector3.new(7, 4, 7), Vector3.new(x, 2, side * 14), steel) end
+	end
+	box("ControlPoint", Vector3.new(18, .1, 18), Vector3.new(0, .08, 0), cyan, Enum.Material.Neon)
+	for _, x in {-84, 84} do
+		for _, z in {-78, 0, 78} do
+			box("FloodlightPole", Vector3.new(1, 22, 1), Vector3.new(x, 11, z), charcoal)
+			local fixture = box("Floodlight", Vector3.new(3, 1, 2), Vector3.new(x, 22, z), Color3.fromRGB(235, 219, 189), Enum.Material.Neon)
+			local light = Instance.new("PointLight") light.Brightness, light.Range, light.Color = 3, 55, Color3.fromRGB(213, 225, 242) light.Parent = fixture
+		end
+	end
+	for _, x in {48, 76} do
+		for _, z in {-14, 14} do box("CatwalkPillar", Vector3.new(1.5, 8, 1.5), Vector3.new(x, 4, z), steel) end
+	end
+	box("FactoryCatwalk", Vector3.new(30, 1, 30), Vector3.new(62, 8.5, 0), steel, Enum.Material.DiamondPlate)
+	for _, side in {-1, 1} do
+		for n = 1, 8 do box("CatwalkStair", Vector3.new(8, n, 2.5), Vector3.new(62, n / 2, side * (35 - n * 2.5)), steel) end
+	end
+	-- Harbor silhouette outside the playable boundary.
+	for _, z in {-60, 65} do
+		for _, x in {-125, -102} do box("CraneLeg", Vector3.new(3, 65, 3), Vector3.new(x, 27, z), orange) end
+		box("CraneBeam", Vector3.new(73, 4, 4), Vector3.new(-118, 60, z), orange)
+		box("CraneCable", Vector3.new(.3, 35, .3), Vector3.new(-148, 40, z), charcoal)
+	end
+	box("ShipHull", Vector3.new(28, 14, 96), Vector3.new(-165, -1, 5), charcoal)
+	box("ShipBridge", Vector3.new(22, 20, 20), Vector3.new(-165, 13, 35), steel)
+	Lighting.ClockTime, Lighting.Brightness = 20.5, 3
+	Lighting.Ambient, Lighting.OutdoorAmbient = Color3.fromRGB(82, 99, 126), Color3.fromRGB(90, 107, 135)
+	local at = Lighting:FindFirstChild("ZeroAtmosphere") or Instance.new("Atmosphere")
+	at.Name, at.Density, at.Haze, at.Color = "ZeroAtmosphere", .22, 1, Color3.fromRGB(158, 180, 206)
+	at.Parent = Lighting
+	local cc = Lighting:FindFirstChild("ZeroColor") or Instance.new("ColorCorrectionEffect")
+	cc.Name, cc.Contrast, cc.Saturation = "ZeroColor", .08, -.12
+	cc.Parent = Lighting
+	require(script.Parent.HarborDetail).build(f)
+	return f, doors
+end
+return Arena
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="18">
+        <Properties>
+          <string name="Name">Bots</string>
+          <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local PathfindingService = game:GetService("PathfindingService")
+local C = require(game.ReplicatedStorage.ZeroShared.Config)
+local Characters = require(script.Parent.Characters)
+local Combat = require(script.Parent.Combat)
+local Bots = {active = {}}
+local rng = Random.new()
+function Bots.spawn(index)
+	local m = Characters.create("VEX_BOT_" .. index, "Bravo", Characters.spawnPosition("Bravo"))
+	m:SetAttribute("Bot", true)
+	m.Parent = workspace
+	m.HumanoidRootPart:SetNetworkOwner(nil)
+	local brain = {model = m, index = index, nextPath = 0, waypoints = {}, waypoint = 1, computing = false, target = nil, spottedAt = 0}
+	Bots.active[m] = brain
+	Characters.register(m, function()
+		Bots.active[m] = nil
+		task.delay(C.RespawnTime, function() Bots.spawn(index) end)
+	end)
+	Combat.register(m)
+	return m
+end
+local function visible(m, target)
+	local params = RaycastParams.new() params.FilterDescendantsInstances = {m}
+	local result = workspace:Raycast(m.Head.Position, target.Head.Position - m.Head.Position, params)
+	return result and result.Instance:IsDescendantOf(target)
+end
+function Bots.think()
+	if workspace:GetAttribute("ZeroPhase") ~= "ACTIVE" then return end
+	local time = workspace:GetServerTimeNow()
+	for m, b in Bots.active do
+		if not m.Parent or m.Humanoid.Health <= 0 then continue end
+		local target, distance = nil, 220
+		for _, player in Players:GetPlayers() do
+			local char = player.Character
+			if char and char:FindFirstChild("Head") and char:FindFirstChildOfClass("Humanoid") and char.Humanoid.Health > 0
+				and char:GetAttribute("Faction") ~= m:GetAttribute("Faction") and math.abs(char.HumanoidRootPart.Position.Z) < 100 then
+				local d = (char.HumanoidRootPart.Position - m.HumanoidRootPart.Position).Magnitude
+				if d < distance then target, distance = char, d end
+			end
+		end
+		local goal = if target then target.HumanoidRootPart.Position else Vector3.new(0, 3, -55)
+		local los = target and visible(m, target)
+		if target ~= b.target or not los then b.spottedAt = time end
+		b.target = target
+		if los then
+			local root = m.HumanoidRootPart
+			root.CFrame = CFrame.lookAt(root.Position, Vector3.new(goal.X, root.Position.Y, goal.Z))
+			m.Humanoid:MoveTo(if distance > 60 then goal else root.Position)
+			if time - b.spottedAt >= C.BotReactionTime then
+				local jitter = Vector3.new(rng:NextNumber(-1, 1), rng:NextNumber(-1, 1), rng:NextNumber(-1, 1)) * C.BotSpread * distance
+				Combat.fire(m, (target.UpperTorso.Position + jitter - m.Head.Position).Unit)
+			end
+		else
+			if time >= b.nextPath and not b.computing then
+				b.nextPath, b.computing = time + 1.25, true
+				task.spawn(function()
+					local path = PathfindingService:CreatePath({AgentRadius = 2, AgentHeight = 6, AgentCanJump = true, WaypointSpacing = 6})
+					local ok = pcall(function() path:ComputeAsync(m.HumanoidRootPart.Position, goal) end)
+					if ok and path.Status == Enum.PathStatus.Success and m.Parent then
+						b.waypoints, b.waypoint = path:GetWaypoints(), 2
+					end
+					b.computing = false
+				end)
+			end
+			local waypoint = b.waypoints[b.waypoint]
+			if waypoint then
+				if (m.HumanoidRootPart.Position - waypoint.Position).Magnitude < 4 then b.waypoint += 1 end
+				if waypoint.Action == Enum.PathWaypointAction.Jump then m.Humanoid.Jump = true end
+				m.Humanoid:MoveTo(waypoint.Position)
+			else m.Humanoid:MoveTo(goal) end
+		end
+		local state = Combat.states[m]
+		if state and state.ammo == 0 then Combat.reload(m) end
+	end
+end
+return Bots
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="19">
+        <Properties>
+          <string name="Name">Characters</string>
+          <string name="Source"><![CDATA[local C = require(game.ReplicatedStorage.ZeroShared.Config)
+local Factory = require(game.ReplicatedStorage.ZeroShared.RigFactory)
+local Characters = {records = {}}
+function Characters.create(name, faction, position, heroId)
+ local m = Factory.create(name, faction, position, heroId)
+ local health = Instance.new("Script") health.Name = "Health" health.Parent = m
+ return m
+end
+function Characters.spawnPosition(faction)
+	return Vector3.new(0, 1.5, if faction == "Alpha" then -121 else 121)
+end
+function Characters.register(m, onDeath)
+	local h = m:FindFirstChildOfClass("Humanoid")
+	local r = {model = m, humanoid = h, lastDamage = -math.huge, lastHealth = h.Health, spawnUntil = workspace:GetServerTimeNow() + 2}
+	Characters.records[m] = r
+	m:SetAttribute("ProtectedUntil", r.spawnUntil)
+	h.HealthChanged:Connect(function(value)
+		if value < r.lastHealth then r.lastDamage = workspace:GetServerTimeNow() end
+		r.lastHealth = value
+	end)
+	h.Died:Once(function()
+		m:SetAttribute("RespawnAt", workspace:GetServerTimeNow() + C.RespawnTime)
+		if onDeath then onDeath(m) end
+		task.delay(C.RespawnTime, function() Characters.records[m] = nil m:Destroy() end)
+	end)
+	return r
+end
+function Characters.regenerate(dt)
+	local now = workspace:GetServerTimeNow()
+	for m, r in Characters.records do
+		if not m.Parent then Characters.records[m] = nil
+		elseif r.humanoid.Health > 0 and now - r.lastDamage >= C.RegenDelay then
+			r.humanoid.Health = math.min(r.humanoid.MaxHealth, r.humanoid.Health + C.RegenRate * dt)
+		end
+	end
+end
+return Characters
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="20">
+        <Properties>
+          <string name="Name">Combat</string>
+          <string name="Source"><![CDATA[-- All authoritative ammo, raycasts, damage and ability timing live here.
+local Players = game:GetService("Players")
+local C = require(game.ReplicatedStorage.ZeroShared.Config)
+local Rules = require(game.ReplicatedStorage.ZeroShared.WeaponRules)
+local Combat = {states = {}, buckets = {}}
+local function now() return workspace:GetServerTimeNow() end
+local function alive(m)
+	local h = m and m:FindFirstChildOfClass("Humanoid")
+	return h and h.Health > 0 and m:FindFirstChild("Head") and m:FindFirstChild("HumanoidRootPart")
+end
+local function safe(m) return math.abs(m.HumanoidRootPart.Position.Z) >= 100 end
+function Combat.init(remotes)
+	Combat.remotes = remotes
+end
+function Combat.register(m)
+	local state = {ammo = C.Weapon.Magazine, lastShot = -math.huge, reloadEnd = 0, dashEnd = 0, nextDash = 0}
+	Combat.states[m] = state
+	Combat.sync(m)
+	m.Destroying:Once(function() Combat.states[m] = nil end)
+	return state
+end
+function Combat.sync(m)
+	local s = Combat.states[m]
+	if not s then return end
+	m:SetAttribute("Ammo", s.ammo)
+	m:SetAttribute("ReloadEnd", s.reloadEnd)
+	m:SetAttribute("DashReadyAt", s.nextDash)
+end
+function Combat.allowed(m)
+	return alive(m) and Combat.states[m] ~= nil and workspace:GetAttribute("ZeroPhase") == "ACTIVE"
+end
+function Combat.reload(m)
+	local s = Combat.states[m]
+	if not Combat.allowed(m) or s.reloadEnd ~= 0 or s.ammo == C.Weapon.Magazine then return false end
+	s.reloadEnd = now() + C.Weapon.ReloadTime
+	Combat.sync(m)
+	task.delay(C.Weapon.ReloadTime, function()
+		if Combat.states[m] == s and alive(m) then
+			s.ammo, s.reloadEnd = C.Weapon.Magazine, 0
+			Combat.sync(m)
+		end
+	end)
+	return true
+end
+function Combat.damage(shooter, target, amount)
+	if not alive(target) or not Rules.enemy(shooter, target) or safe(target) then return false end
+	if now() < (target:GetAttribute("ProtectedUntil") or 0) then return false end
+	local h = target:FindFirstChildOfClass("Humanoid")
+	local shooterPlayer = Players:GetPlayerFromCharacter(shooter)
+	if h.Health <= amount and shooterPlayer then
+		local kills = shooterPlayer:FindFirstChild("leaderstats") and shooterPlayer.leaderstats:FindFirstChild("Kills")
+		if kills then kills.Value += 1 end
+	end
+	h:TakeDamage(amount)
+	return true
+end
+function Combat.fire(m, direction)
+	if not Combat.allowed(m) or not Rules.direction(direction) or safe(m) then return false end
+	local s, time = Combat.states[m], now()
+	if not Rules.canFire(s, time, C.Weapon.FireInterval) then return false end
+	s.ammo -= 1
+	s.lastShot = time
+	Combat.sync(m)
+	local origin = m.Head.Position
+	local params = RaycastParams.new()
+	params.FilterType, params.FilterDescendantsInstances = Enum.RaycastFilterType.Exclude, {m}
+	local result = workspace:Raycast(origin, direction.Unit * C.Weapon.Range, params)
+	local endpoint = if result then result.Position else origin + direction.Unit * C.Weapon.Range
+	local hit, headshot, killed = false, false, false
+	if result then
+		local target = result.Instance:FindFirstAncestorOfClass("Model")
+		if target and target:FindFirstChildOfClass("Humanoid") then
+			headshot = result.Instance.Name == "Head"
+			hit = Combat.damage(m, target, C.Weapon.Damage * (if headshot then C.Weapon.HeadMultiplier else 1))
+			killed = hit and target.Humanoid.Health <= 0
+		end
+	end
+	Combat.remotes.FX:FireAllClients(m, origin, endpoint, hit, headshot, killed)
+	return true, result
+end
+function Combat.dash(m, direction)
+	if not Combat.allowed(m) or not Rules.direction(direction) then return false end
+	local s, time = Combat.states[m], now()
+	if time < s.nextDash then return false end
+	local horizontal = Vector3.new(direction.X, 0, direction.Z)
+	if horizontal.Magnitude < .1 then return false end
+	horizontal = horizontal.Unit
+	s.nextDash, s.dashEnd = time + C.Dash.Cooldown, time + C.Dash.Duration
+	Combat.sync(m)
+	local root = m.HumanoidRootPart
+	-- A block sweep prevents dashing through thin walls, including spawn doors.
+	local params = RaycastParams.new() params.FilterDescendantsInstances = {m}
+	local distance = C.Dash.Speed * C.Dash.Duration
+	local block = workspace:Blockcast(root.CFrame, Vector3.new(2, 4, 2), horizontal * distance, params)
+	local speed = if block then math.max(0, block.Distance - 1) / C.Dash.Duration else C.Dash.Speed
+	local canOwn = root:CanSetNetworkOwnership()
+	if canOwn then root:SetNetworkOwner(nil) end
+	local attachment = Instance.new("Attachment") attachment.Parent = root
+	local velocity = Instance.new("LinearVelocity")
+	velocity.Attachment0, velocity.RelativeTo = attachment, Enum.ActuatorRelativeTo.World
+	velocity.MaxForce = 100000
+	velocity.VectorVelocity = horizontal * speed + Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
+	velocity.Parent = root
+	task.delay(C.Dash.Duration, function()
+		velocity:Destroy() attachment:Destroy()
+		if root.Parent then
+			root.AssemblyLinearVelocity = Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
+			if canOwn and Players:GetPlayerFromCharacter(m) then root:SetNetworkOwnershipAuto() end
+		end
+	end)
+	return true
+end
+function Combat.request(player, action, direction)
+	-- Token bucket covers malformed actions as well as valid requests.
+	local t = now()
+	local b = Combat.buckets[player] or {tokens = 24, time = t}
+	b.tokens = math.min(24, b.tokens + (t - b.time) * 16)
+	b.time = t
+	Combat.buckets[player] = b
+	if b.tokens < 1 then return end
+	b.tokens -= 1
+	local m = player.Character
+	if not m or not m.Parent then return end
+	if action == "Fire" then Combat.fire(m, direction)
+	elseif action == "Reload" then Combat.reload(m)
+	elseif action == "Dash" then Combat.dash(m, direction) end
+end
+return Combat
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="21">
+        <Properties>
+          <string name="Name">HarborDetail</string>
+          <string name="Source"><![CDATA[-- Static art has no gameplay scripts, touch events or per-frame updates.
+local G = require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Detail = {}
+function Detail.build(arena)
+	local f=Instance.new("Folder") f.Name="HarborDetail" f.Parent=arena
+	local steel=Color3.fromRGB(73,87,99)
+	local dark=Color3.fromRGB(32,43,54)
+	local orange=Color3.fromRGB(213,121,48)
+	local pale=Color3.fromRGB(185,209,221)
+	local function box(name,size,pos,color,mat,rotation)
+		local p=G.part(f,name,size,CFrame.new(pos)*(rotation or CFrame.identity),color or steel,mat)
+		p.CanCollide,p.CanQuery,p.CanTouch=false,false,false
+		p.CastShadow=size.Magnitude>15
+		return p
+	end
+	local function beam(name,a,b,width,color)
+		return box(name,Vector3.new(width,width,(b-a).Magnitude),(a+b)/2,color,Enum.Material.Metal,CFrame.lookAt(Vector3.zero,b-a).Rotation)
+	end
+	local function sign(name,text,pos,size,color,face)
+		local p=box(name,size,pos,dark)
+		local gui=Instance.new("SurfaceGui") gui.Face=face or Enum.NormalId.Front gui.PixelsPerStud=28 gui.SizingMode=Enum.SurfaceGuiSizingMode.PixelsPerStud gui.LightInfluence=.25 gui.Parent=p
+		local t=Instance.new("TextLabel") t.Size=UDim2.fromScale(.94,.85) t.Position=UDim2.fromScale(.03,.075) t.BackgroundTransparency=1 t.TextColor3=color or pale t.TextScaled=true t.Font=Enum.Font.GothamBold t.Text=text t.Parent=gui
+		return p
+	end
+	local function light(pos,color,range)
+		local p=box("IndustrialLuminaire",Vector3.new(4,.4,1.5),pos,color,Enum.Material.Neon)
+		local l=Instance.new("PointLight") l.Color,l.Brightness,l.Range,l.Shadows=color,2,range or 32,false l.Parent=p
+	end
+	-- Wet asphalt, drained service strips and flush loading-rail seams.
+	for _,x in {-80,80} do
+		box("DrainChannel",Vector3.new(1.4,.04,194),Vector3.new(x,.03,0),dark,Enum.Material.DiamondPlate)
+		for z=-90,90,15 do box("DrainSlot",Vector3.new(1.6,.03,.22),Vector3.new(x,.06,z),pale) end
+	end
+	for _,x in {-8,8} do box("LoadingRail",Vector3.new(.25,.06,168),Vector3.new(x,.04,0),steel) end
+	local rng=Random.new(2042)
+	for n=1,22 do
+		local p=box("RainPuddle",Vector3.new(rng:NextNumber(2,8),.025,rng:NextNumber(2,12)),Vector3.new(rng:NextNumber(-77,77),.035,rng:NextNumber(-92,92)),Color3.fromRGB(61,82,96),Enum.Material.Glass)
+		p.Transparency,p.Reflectance=.38,.38
+	end
+	-- Containers gain end doors, hinges, latches, serial numbers and hazard corners.
+	for _,p in arena:GetChildren() do
+		if p.Name=="CargoContainer" then
+			local x,z=p.Position.X,p.Position.Z
+			for _,side in {-1,1} do
+				box("ContainerDoor",Vector3.new(9.3,10.8,.16),Vector3.new(x+side*4.85,6,z-11.65),p.Color)
+				box("LockingBar",Vector3.new(.15,9.7,.18),Vector3.new(x+side*4.7,6,z-11.8),steel)
+				box("LockHandle",Vector3.new(1,.14,.3),Vector3.new(x+side*4.7,5,z-11.95),pale)
+			end
+			for _,side in {-1,1} do box("HazardCorner",Vector3.new(.5,1.2,.2),Vector3.new(x+side*9.5,10.5,z-11.8),orange) end
+			sign("CargoSerial","NHU 2042\nNORRHAMN",Vector3.new(x,9.5,z-11.85),Vector3.new(5,1.6,.1),pale)
+		end
+	end
+	for _,x in {-64,64} do for _,side in {-1,1} do
+		local z=side*42
+		box("WarehouseRoof",Vector3.new(27,1.5,35),Vector3.new(x,20.5,z),dark)
+		box("LoadingDoor",Vector3.new(13,12,.3),Vector3.new(x,6,z-side*16.2),steel)
+		for n=1,8 do box("DoorSlat",Vector3.new(13,.12,.2),Vector3.new(x,n*1.35,z-side*16.4),dark) end
+		for _,dx in {-8,8} do
+			local w=box("WarehouseWindow",Vector3.new(4,3,.25),Vector3.new(x+dx,16,z-side*16.25),Color3.fromRGB(195,168,114),Enum.Material.Neon) w.Transparency=.25
+		end
+		light(Vector3.new(x,14,z-side*17),Color3.fromRGB(245,205,146),37)
+		box("VentilationDuct",Vector3.new(4,2,9),Vector3.new(x-5,22,z),steel,Enum.Material.DiamondPlate)
+		box("ExtractionStack",Vector3.new(2,7,2),Vector3.new(x+6,24,z+5),dark)
+		sign("WarehouseID",if x<0 then "MAGASIN 04\nVÄSTRA KAJEN" else "VERKSTAD 07\nÖSTRA FABRIKEN",Vector3.new(x,12,z-side*16.5),Vector3.new(14,2.5,.2),pale,if side==1 then Enum.NormalId.Front else Enum.NormalId.Back)
+	end end
+	-- Safety rails on the factory bridge, with two open stair approaches.
+	for _,x in {47,77} do
+		for _,z in {-14,0,14} do box("CatwalkPost",Vector3.new(.25,3,.25),Vector3.new(x,10.5,z),orange) end
+		for _,y in {10,12} do beam("CatwalkRail",Vector3.new(x,y,-15),Vector3.new(x,y,15),.18,orange) end
+	end
+	-- Perimeter fences are decorative over the existing collision boundary.
+	for _,x in {-90,90} do
+		for z=-90,90,12 do
+			box("FencePost",Vector3.new(.35,8,.35),Vector3.new(x,4,z),steel)
+			if z<90 then for _,y in {2,4,6} do beam("FenceWire",Vector3.new(x,y,z),Vector3.new(x,y,z+12),.07,steel) end end
+		end
+	end
+	-- Readable lane names / central future Control site.
+	sign("CenterSign","HAMNVERKET\nNORRHAMN • 2042",Vector3.new(0,24,96),Vector3.new(38,7,.5),pale)
+	sign("AlphaLaneGuide","01 MAGASIN   /   02 LASTGÅRD   /   03 FABRIK",Vector3.new(0,13,-99),Vector3.new(46,1.6,.2),pale,Enum.NormalId.Back)
+	sign("BravoLaneGuide","03 FABRIK   /   02 LASTGÅRD   /   01 MAGASIN",Vector3.new(0,13,99),Vector3.new(46,1.6,.2),pale)
+	for _,x in {-10,10} do for _,z in {-10,10} do
+		box("ObjectiveBollard",Vector3.new(.8,1.5,.8),Vector3.new(x,.75,z),dark)
+		box("ObjectiveIndicator",Vector3.new(.82,.15,.82),Vector3.new(x,1.4,z),Color3.fromRGB(80,196,220),Enum.Material.Neon)
+	end end
+	-- Adapted, reviewed Creator Store meshes. Visual only; collisions stay simple.
+	local art=game.ServerStorage:FindFirstChild("ZeroArt")
+	if art then
+		local pipes=art:FindFirstChild("IndustrialPipes")
+		if pipes then
+			for _,x in {-78,78} do for _,side in {-1,1} do
+				local kit=pipes:Clone() kit.Name="ReviewedPipeKit" kit:ScaleTo(1.7) kit:PivotTo(CFrame.new(x,5,side*42)*CFrame.Angles(0,0,math.pi/2)) kit.Parent=f
+			end end
+		end
+		local cargo=art:FindFirstChild("ShippingContainer")
+		if cargo then
+			for n=1,6 do
+				local copy=cargo:Clone() copy.Name="BackgroundCargo" copy:ScaleTo(.6)
+				copy:PivotTo(CFrame.new(-125+(n%3)*22,4+math.floor((n-1)/3)*12,168)) copy.Parent=f
+			end
+		end
+	end
+	-- Additional gantry bracing, suspended spreaders, cabin and harbor hardware.
+	for _,z in {-60,65} do
+		for _,y in {8,28,48} do
+			beam("CraneCrossBrace",Vector3.new(-125,y,z),Vector3.new(-102,y+12,z),.6,orange)
+			beam("CraneCrossBrace",Vector3.new(-102,y,z),Vector3.new(-125,y+12,z),.6,orange)
+		end
+		box("CraneCabin",Vector3.new(6,6,7),Vector3.new(-105,54,z),steel)
+		box("CraneCabinGlass",Vector3.new(.1,3,5),Vector3.new(-101.9,55,z),Color3.fromRGB(124,192,216),Enum.Material.Glass)
+		box("CraneSpreader",Vector3.new(13,2,4),Vector3.new(-148,22,z),orange)
+		light(Vector3.new(-118,57,z),Color3.fromRGB(242,193,122),50)
+	end
+	for _,x in {-160,-170} do for z=-25,25,10 do box("ShipCargo",Vector3.new(8,6,8),Vector3.new(x,9,z),if z%20==0 then steel else orange) end end
+	for _,z in {-120,120} do
+		for _,x in {-80,-60,-40,40,60,80} do
+			box("MooringBollard",Vector3.new(1.2,1.5,1.2),Vector3.new(x,.8,z+math.sign(z)*26),dark)
+		end
+	end
+	for n=1,14 do
+		local x=-220+n*31
+		local height=rng:NextInteger(20,54)
+		box("DistantNorrhamn",Vector3.new(18,height,24),Vector3.new(x,height/2-4,-225),Color3.fromRGB(42,56,72),Enum.Material.Concrete)
+		for y=8,height-3,10 do box("DistantWindowBand",Vector3.new(16,1,.1),Vector3.new(x,y,-212.9),Color3.fromRGB(146,168,184),Enum.Material.Neon) end
+	end
+	-- Enrich safe rooms without narrowing their playable circulation.
+	for _,side in {-1,1} do
+		local z=side*121
+		for _,x in {-28,28} do
+			box("SpawnBench",Vector3.new(12,1.2,3),Vector3.new(x,2,z+side*10),steel)
+			for _,dx in {-4,4} do box("BenchLeg",Vector3.new(.5,2,.5),Vector3.new(x+dx,1,z+side*10),dark) end
+		end
+		sign("SafetyNotice","SKYDDSZON\nZERO INITIATIVE / 2042",Vector3.new(-28,10,side*139),Vector3.new(17,6,.3),pale,if side==-1 then Enum.NormalId.Back else Enum.NormalId.Front)
+		for _,x in {-68,68} do box("SpawnFloorGuide",Vector3.new(.4,.04,34),Vector3.new(x,1.02,z),orange,Enum.Material.Neon) end
+	end
+	local L=game.Lighting
+	L.Brightness,L.ExposureCompensation=3.5,.65
+	L.Ambient,L.OutdoorAmbient=Color3.fromRGB(110,122,142),Color3.fromRGB(116,132,157)
+	local at=L:FindFirstChild("ZeroAtmosphere")
+	if at then at.Density,at.Color,at.Decay,at.Glare=.24,Color3.fromRGB(185,192,203),Color3.fromRGB(65,83,115),.15 end
+	return f
+end
+return Detail
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="Script" referent="22">
+        <Properties>
+          <string name="Name">Main</string>
+          <token name="RunContext">0</token>
+          <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Teams = game:GetService("Teams")
+local C = require(ReplicatedStorage.ZeroShared.Config)
+local Arena = require(script.Parent.Arena)
+local Characters = require(script.Parent.Characters)
+local Combat = require(script.Parent.Combat)
+local Bots = require(script.Parent.Bots)
+Players.CharacterAutoLoads, Players.RespawnTime = false, C.RespawnTime
+local remotesFolder = Instance.new("Folder") remotesFolder.Name = "ZeroRemotes" remotesFolder.Parent = ReplicatedStorage
+local remotes = {}
+for _, name in {"Action", "FX"} do
+	local event = Instance.new("RemoteEvent") event.Name = name event.Parent = remotesFolder remotes[name] = event
+end
+Combat.init(remotes)
+remotes.Action.OnServerEvent:Connect(Combat.request)
+local arena, doors = Arena.build()
+-- Hide only the default baseplate/spawn; preserve unrelated user content.
+for _, name in {"Baseplate", "SpawnLocation"} do
+	local item = workspace:FindFirstChild(name)
+	if item and item:IsA("BasePart") then item.CanCollide, item.CanQuery, item.Transparency = false, false, 1 end
+end
+for _, name in {"Alpha", "Bravo"} do
+	local team = Teams:FindFirstChild(name) or Instance.new("Team")
+	team.Name, team.AutoAssignable = name, false
+	team.TeamColor = BrickColor.new(if name == "Alpha" then "Cyan" else "Bright orange")
+	team.Parent = Teams
+end
+local function spawnPlayer(player)
+	if player.Parent ~= Players then return end
+	local old = player.Character
+	if old then old:Destroy() end
+	local faction = player.Team.Name
+	local m = Characters.create(player.Name, faction, Characters.spawnPosition(faction))
+	m.Parent = workspace
+	if faction == "Alpha" then m:PivotTo(CFrame.new(m:GetPivot().Position) * CFrame.Angles(0, math.pi, 0)) end
+	Characters.register(m, function()
+		player.leaderstats.Deaths.Value += 1
+		task.delay(C.RespawnTime, function() spawnPlayer(player) end)
+	end)
+	Combat.register(m)
+	player.Character, player.CameraMode = m, Enum.CameraMode.LockFirstPerson
+	-- Roblox clients simulate normal locomotion; server validates all combat actions.
+	m.HumanoidRootPart:SetNetworkOwner(player)
+end
+local joined = 0
+local function onPlayer(player)
+	joined += 1
+	player.Team = Teams:FindFirstChild(if workspace:GetAttribute("ZeroPvP") and joined % 2 == 0 then "Bravo" else "Alpha")
+	local stats = Instance.new("Folder") stats.Name = "leaderstats" stats.Parent = player
+	for _, name in {"Kills", "Deaths"} do local value = Instance.new("IntValue") value.Name = name value.Parent = stats end
+	spawnPlayer(player)
+end
+Players.PlayerAdded:Connect(onPlayer)
+Players.PlayerRemoving:Connect(function(player) Combat.buckets[player] = nil if player.Character then player.Character:Destroy() end end)
+for _, player in Players:GetPlayers() do task.spawn(onPlayer, player) end
+workspace:SetAttribute("ZeroPhase", "PREPARE")
+workspace:SetAttribute("ZeroPhaseEnd", workspace:GetServerTimeNow() + C.PreparationTime)
+local started = false
+local function startMatch()
+	if started then return end
+	started = true
+	workspace:SetAttribute("ZeroPhase", "ACTIVE")
+	for _, door in doors do
+		door.CanCollide, door.CanQuery = false, false
+		TweenService:Create(door, TweenInfo.new(1), {CFrame = door.CFrame + Vector3.new(0, 15, 0)}):Play()
+	end
+	for index = 1, C.BotCount do Bots.spawn(index) end
+	print("[PROJECT ZERO] Training active: VEX / VX-7 / HAMNVERKET")
+end
+-- Wait for the first player before consuming the preparation countdown.
+task.spawn(function()
+	while #Players:GetPlayers() == 0 do
+		workspace:SetAttribute("ZeroPhaseEnd", workspace:GetServerTimeNow() + C.PreparationTime)
+		task.wait(.25)
+	end
+	workspace:SetAttribute("ZeroPhaseEnd", workspace:GetServerTimeNow() + C.PreparationTime)
+	task.wait(C.PreparationTime)
+	startMatch()
+end)
+local accumulator, regenAccumulator = 0, 0
+RunService.Heartbeat:Connect(function(dt)
+	accumulator += dt regenAccumulator += dt
+	if accumulator >= C.BotThinkInterval then accumulator = 0 Bots.think() end
+	if regenAccumulator >= .2 then Characters.regenerate(regenAccumulator) regenAccumulator = 0 end
+end)
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="ServerStorage" referent="23">
+    <Properties>
+      <string name="Name">ServerStorage</string>
+    </Properties>
+    <Item class="Folder" referent="24">
+      <Properties>
+        <string name="Name">ZeroArt</string>
+      </Properties>
+      <Item class="Model" referent="25">
+        <Properties>
+          <string name="Name">IndustrialPipes</string>
+          <bool name="NeedsPivotMigration">false</bool>
+        </Properties>
+        <Item class="MeshPart" referent="26">
+          <Properties>
+            <string name="Name">Straight Long</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.8644562</X>
+              <Y>-0.24462128</Y>
+              <Z>-5.096451</Z>
+              <R00>0</R00>
+              <R01>0</R01>
+              <R02>1</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>-1</R20>
+              <R21>0</R21>
+              <R22>0</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308850014</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>1.0034105</X>
+              <Y>0.99961925</Y>
+              <Z>9.470154</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="27">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308856893</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853495</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857416</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308854581</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="MeshPart" referent="28">
+          <Properties>
+            <string name="Name">S</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-3.7861252</X>
+              <Y>-0.24448395</Y>
+              <Z>-0.9142761</Z>
+              <R00>1</R00>
+              <R01>0</R01>
+              <R02>0</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>0</R20>
+              <R21>0</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308850008</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>2.9004302</X>
+              <Y>0.99988735</Y>
+              <Z>6.3681436</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="29">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308856893</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853495</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857416</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308854581</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="MeshPart" referent="30">
+          <Properties>
+            <string name="Name">U</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-1.8884888</X>
+              <Y>-0.24597931</Y>
+              <Z>5.0415497</Z>
+              <R00>1</R00>
+              <R01>0</R01>
+              <R02>0</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>0</R20>
+              <R21>0</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308849988</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>2.8977125</X>
+              <Y>0.9997335</Y>
+              <Z>2.0972204</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="31">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308857309</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853487</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857615</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308855119</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="MeshPart" referent="32">
+          <Properties>
+            <string name="Name">T</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-2.589798</X>
+              <Y>-0.24446869</Y>
+              <Z>3.1267548</Z>
+              <R00>0</R00>
+              <R01>0</R01>
+              <R02>1</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>-1</R20>
+              <R21>0</R21>
+              <R22>0</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308853559</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>1.7323569</X>
+              <Y>0.99991083</Y>
+              <Z>1.4957883</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="33">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308857309</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853487</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857615</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308855119</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="MeshPart" referent="34">
+          <Properties>
+            <string name="Name">Cross</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-4.7351837</X>
+              <Y>-0.24446869</Y>
+              <Z>-5.094284</Z>
+              <R00>1</R00>
+              <R01>0</R01>
+              <R02>0</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>0</R20>
+              <R21>0</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308853643</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>1.7287104</X>
+              <Y>0.9999117</Y>
+              <Z>1.9916694</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="35">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308857309</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853487</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857615</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308855119</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="MeshPart" referent="36">
+          <Properties>
+            <string name="Name">Valve</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-1.102066</X>
+              <Y>0.0007095337</Y>
+              <Z>-1.080719</Z>
+              <R00>1</R00>
+              <R01>0</R01>
+              <R02>0</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>0</R20>
+              <R21>0</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308853705</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>1.290189</X>
+              <Y>1.4902726</Y>
+              <Z>1.8354113</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="37">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308857309</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853487</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857615</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308855119</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+        <Item class="MeshPart" referent="38">
+          <Properties>
+            <string name="Name">Straight</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-0.9527664</X>
+              <Y>-0.24461365</Y>
+              <Z>1.9120331</Z>
+              <R00>1</R00>
+              <R01>0</R01>
+              <R02>0</R02>
+              <R10>0</R10>
+              <R11>1</R11>
+              <R12>0</R12>
+              <R20>0</R20>
+              <R21>0</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">256</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://12308849879</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>1.0034285</X>
+              <Y>0.9996201</Y>
+              <Z>4.162122</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+          <Item class="SurfaceAppearance" referent="39">
+            <Properties>
+              <string name="Name">SurfaceAppearance</string>
+              <Content name="ColorMapContent">
+                <uri>rbxassetid://12308856893</uri>
+              </Content>
+              <Content name="MetalnessMapContent">
+                <uri>rbxassetid://12308853495</uri>
+              </Content>
+              <Content name="NormalMapContent">
+                <uri>rbxassetid://12308857416</uri>
+              </Content>
+              <Content name="RoughnessMapContent">
+                <uri>rbxassetid://12308854581</uri>
+              </Content>
+            </Properties>
+          </Item>
+        </Item>
+      </Item>
+      <Item class="Model" referent="40">
+        <Properties>
+          <string name="Name">ShippingContainer</string>
+          <bool name="NeedsPivotMigration">false</bool>
+        </Properties>
+        <Item class="MeshPart" referent="41">
+          <Properties>
+            <string name="Name">Shipping Container 0.164K</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.00017547607</X>
+              <Y>0</Y>
+              <Z>-0.0002746582</Z>
+              <R00>0.5898588</R00>
+              <R01>0.000000015137005</R01>
+              <R02>0.80750835</R02>
+              <R10>0.000000019355053</R10>
+              <R11>1.0000043</R11>
+              <R12>0.0000000049993254</R12>
+              <R20>-0.80750823</R20>
+              <R21>0.000000007982428</R21>
+              <R22>0.589861</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <bool name="CastShadow">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+            <token name="Material">848</token>
+            <Content name="MeshContent">
+              <uri>rbxassetid://4571713447</uri>
+            </Content>
+            <float name="Reflectance">0</float>
+            <token name="RenderFidelity">2</token>
+            <Vector3 name="size">
+              <X>26.222994</X>
+              <Y>18.503773</Y>
+              <Z>26.33469</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <uri>http://www.roblox.com/asset/?id=4567967359</uri>
+            </Content>
+            <float name="Transparency">0</float>
+          </Properties>
+        </Item>
+      </Item>
+    </Item>
+    <Item class="Folder" referent="42">
+      <Properties>
+        <string name="Name">ZeroTests</string>
+      </Properties>
+      <Item class="ModuleScript" referent="43">
+        <Properties>
+          <string name="Name">Combat.spec</string>
+          <string name="Source"><![CDATA[-- Run only in a Studio server play session:
+-- require(game.ServerStorage.ZeroTests["Combat.spec"]).run()
+local Suite = {}
+function Suite.run()
+	local C = require(game.ReplicatedStorage.ZeroShared.Config)
+	local Rules = require(game.ReplicatedStorage.ZeroShared.WeaponRules)
+	local Characters = require(game.ServerScriptService.ZeroServer.Characters)
+	local Combat = require(game.ServerScriptService.ZeroServer.Combat)
+	assert(workspace:GetAttribute("ZeroPhase") == "ACTIVE", "Wait for preparation to finish")
+	local checks = 0
+	local function check(condition, message) assert(condition, message) checks += 1 end
+	local shooter, target
+	local ok, err = xpcall(function()
+		check(not Rules.direction(nil), "nil direction")
+		check(not Rules.direction(Vector3.zero), "zero direction")
+		check(not Rules.direction(Vector3.new(0/0, 0, 0)), "NaN direction")
+		check(not Rules.direction(Vector3.new(math.huge, 0, 0)), "infinite direction")
+		check(not Rules.direction(Vector3.new(0, 0, -20)), "scaled direction")
+		shooter = Characters.create("TestShooter", "Alpha", Vector3.new(0, 35, -50))
+		target = Characters.create("TestTarget", "Bravo", Vector3.new(0, 35, -30))
+		shooter.Parent, target.Parent = workspace, workspace
+		shooter.HumanoidRootPart.Anchored, target.HumanoidRootPart.Anchored = true, true
+		Characters.register(shooter) Characters.register(target)
+		target:SetAttribute("ProtectedUntil", 0)
+		local state = Combat.register(shooter)
+		Combat.register(target)
+		local function aim(part) return (part.Position - shooter.Head.Position).Unit end
+		check(Combat.fire(shooter, aim(target.UpperTorso)), "first shot accepted")
+		check(target.Humanoid.Health == 262, "body shot is 13 damage")
+		check(state.ammo == 35, "authoritative ammo decremented")
+		check(not Combat.fire(shooter, aim(target.Head)), "rapid request rejected")
+		state.lastShot = -math.huge
+		check(Combat.fire(shooter, aim(target.Head)), "headshot accepted")
+		check(target.Humanoid.Health == 242.5, "headshot multiplier is 1.5")
+		local health = target.Humanoid.Health
+		target:SetAttribute("Faction", "Alpha")
+		state.lastShot = -math.huge Combat.fire(shooter, aim(target.Head))
+		check(target.Humanoid.Health == health, "friendly fire blocked")
+		target:SetAttribute("Faction", "Bravo")
+		local wall = Instance.new("Part")
+		wall.Name, wall.Size, wall.Anchored = "TestOccluder", Vector3.new(10, 12, 1), true
+		wall.CFrame = CFrame.new(0, 39, -40) wall.Parent = workspace
+		state.lastShot = -math.huge Combat.fire(shooter, aim(target.Head))
+		wall:Destroy()
+		check(target.Humanoid.Health == health, "wall stops damage")
+		local originalPivot = target:GetPivot()
+		target:PivotTo(originalPivot + Vector3.new(1000, 0, 0))
+		state.lastShot = -math.huge Combat.fire(shooter, aim(target.Head))
+		check(target.Humanoid.Health == health, "weapon range enforced")
+		target:PivotTo(originalPivot)
+		local originalShooter = shooter:GetPivot()
+		shooter:PivotTo(originalShooter + Vector3.new(0, 0, -80))
+		local beforeAmmo = state.ammo
+		check(not Combat.fire(shooter, aim(target.Head)) and state.ammo == beforeAmmo, "safe room blocks firing without spending ammo")
+		shooter:PivotTo(originalShooter)
+		target:SetAttribute("ProtectedUntil", workspace:GetServerTimeNow() + 100)
+		check(not Combat.damage(shooter, target, 13), "spawn protection")
+		target:SetAttribute("ProtectedUntil", 0)
+		check(Combat.reload(shooter), "reload accepted")
+		check(not Combat.fire(shooter, aim(target.Head)), "shooting during reload blocked")
+		check(not Combat.reload(shooter), "duplicate reload blocked")
+		task.wait(C.Weapon.ReloadTime + .1)
+		check(state.ammo == 36 and state.reloadEnd == 0, "reload completes")
+		state.ammo = 0 state.lastShot = -math.huge
+		check(not Combat.fire(shooter, aim(target.Head)), "empty magazine blocked")
+		state.ammo = 36
+		local record = Characters.records[target]
+		record.lastDamage = workspace:GetServerTimeNow()
+		Characters.regenerate(.2)
+		check(target.Humanoid.Health == health, "regen delay enforced")
+		record.lastDamage -= 6
+		Characters.regenerate(.2)
+		check(math.abs(target.Humanoid.Health - health - 3) < .01, "regen at 15 HP per second")
+		shooter.HumanoidRootPart.Anchored = false
+		check(Combat.dash(shooter, Vector3.new(1, 0, 0)), "dash accepted")
+		check(not Combat.dash(shooter, Vector3.new(1, 0, 0)), "dash cooldown enforced")
+		check(state.nextDash > workspace:GetServerTimeNow() + 7, "eight second dash cooldown")
+		task.wait(C.Dash.Duration + .05)
+		check(shooter.HumanoidRootPart:FindFirstChildOfClass("LinearVelocity") == nil, "dash force removed after duration")
+		shooter.Humanoid.Health = 0
+		check(not Combat.fire(shooter, aim(target.Head)), "dead shooter rejected")
+	end, debug.traceback)
+	if shooter then Characters.records[shooter] = nil shooter:Destroy() end
+	if target then Characters.records[target] = nil target:Destroy() end
+	if not ok then error(err) end
+	print("[PROJECT ZERO] PASS: " .. checks .. " combat assertions")
+	return checks
+end
+return Suite
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="44">
+        <Properties>
+          <string name="Name">Heroes.spec</string>
+          <string name="Source"><![CDATA[local Suite={}
+function Suite.run()
+	local Catalog=require(game.ReplicatedStorage.ZeroShared.HeroCatalog)
+	local Factory=require(game.ReplicatedStorage.ZeroShared.RigFactory)
+	local Pose=require(game.ReplicatedStorage.ZeroShared.AnimationPose)
+	local expected={TITAN=700,ATLAS=650,VEX=275,PHANTOM=250,HAVOC=300,SPECTRE=225,NOVA=250,ECHO=275}
+	local checks=0
+	local function check(ok,message) assert(ok,message) checks+=1 end
+	check(#Catalog.Order==8,"eight canonical heroes")
+	for _,id in Catalog.Order do
+		local m=Factory.create(id,"Alpha",Vector3.new(0,50,0),id)
+		local ok,err=pcall(function()
+			check(m.Humanoid.RigType==Enum.HumanoidRigType.R15,id.." R15")
+			check(m.Humanoid.MaxHealth==expected[id],id.." canonical HP")
+			check(m:GetAttribute("Hero")==id,id.." identity")
+			check(m:GetAttribute("WeaponName")==Catalog.Heroes[id].Weapon,id.." weapon")
+			check(m:FindFirstChild("Visor")~=nil,id.." visual identity")
+			local motors,parts,sources=0,0,0
+			for _,v in m:GetDescendants() do
+				if v:IsA("Motor6D") then motors+=1 end
+				if v:IsA("BasePart") then parts+=1 end
+				if v:IsA("LuaSourceContainer") then sources+=1 end
+			end
+			check(motors==15,id.." full articulated R15 skeleton")
+			check(parts<100,id.." part budget")
+			check(sources==0,id.." no embedded gameplay scripts")
+			for _,action in {"Idle","Run","Fire","Reload"} do Pose.apply(m,1,.5,action,.5) end
+			check(m.Humanoid:FindFirstChildOfClass("Animator")~=nil,id.." future clip support")
+			check(Catalog.Heroes[id].Playable==(id=="VEX"),id.." honest selection availability")
+			if id=="PHANTOM" then
+				local left=0
+				for _,v in m:GetDescendants() do if v:IsA("WeldConstraint") and v.Part0==m.LeftHand and v.Part1:GetAttribute("GripHand")=="Left" then left+=1 end end
+				check(left==4,"PHANTOM left pistol is held in left hand")
+			elseif id=="ATLAS" then
+				check(m:FindFirstChild("PoweredGauntletLeft")~=nil and m:FindFirstChild("PoweredGauntletRight")~=nil,"ATLAS paired fitted gauntlets")
+			end
+		end)
+		m:Destroy()
+		if not ok then error(err) end
+	end
+	local arena=workspace:FindFirstChild("ZeroArena")
+	if arena then
+		check(#arena:GetDescendants()<1600,"arena instance budget")
+		local parts,meshes=0,0
+		for _,v in arena:GetDescendants() do if v:IsA("BasePart") then parts+=1 if v:IsA("MeshPart") then meshes+=1 end end end
+		check(parts<1100,"arena part budget")
+		check(meshes<=40,"bounded imported mesh count")
+	end
+	print("[PROJECT ZERO] PASS: "..checks.." hero/art assertions")
+	return checks
+end
+return Suite
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="StarterPlayer" referent="45">
+    <Properties>
+      <string name="Name">StarterPlayer</string>
+      <token name="CameraMode">1</token>
+      <float name="CharacterJumpPower">42</float>
+      <float name="CharacterWalkSpeed">22</float>
+    </Properties>
+    <Item class="StarterPlayerScripts" referent="46">
+      <Properties>
+        <string name="Name">StarterPlayerScripts</string>
+      </Properties>
+      <Item class="Folder" referent="47">
+        <Properties>
+          <string name="Name">ZeroClient</string>
+        </Properties>
+        <Item class="ModuleScript" referent="48">
+          <Properties>
+            <string name="Name">Armory</string>
+            <string name="Source"><![CDATA[local RunService=game:GetService("RunService")
+local UIS=game:GetService("UserInputService")
+local Catalog=require(game.ReplicatedStorage.ZeroShared.HeroCatalog)
+local Factory=require(game.ReplicatedStorage.ZeroShared.RigFactory)
+local Pose=require(game.ReplicatedStorage.ZeroShared.AnimationPose)
+local Armory={isOpen=false}
+function Armory.create(player)
+	local gui=Instance.new("ScreenGui") gui.Name="ZeroArmory" gui.IgnoreGuiInset=true gui.ResetOnSpawn=false gui.DisplayOrder=20 gui.Enabled=false gui.Parent=player.PlayerGui
+	local bg=Instance.new("Frame") bg.Size=UDim2.fromScale(1,1) bg.BackgroundColor3=Color3.new(1,1,1) bg.BorderSizePixel=0 bg.Parent=gui
+	local grad=Instance.new("UIGradient") grad.Color=ColorSequence.new(Color3.fromRGB(12,20,29),Color3.fromRGB(35,53,68)) grad.Rotation=30 grad.Parent=bg
+	local function label(text,pos,size,color,fontSize)
+		local l=Instance.new("TextLabel") l.Text=text l.Position=pos l.Size=size l.BackgroundTransparency=1 l.TextColor3=color or Color3.fromRGB(220,231,238) l.Font=Enum.Font.GothamBold l.TextScaled=true l.TextXAlignment=Enum.TextXAlignment.Left l.Parent=bg
+		local limit=Instance.new("UITextSizeConstraint") limit.MaxTextSize=fontSize or 24 limit.MinTextSize=9 limit.Parent=l
+		return l
+	end
+	local function button(text,pos,size,callback)
+		local b=Instance.new("TextButton") b.Text=text b.Position=pos b.Size=size b.BackgroundColor3=Color3.fromRGB(38,56,70) b.BorderSizePixel=0 b.TextColor3=Color3.fromRGB(217,230,238) b.Font=Enum.Font.GothamBold b.TextScaled=true b.Parent=bg
+		local limit=Instance.new("UITextSizeConstraint") limit.MaxTextSize=17 limit.Parent=b
+		b.Activated:Connect(callback)
+		return b
+	end
+	label("ZERO // OPERATIVE ARCHIVE",UDim2.fromScale(.04,.04),UDim2.fromScale(.7,.055),nil,30)
+	label("NORRHAMN 2042  /  EIGHT HUMAN OPERATIVES",UDim2.fromScale(.04,.105),UDim2.fromScale(.7,.035),Color3.fromRGB(103,180,208),13)
+	local viewport=Instance.new("ViewportFrame") viewport.Name="HeroPreview" viewport.Position=UDim2.fromScale(.31,.15) viewport.Size=UDim2.fromScale(.36,.78) viewport.BackgroundTransparency=1 viewport.Ambient=Color3.fromRGB(163,177,196) viewport.LightColor=Color3.fromRGB(250,228,207) viewport.LightDirection=Vector3.new(-1,-1,-2) viewport.Parent=bg
+	local world=Instance.new("WorldModel") world.Parent=viewport
+	local camera=Instance.new("Camera") camera.FieldOfView=35 camera.CFrame=CFrame.lookAt(Vector3.new(7,4.8,-12),Vector3.new(0,2.8,0)) camera.Parent=viewport viewport.CurrentCamera=camera
+	local name=label("VEX",UDim2.fromScale(.69,.25),UDim2.fromScale(.28,.09),nil,48)
+	local role=label("",UDim2.fromScale(.69,.35),UDim2.fromScale(.27,.04),nil,18)
+	local identity=label("",UDim2.fromScale(.69,.42),UDim2.fromScale(.27,.07),nil,18)
+	local weapon=label("",UDim2.fromScale(.69,.51),UDim2.fromScale(.27,.06),nil,18)
+	local silhouette=label("",UDim2.fromScale(.69,.59),UDim2.fromScale(.27,.08),nil,15)
+	local status=label("",UDim2.fromScale(.69,.7),UDim2.fromScale(.27,.11),nil,14)
+	local preview,selected,action,actionAt="","VEX","Idle",0
+	local cards={}
+	local function choose(id)
+		local h=Catalog.Heroes[id]
+		local nextPreview=Factory.create(id.."_Preview","Alpha",Vector3.zero,id)
+		if typeof(preview)=="Instance" then preview:Destroy() end
+		preview=nextPreview selected=id gui:SetAttribute("SelectedHero",id)
+		for _,p in preview:GetDescendants() do if p:IsA("BasePart") then p.Anchored=p.Name=="HumanoidRootPart" p.CanCollide=false end end
+		preview.Parent=world
+		name.Text,role.Text,identity.Text=id,string.upper(h.Role).."  /  "..h.HP.." HP",h.Name.."\n"..h.Origin
+		name.TextColor3,role.TextColor3=h.Accent,h.Accent
+		weapon.Text,silhouette.Text=h.Weapon,h.Silhouette
+		status.Text=if h.Playable then "VEX: PLAYABLE\nDash available / grenade + ultimate pending" else "VISUAL PROTOTYPE\nWeapon and animation previews ready\nGameplay kit remains locked"
+		status.TextColor3=if h.Playable then Color3.fromRGB(110,222,193) else Color3.fromRGB(230,177,109)
+		for key,b in cards do b.BackgroundColor3=if key==id then h.Primary else Color3.fromRGB(30,44,57) end
+	end
+	for i,id in Catalog.Order do
+		local h=Catalog.Heroes[id]
+		cards[id]=button(id.."  /  "..string.upper(h.Role)..(if h.Playable then "" else "  [PREVIEW]"),UDim2.fromScale(.04,.19+(i-1)*.083),UDim2.fromScale(.25,.065),function() choose(id) end)
+		cards[id].Name="Hero_"..id
+	end
+	for i,a in {"Idle","Run","Fire","Reload"} do
+		local b=button(a,UDim2.fromScale(.32+(i-1)*.085,.91),UDim2.fromScale(.078,.04),function() action=a actionAt=os.clock() gui:SetAttribute("PreviewAction",a) end)
+		b.Name="Pose_"..a
+	end
+	local function close()
+		Armory.isOpen=false gui.Enabled=false
+		workspace.CurrentCamera.CameraType=Enum.CameraType.Custom
+		player.CameraMode=Enum.CameraMode.LockFirstPerson
+		UIS.MouseIconEnabled=false
+	end
+	button("RETURN TO VEX  /  H",UDim2.fromScale(.69,.87),UDim2.fromScale(.27,.065),close)
+	label("Visual previews do not unlock unimplemented kits.",UDim2.fromScale(.04,.94),UDim2.fromScale(.26,.025),Color3.fromRGB(132,152,167),11)
+	UIS.InputBegan:Connect(function(input,processed)
+		if processed or input.KeyCode~=Enum.KeyCode.H then return end
+		if Armory.isOpen then close() else
+			Armory.isOpen=true gui.Enabled=true workspace.CurrentCamera.CameraType=Enum.CameraType.Scriptable UIS.MouseIconEnabled=true UIS.MouseBehavior=Enum.MouseBehavior.Default
+		end
+	end)
+	player.CharacterAdded:Connect(function() if Armory.isOpen then close() end end)
+	RunService:BindToRenderStep("ZeroArmory",Enum.RenderPriority.Camera.Value+3,function()
+		if not Armory.isOpen then return end
+		UIS.MouseBehavior=Enum.MouseBehavior.Default UIS.MouseIconEnabled=true
+		local elapsed=os.clock()-actionAt
+		local progress=if action=="Reload" then (elapsed%2.5)/1.8 elseif action=="Fire" then (elapsed%(.5))/.2 else 0
+		Pose.apply(preview,os.clock(),if action=="Run" then 1 else 0,action,progress)
+		preview.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,math.sin(os.clock()*.18)*.18,0)
+	end)
+	choose("VEX")
+	return Armory
+end
+return Armory
+]]></string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="49">
+          <Properties>
+            <string name="Name">Hud</string>
+            <string name="Source"><![CDATA[local Hud = {}
+local WHITE, CYAN, ORANGE = Color3.fromRGB(226, 238, 244), Color3.fromRGB(74, 216, 241), Color3.fromRGB(255, 148, 65)
+function Hud.create(player)
+	local gui = Instance.new("ScreenGui")
+	gui.Name, gui.ResetOnSpawn, gui.IgnoreGuiInset = "ZeroHUD", false, true
+	gui.Parent = player:WaitForChild("PlayerGui")
+	local function label(name, text, pos, size, fontSize, color, align)
+		local t = Instance.new("TextLabel")
+		t.Name, t.Text = name, text
+		t.Position, t.Size = pos, size
+		t.BackgroundTransparency, t.TextColor3 = 1, color or WHITE
+		t.TextSize, t.Font = fontSize, Enum.Font.GothamBold
+		t.TextXAlignment = align or Enum.TextXAlignment.Left
+		t.Parent = gui
+		return t
+	end
+	local function panel(pos, size)
+		local p = Instance.new("Frame")
+		p.Position, p.Size = pos, size
+		p.BackgroundColor3, p.BackgroundTransparency, p.BorderSizePixel = Color3.fromRGB(13, 22, 30), .15, 0
+		p.Parent = gui
+		local line = Instance.new("Frame") line.Size = UDim2.new(1, 0, 0, 2) line.BackgroundColor3 = CYAN line.BorderSizePixel = 0 line.Parent = p
+		return p
+	end
+	panel(UDim2.new(0, 28, 1, -134), UDim2.fromOffset(255, 105))
+	panel(UDim2.new(1, -255, 1, -134), UDim2.fromOffset(227, 105))
+	label("Brand", "PROJECT: ZERO", UDim2.fromOffset(28, 30), UDim2.fromOffset(260, 32), 25)
+	label("Build", "2042  /  ZERO INITIATIVE  /  H: ARMORY", UDim2.fromOffset(30, 64), UDim2.fromOffset(330, 20), 11, CYAN)
+	label("Map", "HAMNVERKET", UDim2.new(1, -280, 0, 32), UDim2.fromOffset(250, 30), 21, WHITE, Enum.TextXAlignment.Right)
+	label("Location", "NORRHAMN  /  20:30", UDim2.new(1, -280, 0, 64), UDim2.fromOffset(250, 20), 11, CYAN, Enum.TextXAlignment.Right)
+	local phase = label("Phase", "PREPARE", UDim2.new(.5, -220, 0, 35), UDim2.fromOffset(440, 32), 19, ORANGE, Enum.TextXAlignment.Center)
+	local info = label("Info", "TRAINING DEATHMATCH", UDim2.new(.5, -240, 0, 70), UDim2.fromOffset(480, 20), 11, WHITE, Enum.TextXAlignment.Center)
+	label("Hero", "VEX  /  DAMAGE", UDim2.new(0, 46, 1, -122), UDim2.fromOffset(220, 22), 14, CYAN)
+	local health = label("Health", "275", UDim2.new(0, 46, 1, -97), UDim2.fromOffset(115, 43), 37)
+	label("MaxHealth", "/ 275 HP", UDim2.new(0, 142, 1, -82), UDim2.fromOffset(120, 22), 13)
+	local healthBg = Instance.new("Frame") healthBg.Position = UDim2.new(0, 46, 1, -48) healthBg.Size = UDim2.fromOffset(218, 6) healthBg.BackgroundColor3 = Color3.fromRGB(45, 64, 73) healthBg.BorderSizePixel = 0 healthBg.Parent = gui
+	local healthBar = Instance.new("Frame") healthBar.Size = UDim2.fromScale(1, 1) healthBar.BackgroundColor3 = CYAN healthBar.BorderSizePixel = 0 healthBar.Parent = healthBg
+	label("Weapon", "VX-7  /  ASSAULT RIFLE", UDim2.new(1, -237, 1, -122), UDim2.fromOffset(200, 22), 12, ORANGE)
+	local ammo = label("Ammo", "36", UDim2.new(1, -237, 1, -97), UDim2.fromOffset(110, 43), 37)
+	label("MaxAmmo", "/ 36", UDim2.new(1, -142, 1, -82), UDim2.fromOffset(75, 22), 16)
+	local reload = label("Reload", "R  RELOAD", UDim2.new(1, -237, 1, -51), UDim2.fromOffset(200, 18), 11, ORANGE)
+	local dash = label("Dash", "Q  DASH  /  READY", UDim2.new(.5, -150, 1, -89), UDim2.fromOffset(300, 28), 17, CYAN, Enum.TextXAlignment.Center)
+	label("FutureAbilities", "PULSE GRENADE  /  OVERDRIVE  [LOCKED]", UDim2.new(.5, -210, 1, -57), UDim2.fromOffset(420, 18), 10, Color3.fromRGB(143, 159, 171), Enum.TextXAlignment.Center)
+	label("Controls", "WASD  MOVE     MOUSE  AIM / FIRE     SPACE  JUMP", UDim2.new(.5, -260, 1, -29), UDim2.fromOffset(520, 16), 10, WHITE, Enum.TextXAlignment.Center)
+	local crosshair = Instance.new("Frame") crosshair.Name = "Crosshair" crosshair.Size = UDim2.fromOffset(2, 2) crosshair.Position = UDim2.fromScale(.5, .5) crosshair.BackgroundTransparency = 1 crosshair.Parent = gui
+	for _, data in {{-12, 0, 7, 2}, {6, 0, 7, 2}, {0, -12, 2, 7}, {0, 6, 2, 7}} do
+		local line = Instance.new("Frame") line.Position = UDim2.fromOffset(data[1], data[2]) line.Size = UDim2.fromOffset(data[3], data[4]) line.BorderSizePixel = 0 line.BackgroundColor3 = WHITE line.Parent = crosshair
+	end
+	local hit = label("Hit", "×", UDim2.new(.5, -20, .5, -20), UDim2.fromOffset(40, 40), 36, ORANGE, Enum.TextXAlignment.Center) hit.Visible = false
+	local death = label("Death", "", UDim2.new(.5, -300, .5, 60), UDim2.fromOffset(600, 70), 24, ORANGE, Enum.TextXAlignment.Center)
+	return {gui = gui, health = health, healthBar = healthBar, ammo = ammo, reload = reload, dash = dash, phase = phase, info = info, hit = hit, death = death}
+end
+return Hud
+]]></string>
+          </Properties>
+        </Item>
+        <Item class="LocalScript" referent="50">
+          <Properties>
+            <string name="Name">Main</string>
+            <string name="Source"><![CDATA[local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Debris = game:GetService("Debris")
+local SoundService = game:GetService("SoundService")
+local C = require(game.ReplicatedStorage.ZeroShared.Config)
+local G = require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Hud = require(script.Parent.Hud)
+local player = Players.LocalPlayer
+local remotes = game.ReplicatedStorage:WaitForChild("ZeroRemotes")
+local hud = Hud.create(player)
+local armory = require(script.Parent.Armory).create(player)
+local Pose = require(game.ReplicatedStorage.ZeroShared.AnimationPose)
+local character, humanoid, viewmodel
+local ammo, localReloadEnd, nextShot, recoil, hitUntil = 36, 0, 0, 0, 0
+local holding = false
+local shotSound = Instance.new("Sound") shotSound.SoundId = C.ShotSound shotSound.Volume = .35 shotSound.Parent = SoundService
+local tickSound = Instance.new("Sound") tickSound.SoundId = "rbxasset://sounds/button.wav" tickSound.Volume = .15 tickSound.Parent = SoundService
+workspace:GetAttributeChangedSignal("ZeroPhase"):Connect(function() tickSound:Play() end)
+local fxFolder = Instance.new("Folder") fxFolder.Name = "ZeroLocalFX" fxFolder.Parent = workspace
+local visualShots = setmetatable({}, {__mode = "k"})
+local function makeViewmodel()
+	if viewmodel then viewmodel:Destroy() end
+	viewmodel = Instance.new("Model") viewmodel.Name = "VEX_FirstPerson"
+	local root = G.part(viewmodel, "Root", Vector3.one * .1, CFrame.identity, Color3.new()) root.Transparency = 1
+	viewmodel.PrimaryPart = root
+	local rifle = G.rifle(viewmodel)
+	rifle:PivotTo(CFrame.new(.62, -.5, -1.1))
+	G.part(viewmodel, "RightGlove", Vector3.new(.33, .35, .48), CFrame.new(.63, -.83, -.7), Color3.fromRGB(29, 34, 41))
+	G.part(viewmodel, "RightArm", Vector3.new(.38, .4, 1.15), CFrame.new(.68, -.92, -.05) * CFrame.Angles(-.15, 0, 0), Color3.fromRGB(48, 55, 64))
+	G.part(viewmodel, "LeftArm", Vector3.new(.38, .4, 1.25), CFrame.new(.05, -.89, -1.04) * CFrame.Angles(-.2, -.8, -.15), Color3.fromRGB(48, 55, 64))
+	for _, p in viewmodel:GetDescendants() do
+		if p:IsA("BasePart") then p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = false, false, false, false end
+	end
+	viewmodel.Parent = workspace.CurrentCamera
+end
+local ammoConnection
+local function attach(m)
+	character = m humanoid = m:WaitForChild("Humanoid")
+	workspace.CurrentCamera.CameraSubject = humanoid
+	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+	workspace.CurrentCamera.FieldOfView = 80
+	local root = m:WaitForChild("HumanoidRootPart")
+	workspace.CurrentCamera.CFrame = CFrame.lookAt(m.Head.Position, m.Head.Position + root.CFrame.LookVector * 30)
+	player.CameraMode = Enum.CameraMode.LockFirstPerson
+	UserInputService.MouseIconEnabled = false
+	ammo, localReloadEnd, nextShot, recoil, holding = m:GetAttribute("Ammo") or 36, 0, 0, 0, false
+	if ammoConnection then ammoConnection:Disconnect() end
+	ammoConnection = m:GetAttributeChangedSignal("Ammo"):Connect(function() ammo = m:GetAttribute("Ammo") or 0 end)
+	makeViewmodel()
+end
+player.CharacterAdded:Connect(attach)
+if player.Character then task.spawn(attach, player.Character) end
+local function reload()
+	if not humanoid or humanoid.Health <= 0 or ammo == 36 or workspace:GetServerTimeNow() < localReloadEnd then return end
+	localReloadEnd = workspace:GetServerTimeNow() + C.Weapon.ReloadTime
+	remotes.Action:FireServer("Reload")
+	tickSound:Play()
+end
+UserInputService.InputBegan:Connect(function(input, processed)
+	if processed or armory.isOpen then return end
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then holding = true
+	elseif input.KeyCode == Enum.KeyCode.R then reload()
+	elseif input.KeyCode == Enum.KeyCode.Q and humanoid and humanoid.Health > 0 then
+		local d = humanoid.MoveDirection
+		if d.Magnitude < .1 then d = workspace.CurrentCamera.CFrame.LookVector end
+		remotes.Action:FireServer("Dash", d.Unit)
+	end
+end)
+UserInputService.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then holding = false end
+end)
+UserInputService.WindowFocusReleased:Connect(function() holding = false end)
+local function tracer(origin, endpoint, color)
+	local delta = endpoint - origin
+	if delta.Magnitude < .05 then return end
+	local p = G.part(fxFolder, "Tracer", Vector3.new(.035, .035, delta.Magnitude), CFrame.lookAt((origin + endpoint) / 2, endpoint), color, Enum.Material.Neon)
+	p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = false, false, false, false
+	Debris:AddItem(p, .055)
+	local impact = G.part(fxFolder, "Impact", Vector3.one * .16, CFrame.new(endpoint), color, Enum.Material.Neon)
+	impact.CanCollide, impact.CanQuery, impact.CanTouch = false, false, false
+	Debris:AddItem(impact, .1)
+end
+remotes.FX.OnClientEvent:Connect(function(shooter, origin, endpoint, hit, headshot, killed)
+	if shooter then visualShots[shooter] = os.clock() end
+	tracer(origin, endpoint, if shooter == character then Color3.fromRGB(255, 173, 73) else Color3.fromRGB(255, 83, 48))
+	if shooter == character then
+		if hit then
+			hitUntil = os.clock() + .16
+			hud.hit.TextColor3 = if killed then Color3.fromRGB(255, 58, 63) elseif headshot then Color3.fromRGB(255, 178, 55) else Color3.new(1, 1, 1)
+			tickSound:Play()
+		end
+	elseif shooter and shooter:FindFirstChild("Head") then
+		local sound = shotSound:Clone() sound.Volume = .2 sound.RollOffMaxDistance = 220 sound.Parent = shooter.Head sound:Play() Debris:AddItem(sound, 2)
+	end
+end)
+RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, function(dt)
+	hud.gui.Enabled = not armory.isOpen
+	if armory.isOpen then holding = false end
+	local time = workspace:GetServerTimeNow()
+	local alive = humanoid and humanoid.Health > 0
+	local phase = workspace:GetAttribute("ZeroPhase")
+	hud.phase.Text = if phase == "PREPARE" then "PREPARE  /  " .. math.max(0, math.ceil((workspace:GetAttribute("ZeroPhaseEnd") or time) - time)) else "TRAINING  /  LIVE"
+	hud.info.Text = if phase == "PREPARE" then "VEX ONLINE  •  DOORS OPEN AT ZERO" else "ALPHA vs BRAVO  /  ELIMINATE HOSTILES"
+	hud.hit.Visible = os.clock() < hitUntil
+	if not character or not humanoid then return end
+	hud.health.Text = tostring(math.ceil(humanoid.Health))
+	hud.healthBar.Size = UDim2.fromScale(math.clamp(humanoid.Health / C.MaxHealth, 0, 1), 1)
+	hud.ammo.Text = string.format("%02d", ammo)
+	local serverReload = character:GetAttribute("ReloadEnd") or 0
+	local reloading = time < math.max(serverReload, localReloadEnd)
+	hud.reload.Text = if reloading then "RELOADING  " .. string.format("%.1f", math.max(serverReload, localReloadEnd) - time) .. "s" else "R  RELOAD"
+	local cooldown = math.max(0, (character:GetAttribute("DashReadyAt") or 0) - time)
+	hud.dash.Text = if cooldown > 0 then "Q  DASH  /  " .. string.format("%.1fs", cooldown) else "Q  DASH  /  READY"
+	local respawnAt = character:GetAttribute("RespawnAt") or time
+	hud.death.Text = if not alive then "VEX DOWN\nREDEPLOY IN " .. math.max(0, math.ceil(respawnAt - time)) .. "s" elseif math.abs(character.HumanoidRootPart.Position.Z) >= 100 then "SPAWN PROTECTED" else ""
+	if holding and alive and not reloading and phase == "ACTIVE" and time >= nextShot and math.abs(character.HumanoidRootPart.Position.Z) < 100 then
+		if ammo > 0 then
+			nextShot = time + C.Weapon.FireInterval
+			ammo -= 1
+			remotes.Action:FireServer("Fire", workspace.CurrentCamera.CFrame.LookVector)
+			recoil = math.min(.16, recoil + .045)
+			workspace.CurrentCamera.CFrame *= CFrame.Angles(math.rad(.45), 0, 0)
+			shotSound.PlaybackSpeed = .96 + math.random() * .08 shotSound:Play()
+			local muzzle = viewmodel and viewmodel:FindFirstChild("VX7") and viewmodel.VX7:FindFirstChild("Barrel")
+			if muzzle then
+				local flash = Instance.new("PointLight") flash.Color = Color3.fromRGB(255, 181, 81) flash.Brightness = 2 flash.Range = 8 flash.Parent = muzzle Debris:AddItem(flash, .04)
+			end
+		else reload() end
+	end
+	recoil *= math.exp(-dt * 16)
+	if viewmodel then
+		viewmodel.Parent = if alive and not armory.isOpen then workspace.CurrentCamera else nil
+		local bob = math.sin(os.clock() * 10) * math.min(humanoid.MoveDirection.Magnitude, 1) * .025
+		local tilt = if reloading then math.sin(math.clamp(1 - (math.max(serverReload, localReloadEnd) - time) / C.Weapon.ReloadTime, 0, 1) * math.pi) else 0
+		viewmodel:PivotTo(workspace.CurrentCamera.CFrame * CFrame.new(0, bob - tilt * .35, recoil) * CFrame.Angles(tilt * -.4, 0, tilt * -.65))
+	end
+	for _, p in character:GetDescendants() do if p:IsA("BasePart") then p.LocalTransparencyModifier = 1 end end
+end)
+-- Shared motion poses also drive all eight armory previews.
+local gaitClock = 0
+RunService.Heartbeat:Connect(function(dt)
+	gaitClock += dt
+	if gaitClock < .05 then return end
+	gaitClock = 0
+	for _, m in workspace:GetChildren() do
+		if m:IsA("Model") and m:GetAttribute("Hero") and m:FindFirstChild("HumanoidRootPart") then
+			local speed = m.HumanoidRootPart.AssemblyLinearVelocity * Vector3.new(1, 0, 1)
+			local elapsed = os.clock() - (visualShots[m] or -100)
+			local reloadEnd = m:GetAttribute("ReloadEnd") or 0
+			local remaining = reloadEnd - workspace:GetServerTimeNow()
+			local action = if remaining > 0 then "Reload" elseif elapsed < .2 then "Fire" else "Idle"
+			Pose.apply(m, os.clock(), speed.Magnitude / C.WalkSpeed, action, if action == "Reload" then 1 - remaining / C.Weapon.ReloadTime else elapsed / .2)
+		end
+	end
+end)
+]]></string>
+          </Properties>
+        </Item>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="Workspace" referent="51">
+    <Properties>
+      <string name="Name">Workspace</string>
+      <bool name="FilteringEnabled">true</bool>
+      <float name="Gravity">196.2</float>
+      <bool name="NeedsPivotMigration">false</bool>
+    </Properties>
+  </Item>
+</roblox>

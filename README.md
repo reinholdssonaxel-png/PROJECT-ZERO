@@ -4,6 +4,8 @@ Roblox/Luau prototype: **playable VEX vs one VEX AI opponent**, a detailed HAMNV
 
 ## Play in Roblox Studio
 
+A ready-built snapshot is included at [releases/PROJECT-ZERO.rbxlx](releases/PROJECT-ZERO.rbxlx). Download the raw file, open it in Roblox Studio and press Play. All source, sanitized art templates and documentation are also included in this repository; rebuilding from source is recommended after later code changes.
+
 Install the official [Rojo 7 CLI and matching Studio plugin](https://rojo.space/docs/v7/getting-started/installation/). This repository pins Rojo 7.7.1 in `rokit.toml`; `rokit install` installs the pinned CLI if you use Rokit.
 
 ```powershell
