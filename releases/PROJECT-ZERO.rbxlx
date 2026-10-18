@@ -91,33 +91,1944 @@
           </Item>
         </Item>
       </Item>
+      <Item class="Folder" referent="6">
+        <Properties>
+          <string name="Name">HeroArt</string>
+        </Properties>
+        <Item class="Model" referent="7">
+          <Properties>
+            <string name="Name">VEX</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGFlNDdmZTQzLWUzMDMtNDk0OC04YjJkLTg3MzU4ZTkyYmEyMxYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="8">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <BinaryString name="AttributesSerialize">AQAAABEAAABaZXJvU291cmNlQXNzZXRJZAILAAAAMTAwOTQwMjA1NTA=</BinaryString>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="9">
+              <Properties>
+                <string name="Name">Tactical Mich/Fast Helmet</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.000015258789</X>
+                  <Y>-0.000015258789</Y>
+                  <Z>0</Z>
+                  <R00>0</R00>
+                  <R01>0.00000012428983</R01>
+                  <R02>1.0000001</R02>
+                  <R10>0.00000006216578</R10>
+                  <R11>1</R11>
+                  <R12>0.00000012428981</R12>
+                  <R20>-0.99999994</R20>
+                  <R21>-0.00000006216578</R21>
+                  <R22>0</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">1312</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://3744222272</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.6594009</X>
+                  <Y>1.6625777</Y>
+                  <Z>1.6510575</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://3797942365</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="10">
+            <Properties>
+              <string name="Name">Chest</string>
+              <BinaryString name="AttributesSerialize">AQAAABEAAABaZXJvU291cmNlQXNzZXRJZAIKAAAANTAxNzA2NzAwNg==</BinaryString>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="Part" referent="11">
+              <Properties>
+                <string name="Name">Handle</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <token name="shape">1</token>
+                <Vector3 name="size">
+                  <X>2.2000003</X>
+                  <Y>2.2000005</Y>
+                  <Z>1.6</Z>
+                </Vector3>
+              </Properties>
+              <Item class="SpecialMesh" referent="12">
+                <Properties>
+                  <string name="Name">Mesh</string>
+                  <Content name="MeshContent">
+                    <uri><![CDATA[http://www.roblox.com/asset/?id=108788572 ]]></uri>
+                  </Content>
+                  <token name="MeshType">5</token>
+                  <Vector3 name="Offset">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                  </Vector3>
+                  <Vector3 name="Scale">
+                    <X>1</X>
+                    <Y>1</Y>
+                    <Z>1</Z>
+                  </Vector3>
+                  <Content name="TextureContent">
+                    <uri>http://www.roblox.com/asset/?id=109282716</uri>
+                  </Content>
+                  <Vector3 name="VertexColor">
+                    <X>1</X>
+                    <Y>1</Y>
+                    <Z>1</Z>
+                  </Vector3>
+                </Properties>
+              </Item>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="13">
+          <Properties>
+            <string name="Name">NOVA</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADI5NjczYjUzLWYwZDMtNDI4Yy04NDAyLTJiYjE5NTVjYTE5ZRYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="14">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="15">
+              <Properties>
+                <string name="Name">Helmet_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.000022888184</X>
+                  <Y>0</Y>
+                  <Z>-0.000015258789</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://101817014707106</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.8832755</X>
+                  <Y>1.2419866</Y>
+                  <Z>0.9717462</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://90769934521379</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="16">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="17">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0</X>
+                  <Y>0</Y>
+                  <Z>0.000015258789</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://110211176630948</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>2.2929792</X>
+                  <Y>2.0676484</Y>
+                  <Z>1.2590278</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://88329294838888</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="18">
+          <Properties>
+            <string name="Name">HAVOC</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGM0NDFiMTRkLWM5MzktNDIzOC1iYjU0LTFhZDUyM2ExYTA4MRYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="19">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="20">
+              <Properties>
+                <string name="Name">Helmet_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.0000076293945</X>
+                  <Y>-0.000011444092</Y>
+                  <Z>0</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://140423839919472</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.9618224</X>
+                  <Y>0.81104636</Y>
+                  <Z>1.0379362</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://90289646587860</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="21">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="22">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0</X>
+                  <Y>0</Y>
+                  <Z>0.000015258789</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://125085001826958</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.4223703</X>
+                  <Y>2.710354</Y>
+                  <Z>1.6876254</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://119357799675860</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="23">
+          <Properties>
+            <string name="Name">SPECTRE</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADAyMjc4YzU2LTYwYmQtNGI3OC1hNzllLTdlY2JiZmNkZGNkYxYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="24">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="25">
+              <Properties>
+                <string name="Name">Helmet_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.0000076293945</X>
+                  <Y>-0.000034332275</Y>
+                  <Z>-0.000045776367</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://126843204753827</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.063165</X>
+                  <Y>1.4274495</Y>
+                  <Z>1.3678524</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://76422465090221</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="26">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="27">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.0000076293945</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://127908961271993</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.3890256</X>
+                  <Y>1.6575487</Y>
+                  <Z>1.549151</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://126186269316411</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="28">
+          <Properties>
+            <string name="Name">ATLAS</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGJkMWJhZGZmLTY1MTQtNDA5MC1hOTA0LTcyYzhjMzRlNzVlMhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="29">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="30">
+              <Properties>
+                <string name="Name">Helmet_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.000015258789</X>
+                  <Y>0</Y>
+                  <Z>-0.000015258789</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://129021030475782</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.1617358</X>
+                  <Y>1.3694215</Y>
+                  <Z>1.2157124</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://72171029724036</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="31">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="32">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.0000076293945</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://102433782500968</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.6328979</X>
+                  <Y>1.9496597</Y>
+                  <Z>1.4097838</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://128798576876752</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="33">
+          <Properties>
+            <string name="Name">PHANTOM</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADQwZjMxNDkzLTliZTgtNGM3Mi1hOTM5LTNlYWI3MmQzZTUxZRYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="34">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="35">
+              <Properties>
+                <string name="Name">Helmet_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0</X>
+                  <Y>-0.000015258789</Y>
+                  <Z>0</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://88118102613549</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.0715768</X>
+                  <Y>1.2630275</Y>
+                  <Z>1.1556153</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://102570793401332</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="36">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="37">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.0000076293945</X>
+                  <Y>0.000022888184</Y>
+                  <Z>0</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://98184993558970</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.7388409</X>
+                  <Y>1.8154252</Y>
+                  <Z>1.3687886</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://104849778990684</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="38">
+          <Properties>
+            <string name="Name">ECHO</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADI1YjVhZTE0LTZiOWYtNDU2MS1iMzhhLTExMzMwMGRmMjIxYRYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="39">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="40">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.0000076293945</X>
+                  <Y>0.000015258789</Y>
+                  <Z>0</Z>
+                  <R00>1.0000002</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.99999994</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://84110479567659</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.1187325</X>
+                  <Y>1.1945816</Y>
+                  <Z>1.0007129</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://107982130326011</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="41">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGE5MWQyYzlkLTRmNTgtNDE1OS1iNTM3LWE5NTlhYjNlZTU0MRYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="Model" referent="42">
+              <Properties>
+                <string name="Name">body</string>
+                <bool name="NeedsPivotMigration">false</bool>
+              </Properties>
+              <Item class="MeshPart" referent="43">
+                <Properties>
+                  <string name="Name">body_geom</string>
+                  <bool name="Anchored">true</bool>
+                  <CoordinateFrame name="CFrame">
+                    <X>0.000011444092</X>
+                    <Y>-0.0000076293945</Y>
+                    <Z>0.000015258789</Z>
+                    <R00>1</R00>
+                    <R01>0</R01>
+                    <R02>0</R02>
+                    <R10>0</R10>
+                    <R11>1</R11>
+                    <R12>0</R12>
+                    <R20>0</R20>
+                    <R21>0</R21>
+                    <R22>1</R22>
+                  </CoordinateFrame>
+                  <bool name="CanCollide">false</bool>
+                  <bool name="CanQuery">false</bool>
+                  <bool name="CanTouch">false</bool>
+                  <token name="CollisionFidelity">2</token>
+                  <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                  <token name="Material">256</token>
+                  <Content name="MeshContent">
+                    <uri>rbxassetid://138209628705780</uri>
+                  </Content>
+                  <token name="RenderFidelity">0</token>
+                  <Vector3 name="size">
+                    <X>1.2981417</X>
+                    <Y>1.3675103</Y>
+                    <Z>1.4</Z>
+                  </Vector3>
+                  <Content name="TextureContent">
+                    <uri>rbxassetid://99958529731296</uri>
+                  </Content>
+                </Properties>
+              </Item>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="44">
+          <Properties>
+            <string name="Name">TITAN</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGE3YTRmMGU2LThlNmYtNGFjZS04MDY2LWRkMjYwNWEzNDQxZhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="45">
+            <Properties>
+              <string name="Name">Helmet</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="46">
+              <Properties>
+                <string name="Name">Helmet_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.000011444092</X>
+                  <Y>0</Y>
+                  <Z>0.000015258789</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://120755190892536</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.1309041</X>
+                  <Y>1.1841452</Y>
+                  <Z>1.0867736</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://88008022778194</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+          <Item class="Model" referent="47">
+            <Properties>
+              <string name="Name">Chest</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="48">
+              <Properties>
+                <string name="Name">Chest_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.000019073486</X>
+                  <Y>0.000015258789</Y>
+                  <Z>-0.000015258789</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://97338811560289</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>1.7437588</X>
+                  <Y>1.8457503</Y>
+                  <Z>1.8479346</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://136468841358311</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Folder" referent="49">
+          <Properties>
+            <string name="Name">Common</string>
+          </Properties>
+          <Item class="Model" referent="50">
+            <Properties>
+              <string name="Name">Shin</string>
+              <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADJkYWY1M2M0LTUyNDItNDI5MC1iZjAwLTk2MmYzNjM1MzMwNhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="Model" referent="51">
+              <Properties>
+                <string name="Name">body</string>
+                <bool name="NeedsPivotMigration">false</bool>
+              </Properties>
+              <Item class="MeshPart" referent="52">
+                <Properties>
+                  <string name="Name">body_geom</string>
+                  <bool name="Anchored">true</bool>
+                  <CoordinateFrame name="CFrame">
+                    <X>-0.0000019073486</X>
+                    <Y>-0.0000076293945</Y>
+                    <Z>0.000030517578</Z>
+                    <R00>1</R00>
+                    <R01>0</R01>
+                    <R02>0</R02>
+                    <R10>0</R10>
+                    <R11>1</R11>
+                    <R12>0</R12>
+                    <R20>0</R20>
+                    <R21>0</R21>
+                    <R22>1</R22>
+                  </CoordinateFrame>
+                  <bool name="CanCollide">false</bool>
+                  <bool name="CanQuery">false</bool>
+                  <bool name="CanTouch">false</bool>
+                  <token name="CollisionFidelity">2</token>
+                  <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                  <token name="Material">256</token>
+                  <Content name="MeshContent">
+                    <uri>rbxassetid://122163543623774</uri>
+                  </Content>
+                  <token name="RenderFidelity">0</token>
+                  <Vector3 name="size">
+                    <X>0.6203463</X>
+                    <Y>1.4000001</Y>
+                    <Z>0.6905128</Z>
+                  </Vector3>
+                  <Content name="TextureContent">
+                    <uri>rbxassetid://105759258510728</uri>
+                  </Content>
+                </Properties>
+              </Item>
+            </Item>
+          </Item>
+          <Item class="Model" referent="53">
+            <Properties>
+              <string name="Name">Forearm</string>
+              <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADdmZDRiODA1LTJiYzQtNDk5Mi05NzBmLTBjMGZjZmFlNDM1ZhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="Model" referent="54">
+              <Properties>
+                <string name="Name">body</string>
+                <bool name="NeedsPivotMigration">false</bool>
+              </Properties>
+              <Item class="MeshPart" referent="55">
+                <Properties>
+                  <string name="Name">body_geom</string>
+                  <bool name="Anchored">true</bool>
+                  <CoordinateFrame name="CFrame">
+                    <X>0.00001335144</X>
+                    <Y>0</Y>
+                    <Z>0.000015258789</Z>
+                    <R00>1</R00>
+                    <R01>0</R01>
+                    <R02>0</R02>
+                    <R10>0</R10>
+                    <R11>1</R11>
+                    <R12>0</R12>
+                    <R20>0</R20>
+                    <R21>0</R21>
+                    <R22>1</R22>
+                  </CoordinateFrame>
+                  <bool name="CanCollide">false</bool>
+                  <bool name="CanQuery">false</bool>
+                  <bool name="CanTouch">false</bool>
+                  <token name="CollisionFidelity">2</token>
+                  <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                  <token name="Material">256</token>
+                  <Content name="MeshContent">
+                    <uri>rbxassetid://75433514822623</uri>
+                  </Content>
+                  <token name="RenderFidelity">0</token>
+                  <Vector3 name="size">
+                    <X>0.68070257</X>
+                    <Y>1.4</Y>
+                    <Z>1.0266876</Z>
+                  </Vector3>
+                  <Content name="TextureContent">
+                    <uri>rbxassetid://131187854862724</uri>
+                  </Content>
+                </Properties>
+              </Item>
+            </Item>
+          </Item>
+          <Item class="Model" referent="56">
+            <Properties>
+              <string name="Name">Shoulder</string>
+              <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGVlOTIzZTIyLTI1ZWItNDMzMi1iMThkLWYyZmFmN2Q2NDNkMBYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="Model" referent="57">
+              <Properties>
+                <string name="Name">body</string>
+                <bool name="NeedsPivotMigration">false</bool>
+              </Properties>
+              <Item class="MeshPart" referent="58">
+                <Properties>
+                  <string name="Name">body_geom</string>
+                  <bool name="Anchored">true</bool>
+                  <CoordinateFrame name="CFrame">
+                    <X>-0.000017166138</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                    <R00>1</R00>
+                    <R01>0</R01>
+                    <R02>0</R02>
+                    <R10>0</R10>
+                    <R11>1</R11>
+                    <R12>0</R12>
+                    <R20>0</R20>
+                    <R21>0</R21>
+                    <R22>1</R22>
+                  </CoordinateFrame>
+                  <bool name="CanCollide">false</bool>
+                  <bool name="CanQuery">false</bool>
+                  <bool name="CanTouch">false</bool>
+                  <token name="CollisionFidelity">2</token>
+                  <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                  <token name="Material">256</token>
+                  <Content name="MeshContent">
+                    <uri>rbxassetid://97317980171987</uri>
+                  </Content>
+                  <token name="RenderFidelity">0</token>
+                  <Vector3 name="size">
+                    <X>1.3999999</X>
+                    <Y>1.3123636</Y>
+                    <Z>0.974514</Z>
+                  </Vector3>
+                  <Content name="TextureContent">
+                    <uri>rbxassetid://109871832740712</uri>
+                  </Content>
+                </Properties>
+              </Item>
+            </Item>
+          </Item>
+        </Item>
+      </Item>
+      <Item class="Model" referent="59">
+        <Properties>
+          <string name="Name">HumanBody</string>
+          <bool name="NeedsPivotMigration">false</bool>
+        </Properties>
+        <Item class="MeshPart" referent="60">
+          <Properties>
+            <string name="Name">LeftHand</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-1.5000058</X>
+              <Y>-0.85004854</Y>
+              <Z>-0.00000036656644</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430070991</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>0.98426664</X>
+              <Y>0.31576556</Y>
+              <Z>1.0282667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="61">
+          <Properties>
+            <string name="Name">RightHand</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>1.5000055</X>
+              <Y>-0.8500487</Y>
+              <Z>0.00000034869058</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430070997</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>0.98426664</X>
+              <Y>0.31576556</Y>
+              <Z>1.0282667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="62">
+          <Properties>
+            <string name="Name">LeftLowerArm</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-1.5000055</X>
+              <Y>-0.22407204</Y>
+              <Z>-0.00000034427273</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071005</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.0010667</X>
+              <Y>1.1175125</Y>
+              <Z>1.0018667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="63">
+          <Properties>
+            <string name="Name">RightLowerArm</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>1.5000057</X>
+              <Y>-0.22407222</Y>
+              <Z>0.00000037098425</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071013</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.0010667</X>
+              <Y>1.1175125</Y>
+              <Z>1.0018667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="64">
+          <Properties>
+            <string name="Name">LeftUpperArm</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-1.5000061</X>
+              <Y>0.3686748</Y>
+              <Z>-0.00000046901025</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071044</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.0010667</X>
+              <Y>1.2415984</Y>
+              <Z>1.0018667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="65">
+          <Properties>
+            <string name="Name">RightUpperArm</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>1.5000064</X>
+              <Y>0.36867464</Y>
+              <Z>0.00000024624705</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071041</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.0010667</X>
+              <Y>1.2415984</Y>
+              <Z>1.0018667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="66">
+          <Properties>
+            <string name="Name">LeftFoot</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-0.5000016</X>
+              <Y>-2.8500109</Y>
+              <Z>-0.00000054538236</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071039</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.008874</X>
+              <Y>0.31199384</Y>
+              <Z>1.0010667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="67">
+          <Properties>
+            <string name="Name">LeftLowerLeg</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-0.5000017</X>
+              <Y>-2.2009115</Y>
+              <Z>-0.00000009233332</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071049</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>0.9928435</X>
+              <Y>1.3006644</Y>
+              <Z>0.9728</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="68">
+          <Properties>
+            <string name="Name">UpperTorso</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.000000047684892</X>
+              <Y>0.19998366</Y>
+              <Z>-0.00000013112921</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071038</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.9432077</X>
+              <Y>1.6980317</Y>
+              <Z>1.004</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="69">
+          <Properties>
+            <string name="Name">LeftUpperLeg</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>-0.50000185</X>
+              <Y>-1.4207876</Y>
+              <Z>0.00000012938864</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071065</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>0.9928435</X>
+              <Y>1.362932</Y>
+              <Z>0.97270167</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="70">
+          <Properties>
+            <string name="Name">RightFoot</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.50000215</X>
+              <Y>-2.8500109</Y>
+              <Z>0.00000028908406</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071082</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.008874</X>
+              <Y>0.31199384</Y>
+              <Z>1.0010667</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="71">
+          <Properties>
+            <string name="Name">RightLowerLeg</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.5000021</X>
+              <Y>-2.2009115</Y>
+              <Z>0.00000042920874</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071105</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>0.9928435</X>
+              <Y>1.3006644</Y>
+              <Z>0.9728</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="72">
+          <Properties>
+            <string name="Name">LowerTorso</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.00000016689529</X>
+              <Y>-0.80003077</Y>
+              <Z>0.00000004768549</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071109</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>1.9914122</X>
+              <Y>0.4006534</Y>
+              <Z>1.004</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+        <Item class="MeshPart" referent="73">
+          <Properties>
+            <string name="Name">RightUpperLeg</string>
+            <bool name="Anchored">true</bool>
+            <CoordinateFrame name="CFrame">
+              <X>0.500002</X>
+              <Y>-1.4207878</Y>
+              <Z>0.000047813104</Z>
+              <R00>1.0000038</R00>
+              <R01>-0.00000005960487</R01>
+              <R02>0.000000238419</R02>
+              <R10>-0.00000005960487</R10>
+              <R11>1.0000038</R11>
+              <R12>-0.00000005960476</R12>
+              <R20>0.000000238419</R20>
+              <R21>-0.00000005960476</R21>
+              <R22>1</R22>
+            </CoordinateFrame>
+            <bool name="CanCollide">false</bool>
+            <bool name="CanQuery">false</bool>
+            <bool name="CanTouch">false</bool>
+            <token name="CollisionFidelity">2</token>
+            <Color3uint8 name="Color3uint8">16777215</Color3uint8>
+            <Content name="MeshContent">
+              <uri>https://assetdelivery.roblox.com/v1/asset/?id=7430071119</uri>
+            </Content>
+            <token name="RenderFidelity">0</token>
+            <Vector3 name="size">
+              <X>0.9928435</X>
+              <Y>1.362932</Y>
+              <Z>0.97270167</Z>
+            </Vector3>
+            <Content name="TextureContent">
+              <null>
+              </null>
+            </Content>
+          </Properties>
+        </Item>
+      </Item>
+      <Item class="Folder" referent="74">
+        <Properties>
+          <string name="Name">WeaponArt</string>
+        </Properties>
+        <Item class="Model" referent="75">
+          <Properties>
+            <string name="Name">VEX</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADIzYTFmNWEyLTRjMjEtNDY2MC05OTZiLTNkZjRhMmNiYzNkNhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="76">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="77">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.0000019073486</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://112651838196386</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.21351463</X>
+                  <Y>0.9</Y>
+                  <Z>1.5803244</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://106542168436332</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="78">
+          <Properties>
+            <string name="Name">TITAN</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADE2NWIwNDBiLTM4NDctNGMwMS04MzQyLWQwMGRjNmQ3ZDQ2NxYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="79">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="80">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.0000084117055</X>
+                  <Y>-0.0000076293945</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://86915120410830</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.4937855</X>
+                  <Y>1</Y>
+                  <Z>1.4800073</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://116733976135130</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="81">
+          <Properties>
+            <string name="Name">NOVA</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGQ4OTFmNjU4LWZmNzctNDMzOS1hMjNhLTE3NTNmNWFlZmZlMxYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="82">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="83">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.000000014901161</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://107110792980957</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.27296057</X>
+                  <Y>1</Y>
+                  <Z>2.2754853</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://100462618944572</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="84">
+          <Properties>
+            <string name="Name">HAVOC</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAAGU5NzczMjlhLTllZGEtNDI0OC05MTI3LTZhYTRmODc2Njc0NhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="85">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="86">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.000000007450581</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://88497603568735</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.46095777</X>
+                  <Y>1</Y>
+                  <Z>1.1125317</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://137282536340574</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="87">
+          <Properties>
+            <string name="Name">PHANTOM</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADVkMTQwMGRiLTYzNWItNDQ5ZC1hNjY2LTNjNWUwNWMxZTc1YhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="88">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="89">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0</X>
+                  <Y>0.000022888184</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://131384125713894</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.2285939</X>
+                  <Y>1</Y>
+                  <Z>1.4004117</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://124483565585492</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="90">
+          <Properties>
+            <string name="Name">ATLAS</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADQwNWRmZjQxLTg1MzMtNGQ1Zi05YzNmLTU4Y2M4MzFkODcyYhYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="91">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="92">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>0.000000014901161</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>1</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>1</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://87063399689368</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.55841756</X>
+                  <Y>1</Y>
+                  <Z>0.5281597</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://115910655631623</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="93">
+          <Properties>
+            <string name="Name">ECHO</string>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="94">
+            <Properties>
+              <string name="Name">world</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="Model" referent="95">
+              <Properties>
+                <string name="Name">body</string>
+                <bool name="NeedsPivotMigration">false</bool>
+              </Properties>
+              <Item class="MeshPart" referent="96">
+                <Properties>
+                  <string name="Name">body_geom</string>
+                  <bool name="Anchored">true</bool>
+                  <CoordinateFrame name="CFrame">
+                    <X>0</X>
+                    <Y>0.0000076293945</Y>
+                    <Z>0</Z>
+                    <R00>1</R00>
+                    <R01>0</R01>
+                    <R02>0</R02>
+                    <R10>0</R10>
+                    <R11>0.9999999</R11>
+                    <R12>0</R12>
+                    <R20>0</R20>
+                    <R21>0</R21>
+                    <R22>0.9999999</R22>
+                  </CoordinateFrame>
+                  <bool name="CanCollide">false</bool>
+                  <bool name="CanQuery">false</bool>
+                  <bool name="CanTouch">false</bool>
+                  <token name="CollisionFidelity">2</token>
+                  <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                  <token name="Material">256</token>
+                  <Content name="MeshContent">
+                    <uri>rbxassetid://128575467863027</uri>
+                  </Content>
+                  <token name="RenderFidelity">0</token>
+                  <Vector3 name="size">
+                    <X>0.2840636</X>
+                    <Y>1</Y>
+                    <Z>1.3005924</Z>
+                  </Vector3>
+                  <Content name="TextureContent">
+                    <uri>rbxassetid://114294567928963</uri>
+                  </Content>
+                </Properties>
+              </Item>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Model" referent="97">
+          <Properties>
+            <string name="Name">SPECTRE</string>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABSQlhfQUlfR0VORVJBVEVEAwEUAAAAUkJYX0FJX0dFTkVSQVRJT05fSUQCJAAAADMyYTlhNzMyLWI0NDktNGIzOC05MDIwLTIyMzRmMTA3NDJhMBYAAABSQlhfQUlfR0VORVJBVElPTl9UWVBFAgwAAABHZW5lcmF0ZU1lc2gRAAAAUkJYX0FJX01PREVMX0ZMT1cCBAAAAG1lc2g=</BinaryString>
+            <bool name="NeedsPivotMigration">false</bool>
+          </Properties>
+          <Item class="Model" referent="98">
+            <Properties>
+              <string name="Name">body</string>
+              <bool name="NeedsPivotMigration">false</bool>
+            </Properties>
+            <Item class="MeshPart" referent="99">
+              <Properties>
+                <string name="Name">body_geom</string>
+                <bool name="Anchored">true</bool>
+                <CoordinateFrame name="CFrame">
+                  <X>-0.000000007450581</X>
+                  <Y>0</Y>
+                  <Z>0</Z>
+                  <R00>1</R00>
+                  <R01>0</R01>
+                  <R02>0</R02>
+                  <R10>0</R10>
+                  <R11>0.9999999</R11>
+                  <R12>0</R12>
+                  <R20>0</R20>
+                  <R21>0</R21>
+                  <R22>0.9999999</R22>
+                </CoordinateFrame>
+                <bool name="CanCollide">false</bool>
+                <bool name="CanQuery">false</bool>
+                <bool name="CanTouch">false</bool>
+                <token name="CollisionFidelity">2</token>
+                <Color3uint8 name="Color3uint8">10724005</Color3uint8>
+                <token name="Material">256</token>
+                <Content name="MeshContent">
+                  <uri>rbxassetid://75487758799068</uri>
+                </Content>
+                <token name="RenderFidelity">0</token>
+                <Vector3 name="size">
+                  <X>0.28232116</X>
+                  <Y>1</Y>
+                  <Z>2.4368646</Z>
+                </Vector3>
+                <Content name="TextureContent">
+                  <uri>rbxassetid://87995762851563</uri>
+                </Content>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+      </Item>
     </Item>
-    <Item class="Folder" referent="6">
+    <Item class="Folder" referent="100">
       <Properties>
         <string name="Name">ZeroShared</string>
       </Properties>
-      <Item class="ModuleScript" referent="7">
+      <Item class="ModuleScript" referent="101">
         <Properties>
           <string name="Name">AnimationPose</string>
           <string name="Source"><![CDATA[-- Original R15 preview/gameplay placeholder animation, no external clip dependency.
 local Pose = {}
-local bases=setmetatable({}, {__mode="k"})
 function Pose.apply(m,time,speed,action,progress)
 	local hero=m:GetAttribute("Hero")
 	local wave=math.sin(time*10)*math.clamp(speed,0,1)*.5
 	local recoil=if action=="Fire" then math.max(0,1-progress)*.18 else 0
 	local reload=if action=="Reload" then math.sin(math.clamp(progress,0,1)*math.pi) else 0
 	for _,j in m:GetDescendants() do if j:IsA("Motor6D") then
-		local base=bases[j] or j.C0 bases[j]=base
+		-- Store the bind pose on the joint. Weak Instance-key caches can lose their
+		-- Lua wrappers during GC and accidentally capture an already animated C0.
+		local base=j:GetAttribute("ZeroBindC0")
+		if not base then base=j.C0 j:SetAttribute("ZeroBindC0",base) end
 		local name=j.Name
 		if name=="RightUpperLegJoint" then j.C0=base*CFrame.Angles(wave,0,0)
 		elseif name=="LeftUpperLegJoint" then j.C0=base*CFrame.Angles(-wave,0,0)
 		elseif name=="RightUpperArmJoint" then
-			local pitch=if hero=="ATLAS" then -.4 elseif hero=="TITAN" then -1 else -1.1
-			j.C0=base*CFrame.Angles(pitch-recoil+reload*.7,0,-.1-reload*.25)
+			local pitch=if hero=="ATLAS" then .4 elseif hero=="TITAN" then 1 else 1.05
+			j.C0=base*CFrame.Angles(pitch+recoil-reload*.7,0,-.1-reload*.25)
 		elseif name=="LeftUpperArmJoint" then
-			local pitch=if hero=="PHANTOM" then -1.1 elseif hero=="ATLAS" then -.4 else -.9
-			j.C0=base*CFrame.Angles(pitch-recoil-reload*.4,0,if hero=="PHANTOM" then .1 else .45)
+			local pitch=if hero=="PHANTOM" then 1.05 elseif hero=="ATLAS" then .4 else .85
+			j.C0=base*CFrame.Angles(pitch+recoil+reload*.4,0,if hero=="PHANTOM" or hero=="ATLAS" then .1 else .75)
+		elseif name=="RightLowerArmJoint" or name=="LeftLowerArmJoint" then j.C0=base*CFrame.Angles(.25+reload*.5,0,0)
 		elseif name=="UpperTorsoJoint" then j.C0=base*CFrame.Angles(0,math.sin(time*1.6)*.015,0)
 		elseif name=="HeadJoint" then j.C0=base*CFrame.Angles(.015*math.sin(time*1.4),0,0) end
 	end end
@@ -126,7 +2037,44 @@ return Pose
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="8">
+      <Item class="ModuleScript" referent="102">
+        <Properties>
+          <string name="Name">ArmorFit</string>
+          <string name="Source"><![CDATA[-- Fits reviewed, disconnected rigid armor to individual R15 limbs.
+-- No imported joints, scripts, collisions or client-owned hitboxes are used.
+local Fit = {}
+function Fit.equip(template, model, bodyName, name, size, offset)
+	local body = assert(model:FindFirstChild(bodyName), "Missing R15 limb: " .. bodyName)
+	local group = template:Clone()
+	local provenance=template:GetAttribute("RBX_AI_GENERATION_ID") or template.Parent:GetAttribute("RBX_AI_GENERATION_ID")
+	if provenance then group:SetAttribute("ZeroSourceGenerationId",provenance) end
+	local center, bounds = group:GetBoundingBox()
+	local ratio = size / bounds
+	for _,p in group:GetDescendants() do
+		if p:IsA("BasePart") then
+			local localCF = center:ToObjectSpace(p.CFrame)
+			p.Size *= ratio
+			local special=p:FindFirstChildOfClass("SpecialMesh")
+			if special then special.Scale*=ratio end
+			p.CFrame = body.CFrame * offset * CFrame.new(localCF.Position * ratio) * localCF.Rotation
+			p.Anchored, p.Massless = false, true
+			p.CanCollide, p.CanQuery, p.CanTouch = false, false, false
+			p.CastShadow = true
+			-- Render/collision fidelity is baked into the template in edit time.
+			-- Roblox restricts writes to those properties from gameplay scripts.
+			p:SetAttribute("ArmorLimb", bodyName)
+			local weld = Instance.new("WeldConstraint")
+			weld.Name, weld.Part0, weld.Part1, weld.Parent = "ArmorMount", body, p, p
+		end
+	end
+	group.Name, group.Parent = name, model
+	return group
+end
+return Fit
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="103">
         <Properties>
           <string name="Name">Config</string>
           <string name="Source"><![CDATA[--!strict
@@ -145,7 +2093,7 @@ return table.freeze({
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="9">
+      <Item class="ModuleScript" referent="104">
         <Properties>
           <string name="Name">Geometry</string>
           <string name="Source"><![CDATA[--!strict
@@ -159,7 +2107,37 @@ function Geometry.part(parent: Instance, name: string, size: Vector3, cf: CFrame
 	p.Parent = parent
 	return p
 end
+function Geometry.meshWeapon(heroId: string, parent: Instance, preview: boolean?): Model?
+	local assets=game.ReplicatedStorage:FindFirstChild("ZeroAssets")
+	local art=assets and assets:FindFirstChild("WeaponArt")
+	local template=art and art:FindFirstChild(heroId)
+	if not template or (heroId=="ATLAS" and not preview) then return nil end
+	local sizes={VEX=Vector3.new(.32,.8,2.9),TITAN=Vector3.new(.85,1.15,3.3),PHANTOM=Vector3.new(.25,.62,1.5),HAVOC=Vector3.new(.65,.95,2.3),SPECTRE=Vector3.new(.3,.85,4.2),NOVA=Vector3.new(.35,.75,2.55),ECHO=Vector3.new(.38,.78,2.6),ATLAS=Vector3.new(.95,.85,1.1)}
+	local m=template:Clone() m:ClearAllChildren() -- Retain AI provenance on the model.
+	m.Name=if heroId=="VEX" then "VX7" else "Weapon_"..heroId
+	local receiver=Geometry.part(m,"Receiver",Vector3.one*.1,CFrame.identity,Color3.new()) receiver.Transparency=1
+	m.PrimaryPart=receiver
+	local center,bounds=template:GetBoundingBox()
+	local ratio=sizes[heroId]/bounds
+	local function copy(offset: CFrame, hand: string?)
+		for _,source in template:GetDescendants() do if source:IsA("MeshPart") then
+			local p=source:Clone() p.Name="WeaponMesh"
+			local cf=center:ToObjectSpace(source.CFrame)
+			p.Size*=ratio p.CFrame=offset*CFrame.new(cf.Position*ratio)*cf.Rotation
+			p.Anchored,p.CanCollide,p.CanQuery,p.CanTouch=true,false,false,false
+			p:SetAttribute("GripHand",hand) p.Parent=m
+		end end
+	end
+	if heroId=="PHANTOM" or heroId=="ATLAS" then
+		for _,sign in {-1,1} do copy(CFrame.new(if preview then sign*.45 else 0,0,-.3),if sign<0 then "Left" else "Right") end
+	else copy(CFrame.new(0,-.05,-.45)) end
+	local muzzle=Geometry.part(m,"Barrel",Vector3.one*.05,CFrame.new(0,.05,-.45-sizes[heroId].Z/2),Color3.new()) muzzle.Transparency=1
+	m.Parent=parent
+	return m
+end
 function Geometry.rifle(parent: Instance): Model
+	local mesh=Geometry.meshWeapon("VEX",parent)
+	if mesh then return mesh end
 	local m = Instance.new("Model")
 	m.Name = "VX7"
 	local dark, orange = Color3.fromRGB(40, 47, 56), Color3.fromRGB(179, 91, 30)
@@ -179,7 +2157,7 @@ return Geometry
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="10">
+      <Item class="ModuleScript" referent="105">
         <Properties>
           <string name="Name">HeroCatalog</string>
           <string name="Source"><![CDATA[-- Canonical roster. Only VEX has a verified gameplay kit in this milestone.
@@ -199,7 +2177,7 @@ return table.freeze({Order=table.freeze({"TITAN","ATLAS","VEX","PHANTOM","HAVOC"
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="11">
+      <Item class="ModuleScript" referent="106">
         <Properties>
           <string name="Name">HeroStyle</string>
           <string name="Source"><![CDATA[local G = require(script.Parent.Geometry)
@@ -308,7 +2286,7 @@ return Style
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="12">
+      <Item class="ModuleScript" referent="107">
         <Properties>
           <string name="Name">HeroWeapons</string>
           <string name="Source"><![CDATA[local G = require(script.Parent.Geometry)
@@ -317,6 +2295,8 @@ local Weapons = {}
 function Weapons.create(heroId, parent, preview)
 	local hero = Catalog.Heroes[heroId]
 	if heroId == "VEX" then return G.rifle(parent) end
+	local mesh=G.meshWeapon(heroId,parent,preview)
+	if mesh then return mesh end
 	local m = Instance.new("Model") m.Name = "Weapon_" .. heroId
 	local metal, dark, accent = Color3.fromRGB(90,103,116), Color3.fromRGB(31,38,45), hero.Accent
 	local function p(name,size,pos,color,mat)
@@ -374,7 +2354,7 @@ return Weapons
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="13">
+      <Item class="ModuleScript" referent="108">
         <Properties>
           <string name="Name">MapLayout</string>
           <string name="Source"><![CDATA[local Layout = {Version=2, WalkSpeed=22, CombatLimit=92}
@@ -401,13 +2381,127 @@ return table.freeze(Layout)
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="14">
+      <Item class="ModuleScript" referent="109">
+        <Properties>
+          <string name="Name">MeshHeroStyle</string>
+          <string name="Source"><![CDATA[local G=require(script.Parent.Geometry)
+local Catalog=require(script.Parent.HeroCatalog)
+local Fit=require(script.Parent.ArmorFit)
+local Weapons=require(script.Parent.HeroWeapons)
+local Style={}
+-- Distinct meshes and fitted proportions; shared limb shells are modular equipment.
+local shapes={
+ TITAN={chest=Vector3.new(2.7,1.55,1.6),helmet=Vector3.new(1.55,1.5,1.55),shoulder=1.4,arm=1.18,leg=1.2},
+ ATLAS={chest=Vector3.new(2.15,1.35,1.45),helmet=Vector3.new(1.4,1.4,1.4),shoulder=1.1,arm=1.3,leg=1.1},
+ VEX={chest=Vector3.new(2.08,1.3,1.28),helmet=Vector3.new(1.32,1.38,1.35),shoulder=.9,arm=1,leg=1},
+ PHANTOM={chest=Vector3.new(1.85,1.25,1.15),helmet=Vector3.new(1.28,1.35,1.3),shoulder=.68,arm=.86,leg=.9},
+ HAVOC={chest=Vector3.new(2.35,1.5,1.45),helmet=Vector3.new(1.48,1.35,1.48),shoulder=1.15,arm=1.15,leg=1.1},
+ SPECTRE={chest=Vector3.new(1.95,1.35,1.22),helmet=Vector3.new(1.4,1.55,1.45),shoulder=.65,arm=.9,leg=.9},
+ NOVA={chest=Vector3.new(1.95,1.3,1.25),helmet=Vector3.new(1.3,1.4,1.35),shoulder=.8,arm=.95,leg=.95},
+ ECHO={chest=Vector3.new(2.05,1.35,1.3),helmet=Vector3.new(1.35,1.4,1.4),shoulder=.85,arm=1,leg=1},
+}
+function Style.decorate(m,id,faction)
+ local assets=game.ReplicatedStorage:FindFirstChild("ZeroAssets")
+ local art=assets and assets:FindFirstChild("HeroArt")
+ local kit=art and art:FindFirstChild(id)
+ if not kit or not kit:FindFirstChild("Helmet") or not kit:FindFirstChild("Chest") then
+  require(script.Parent.HeroStyle).decorate(m,id,faction) m:SetAttribute("ArtStatus","FALLBACK") return
+ end
+ local h,s=Catalog.Heroes[id],shapes[id]
+ local dark,metal=Color3.fromRGB(25,30,37),Color3.fromRGB(110,123,132)
+ for _,p in m:GetChildren() do if p:IsA("BasePart") then p.Color=dark p.Material=Enum.Material.Fabric end end
+ m.Head.Color=Color3.fromRGB(179,141,116) m.Head.Material=Enum.Material.SmoothPlastic
+ local function attach(name,body,size,cf,color,material)
+  local p=G.part(m,name,size,m[body].CFrame*cf,color or h.Primary,material or Enum.Material.Metal)
+  p.Anchored,p.Massless,p.CanCollide,p.CanQuery,p.CanTouch=false,true,false,false,false
+  p:SetAttribute("ArmorLimb",body)
+  local w=Instance.new("WeldConstraint") w.Name,w.Part0,w.Part1,w.Parent="ArmorMount",m[body],p,p
+  return p
+ end
+ local function plate(name,body,size,pos,color,mat) return attach(name,body,size,CFrame.new(pos),color,mat) end
+ -- Keep the original server hit volumes while fitting a slimmer human undersuit
+ -- inside hollow armor. The visible suit must not fill the plate's hollow interior.
+ local narrow=if id=="PHANTOM" or id=="NOVA" then .84 elseif id=="TITAN" then 1 else .92
+ for _,body in m:GetChildren() do if body:IsA("MeshPart") then
+  local suit=body:Clone() suit:ClearAllChildren() suit.Name="Undersuit_"..body.Name suit.Size*=Vector3.new(narrow,.98,.65)
+  suit.Color=if id=="NOVA" then Color3.fromRGB(145,158,168) elseif id=="TITAN" or id=="ECHO" or id=="SPECTRE" then h.Primary:Lerp(dark,.35) else dark
+  suit.CanCollide,suit.CanQuery,suit.CanTouch,suit.Massless=false,false,false,true
+  suit:SetAttribute("ArmorLimb",body.Name)
+  local w=Instance.new("WeldConstraint") w.Name,w.Part0,w.Part1,w.Parent="ArmorMount",body,suit,suit
+  suit.Parent=m body.Transparency=1
+ end end
+ Fit.equip(kit.Helmet,m,"Head","MeshHelmet",s.helmet,CFrame.new(0,.05,0))
+ Fit.equip(kit.Chest,m,"UpperTorso","MeshCuirass",s.chest,CFrame.new(0,-.03,-.12))
+ local common=art:FindFirstChild("Common")
+ for _,side in {"Left","Right"} do
+  local sign=if side=="Left" then -1 else 1
+  for _,d in {{"Shoulder","UpperArm",Vector3.new(.95,.65,1.05)*s.shoulder,CFrame.new(sign*.06,.28,0)},
+   {"Forearm","LowerArm",Vector3.new(.72,.9,.78)*s.arm,CFrame.identity},
+   {"Shin","UpperLeg",Vector3.new(.76,.7,.22)*s.leg,CFrame.new(0,-.05,-.43)},
+   {"Shin","LowerLeg",Vector3.new(.8,.9,.3)*s.leg,CFrame.new(0,0,-.42)}} do
+   if common and common:FindFirstChild(d[1]) then
+    local group=Fit.equip(common[d[1]],m,side..d[2],d[1]..side..d[2],d[3],d[4])
+    for _,p in group:GetDescendants() do if p:IsA("MeshPart") then p.TextureID="" p.Color=h.Primary:Lerp(Color3.new(1,1,1),.12) p.Material=Enum.Material.Metal end end
+   end
+  end
+  plate("SuitSeam"..side,side.."UpperArm",Vector3.new(.08,.35,.06),Vector3.new(sign*.34,0,-.4),h.Accent)
+ end
+ local visor=plate("Visor","Head",Vector3.new(1.1,.11,.05),Vector3.new(0,.16,-s.helmet.Z/2-.02),h.Accent:Lerp(Color3.new(),.25),Enum.Material.Neon)
+ if id=="VEX" or id=="PHANTOM" then plate("TacticalRespirator","Head",Vector3.new(.96,.42,.13),Vector3.new(0,-.22,-.62),dark) end
+ if id=="TITAN" then
+  visor.Size=Vector3.new(1.1,.075,.05)
+  plate("BlastCollar","UpperTorso",Vector3.new(2.6,.28,1.5),Vector3.new(0,.65,0),h.Primary)
+  for _,x in {-.5,.5} do plate("CannonCell","UpperTorso",Vector3.new(.25,.75,.3),Vector3.new(x,0,.9),h.Accent) end
+ elseif id=="ATLAS" then
+  for _,side in {"Left","Right"} do
+   local sign=if side=="Left" then -1 else 1
+   local gauntlet=assets:FindFirstChild("WeaponArt") and assets.WeaponArt:FindFirstChild("ATLAS")
+   if gauntlet then Fit.equip(gauntlet,m,side.."Hand","PoweredGauntlet"..side,Vector3.new(1.12,.8,1.15),CFrame.new(0,-.1,-.1))
+   else plate("PoweredGauntlet"..side,side.."Hand",Vector3.new(1.12,.7,1.15),Vector3.new(0,-.1,-.1),h.Primary) end
+   for _,limb in {"UpperArm","UpperLeg","LowerLeg"} do
+    local p=attach("Hydraulic"..side..limb,side..limb,Vector3.new(.85,.14,.14),CFrame.new(sign*.45,0,.15)*CFrame.Angles(0,0,math.pi/2),metal) p.Shape=Enum.PartType.Cylinder
+   end
+  end
+  plate("HydraulicPowerUnit","UpperTorso",Vector3.new(.7,1.5,.5),Vector3.new(0,.1,.85),h.Primary)
+ elseif id=="PHANTOM" then
+  visor.Size=Vector3.new(.7,.07,.06)
+  for _,x in {-.48,.48} do plate("SplitCoat","LowerTorso",Vector3.new(.62,1.35,.12),Vector3.new(x,-.65,.5),dark,Enum.Material.Fabric) end
+ elseif id=="HAVOC" then
+  for n=1,4 do local p=attach("GrenadeBandolier","UpperTorso",Vector3.new(.42,.22,.22),CFrame.new(-.65+n*.27,.55-n*.2,-.8)*CFrame.Angles(0,0,math.pi/2-.5),metal) p.Shape=Enum.PartType.Cylinder end
+  plate("BlastShield","LeftUpperArm",Vector3.new(.9,.85,.28),Vector3.new(0,0,-.55),h.Primary)
+ elseif id=="SPECTRE" then
+  visor.Transparency=1
+  for _,x in {-.28,.28} do local p=plate("OpticalLens","Head",Vector3.new(.23,.23,.07),Vector3.new(x,.15,-.76),h.Accent,Enum.Material.Neon) p.Shape=Enum.PartType.Ball end
+  plate("ReconAntenna","UpperTorso",Vector3.new(.045,1.5,.045),Vector3.new(.55,.8,.8),metal)
+ elseif id=="NOVA" then
+  plate("MedicalPack","UpperTorso",Vector3.new(1.15,1.15,.45),Vector3.new(0,0,.85),h.Primary)
+  for _,sign in {-1,1} do attach("MedicChevron","UpperTorso",Vector3.new(.45,.09,.05),CFrame.new(sign*.16,.1,-.71)*CFrame.Angles(0,0,sign*.7),h.Accent,Enum.Material.Neon) end
+  for _,x in {-.65,.65} do local p=attach("OxygenCylinder","UpperTorso",Vector3.new(.8,.25,.25),CFrame.new(x,0,.85)*CFrame.Angles(0,0,math.pi/2),metal) p.Shape=Enum.PartType.Cylinder end
+ elseif id=="ECHO" then
+  for _,side in {"Left","Right"} do local p=plate("HologramEmitter"..side,side.."LowerArm",Vector3.new(.035,.7,1.05),Vector3.new(if side=="Left" then -.5 else .5,0,0),h.Accent,Enum.Material.Neon) p.Transparency=.6 end
+  plate("ProjectionCore","UpperTorso",Vector3.new(.3,.3,.06),Vector3.new(0,.1,-.72),h.Accent,Enum.Material.Neon).Shape=Enum.PartType.Ball
+ end
+ plate("TeamStripe","UpperTorso",Vector3.new(1.3,.055,.045),Vector3.new(0,.48,-s.chest.Z/2-.03),if faction=="Alpha" then Color3.fromRGB(75,211,240) else Color3.fromRGB(255,121,64),Enum.Material.Neon)
+ local gun=Weapons.create(id,m) gun:PivotTo(m.RightHand.CFrame*CFrame.Angles(-1.3,0,0)*CFrame.new(0,.2,-.4))
+ for _,p in gun:GetDescendants() do if p:IsA("BasePart") then
+  p.Anchored,p.CanCollide,p.CanQuery,p.CanTouch,p.Massless=false,false,false,false,true
+  local hand=if p:GetAttribute("GripHand")=="Left" then m.LeftHand else m.RightHand
+  if hand==m.LeftHand then p.CFrame=hand.CFrame*m.RightHand.CFrame:ToObjectSpace(p.CFrame) end
+  local w=Instance.new("WeldConstraint") w.Part0,w.Part1,w.Parent=hand,p,p
+ end end
+ m:SetAttribute("WeaponName",h.Weapon) m:SetAttribute("ArtStatus","MESH")
+end
+return Style
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="110">
         <Properties>
           <string name="Name">RigFactory</string>
           <string name="Source"><![CDATA[local C = require(script.Parent.Config)
 local G = require(script.Parent.Geometry)
 local Catalog = require(script.Parent.HeroCatalog)
-local Style = require(script.Parent.HeroStyle)
+local Style = require(script.Parent.MeshHeroStyle)
 local Factory = {}
 function Factory.create(name, faction, position, heroId)
  heroId = heroId or "VEX"
@@ -434,7 +2528,20 @@ function Factory.create(name, faction, position, heroId)
 	end
 	local origin = CFrame.new(position)
 	for _, data in pieces do
-		local p = G.part(m, data[1], data[2], origin * CFrame.new(data[3]), dark)
+		local assets = game.ReplicatedStorage:FindFirstChild("ZeroAssets")
+		local body = assets and assets:FindFirstChild("HumanBody")
+		local source = body and body:FindFirstChild(data[1])
+		local p
+		if source then
+			p = source:Clone()
+			p.Size, p.CFrame, p.Color = data[2], origin * CFrame.new(data[3]), dark
+			p.Parent = m
+		else
+			p = G.part(m, data[1], data[2], origin * CFrame.new(data[3]), dark)
+			if data[1] == "Head" then
+				local mesh = Instance.new("SpecialMesh") mesh.MeshType = Enum.MeshType.Head mesh.Parent = p
+			end
+		end
 		p.Anchored = false
 		p.CanCollide = data[1] == "UpperTorso" or data[1] == "LowerTorso"
 		p.Massless = data[1] ~= "HumanoidRootPart"
@@ -444,6 +2551,11 @@ function Factory.create(name, faction, position, heroId)
 			local joint = Instance.new("Motor6D")
 			joint.Name, joint.Part0, joint.Part1 = data[1] .. "Joint", parent, p
 			joint.C0 = parent.CFrame:ToObjectSpace(p.CFrame)
+			-- Place limb pivots at shoulders/elbows/hips/knees instead of their centers.
+			if data[1]:find("Arm") or data[1]:find("Leg") or data[1]:find("Hand") then
+				joint.C1 = CFrame.new(0,p.Size.Y/2,0)
+				joint.C0 *= joint.C1
+			end
 			joint.Parent = parent
 		end
 	end
@@ -462,7 +2574,7 @@ return Factory
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="15">
+      <Item class="ModuleScript" referent="111">
         <Properties>
           <string name="Name">WeaponRules</string>
           <string name="Source"><![CDATA[--!strict
@@ -488,15 +2600,15 @@ return Rules
       </Item>
     </Item>
   </Item>
-  <Item class="ServerScriptService" referent="16">
+  <Item class="ServerScriptService" referent="112">
     <Properties>
       <string name="Name">ServerScriptService</string>
     </Properties>
-    <Item class="Folder" referent="17">
+    <Item class="Folder" referent="113">
       <Properties>
         <string name="Name">ZeroServer</string>
       </Properties>
-      <Item class="ModuleScript" referent="18">
+      <Item class="ModuleScript" referent="114">
         <Properties>
           <string name="Name">Arena</string>
           <string name="Source"><![CDATA[local Lighting=game:GetService("Lighting")
@@ -593,7 +2705,7 @@ return Arena
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="19">
+      <Item class="ModuleScript" referent="115">
         <Properties>
           <string name="Name">Bots</string>
           <string name="Source"><![CDATA[local PathfindingService=game:GetService("PathfindingService")
@@ -691,7 +2803,7 @@ return Bots
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="20">
+      <Item class="ModuleScript" referent="116">
         <Properties>
           <string name="Name">Characters</string>
           <string name="Source"><![CDATA[local C = require(game.ReplicatedStorage.ZeroShared.Config)
@@ -735,7 +2847,7 @@ return Characters
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="21">
+      <Item class="ModuleScript" referent="117">
         <Properties>
           <string name="Name">Combat</string>
           <string name="Source"><![CDATA[-- All authoritative ammo, raycasts, damage and ability timing live here.
@@ -872,7 +2984,7 @@ return Combat
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="22">
+      <Item class="ModuleScript" referent="118">
         <Properties>
           <string name="Name">HarborDetail</string>
           <string name="Source"><![CDATA[local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
@@ -944,6 +3056,12 @@ function Detail.build(arena)
  for z=-72,72,24 do
   box("WarehouseButtress",Vector3.new(2,28,2),Vector3.new(-61.2,14,z),steel)
   box("WarehouseRoofVent",Vector3.new(30,2,8),Vector3.new(-104,31,z),steel)
+  -- Repeated sawtooth roof bays give the brick warehouse a coherent industrial profile.
+  local roof=box("SawtoothRoof",Vector3.new(78,.6,15),Vector3.new(-103,33.2,z),dark,Enum.Material.Metal,CFrame.Angles(-.2,0,0))
+  roof.CastShadow=true
+  local glazing=box("NorthlightGlazing",Vector3.new(74,3,.2),Vector3.new(-103,32.8,z+7.4),Color3.fromRGB(132,160,172),Enum.Material.Glass)
+  glazing.Transparency=.3
+  for _,x in {-131,-103,-75} do box("RoofGlazingMullion",Vector3.new(.2,3,.3),Vector3.new(x,32.8,z+7.2),steel) end
   light(Vector3.new(-103,26,z),Color3.fromRGB(226,201,157),30)
  end
  for z=-60,60,24 do
@@ -998,7 +3116,7 @@ return Detail
 ]]></string>
         </Properties>
       </Item>
-      <Item class="Script" referent="23">
+      <Item class="Script" referent="119">
         <Properties>
           <string name="Name">Main</string>
           <token name="RunContext">0</token>
@@ -1037,7 +3155,7 @@ RunService.Heartbeat:Connect(function(dt)
 end)</string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="24">
+      <Item class="ModuleScript" referent="120">
         <Properties>
           <string name="Name">MatchService</string>
           <string name="Source"><![CDATA[local Players=game:GetService("Players")
@@ -1141,20 +3259,20 @@ return Match
       </Item>
     </Item>
   </Item>
-  <Item class="ServerStorage" referent="25">
+  <Item class="ServerStorage" referent="121">
     <Properties>
       <string name="Name">ServerStorage</string>
     </Properties>
-    <Item class="Folder" referent="26">
+    <Item class="Folder" referent="122">
       <Properties>
         <string name="Name">ZeroArt</string>
       </Properties>
-      <Item class="Model" referent="27">
+      <Item class="Model" referent="123">
         <Properties>
           <string name="Name">IndustrialPipes</string>
           <bool name="NeedsPivotMigration">false</bool>
         </Properties>
-        <Item class="MeshPart" referent="28">
+        <Item class="MeshPart" referent="124">
           <Properties>
             <string name="Name">Straight Long</string>
             <bool name="Anchored">true</bool>
@@ -1195,7 +3313,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="29">
+          <Item class="SurfaceAppearance" referent="125">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1213,7 +3331,7 @@ return Match
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="30">
+        <Item class="MeshPart" referent="126">
           <Properties>
             <string name="Name">S</string>
             <bool name="Anchored">true</bool>
@@ -1254,7 +3372,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="31">
+          <Item class="SurfaceAppearance" referent="127">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1272,7 +3390,7 @@ return Match
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="32">
+        <Item class="MeshPart" referent="128">
           <Properties>
             <string name="Name">U</string>
             <bool name="Anchored">true</bool>
@@ -1313,7 +3431,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="33">
+          <Item class="SurfaceAppearance" referent="129">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1331,7 +3449,7 @@ return Match
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="34">
+        <Item class="MeshPart" referent="130">
           <Properties>
             <string name="Name">T</string>
             <bool name="Anchored">true</bool>
@@ -1372,7 +3490,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="35">
+          <Item class="SurfaceAppearance" referent="131">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1390,7 +3508,7 @@ return Match
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="36">
+        <Item class="MeshPart" referent="132">
           <Properties>
             <string name="Name">Cross</string>
             <bool name="Anchored">true</bool>
@@ -1431,7 +3549,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="37">
+          <Item class="SurfaceAppearance" referent="133">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1449,7 +3567,7 @@ return Match
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="38">
+        <Item class="MeshPart" referent="134">
           <Properties>
             <string name="Name">Valve</string>
             <bool name="Anchored">true</bool>
@@ -1490,7 +3608,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="39">
+          <Item class="SurfaceAppearance" referent="135">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1508,7 +3626,7 @@ return Match
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="40">
+        <Item class="MeshPart" referent="136">
           <Properties>
             <string name="Name">Straight</string>
             <bool name="Anchored">true</bool>
@@ -1549,7 +3667,7 @@ return Match
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="41">
+          <Item class="SurfaceAppearance" referent="137">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1568,12 +3686,12 @@ return Match
           </Item>
         </Item>
       </Item>
-      <Item class="Model" referent="42">
+      <Item class="Model" referent="138">
         <Properties>
           <string name="Name">ShippingContainer</string>
           <bool name="NeedsPivotMigration">false</bool>
         </Properties>
-        <Item class="MeshPart" referent="43">
+        <Item class="MeshPart" referent="139">
           <Properties>
             <string name="Name">Shipping Container 0.164K</string>
             <bool name="Anchored">true</bool>
@@ -1616,11 +3734,65 @@ return Match
         </Item>
       </Item>
     </Item>
-    <Item class="Folder" referent="44">
+    <Item class="Folder" referent="140">
       <Properties>
         <string name="Name">ZeroTests</string>
       </Properties>
-      <Item class="ModuleScript" referent="45">
+      <Item class="ModuleScript" referent="141">
+        <Properties>
+          <string name="Name">ArmorAnimation.spec</string>
+          <string name="Source"><![CDATA[-- Engine regression: armor follows moving R15 limbs; repeated poses never drift.
+local Suite={}
+function Suite.run()
+ local Shared=game.ReplicatedStorage.ZeroShared
+ local Factory,Pose=require(Shared.RigFactory),require(Shared.AnimationPose)
+ local heartbeat=game:GetService("RunService").Heartbeat
+ local report={assertions=0,maxMountError=0,heroes={}}
+ local function check(ok,message) assert(ok,message) report.assertions+=1 end
+ for _,id in require(Shared.HeroCatalog).Order do
+  local m=Factory.create("ZeroArmorMotion_"..id,"Alpha",Vector3.new(0,400,0),id)
+  m.HumanoidRootPart.Anchored=true m.Parent=workspace
+  local ok,err=pcall(function()
+   local mounts,motors={},{}
+   local parts,meshes=0,0
+   for _,v in m:GetDescendants() do
+    if v:IsA("BasePart") then parts+=1 if v:IsA("MeshPart") then meshes+=1 end end
+    if v:IsA("WeldConstraint") and v.Name=="ArmorMount" then mounts[v]=v.Part0.CFrame:ToObjectSpace(v.Part1.CFrame) end
+    if v:IsA("Motor6D") then table.insert(motors,v) end
+   end
+   for _,action in {"Idle","Run","Fire","Reload"} do
+    for step=1,4 do
+     Pose.apply(m,step*.19,if action=="Run" then 1 else 0,action,step/4)
+     heartbeat:Wait() heartbeat:Wait()
+     for weld,offset in mounts do
+      local now=weld.Part0.CFrame:ToObjectSpace(weld.Part1.CFrame)
+      local error=(offset.Position-now.Position).Magnitude
+      report.maxMountError=math.max(report.maxMountError,error)
+      check(error<.003 and offset.UpVector:Dot(now.UpVector)>.9999 and offset.RightVector:Dot(now.RightVector)>.9999,id.." detached armor during "..action)
+     end
+    end
+   end
+   Pose.apply(m,1,0,"Idle",.5)
+   local expected={} for _,j in motors do expected[j]=j.C0 end
+   for step=1,100 do
+    Pose.apply(m,step*.13,1,if step%2==0 then "Reload" else "Fire",(step%10)/10)
+    if step%10==0 then heartbeat:Wait() end
+   end
+   Pose.apply(m,1,0,"Idle",.5)
+   for _,j in motors do check(j.C0:FuzzyEq(expected[j],.0001),id.." cumulative animation drift") end
+   report.heroes[id]={parts=parts,meshes=meshes,motors=#motors}
+  end)
+  m:Destroy()
+  if not ok then error(err) end
+ end
+ print("[PROJECT ZERO] PASS: "..report.assertions.." moving armor assertions")
+ return report
+end
+return Suite
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="142">
         <Properties>
           <string name="Name">Combat.spec</string>
           <string name="Source"><![CDATA[-- Run only in a Studio server play session:
@@ -1716,7 +3888,7 @@ return Suite
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="46">
+      <Item class="ModuleScript" referent="143">
         <Properties>
           <string name="Name">Heroes.spec</string>
           <string name="Source"><![CDATA[local Suite={}
@@ -1736,6 +3908,8 @@ function Suite.run()
 			check(m:GetAttribute("Hero")==id,id.." identity")
 			check(m:GetAttribute("WeaponName")==Catalog.Heroes[id].Weapon,id.." weapon")
 			check(m:FindFirstChild("Visor")~=nil,id.." visual identity")
+			check(m:GetAttribute("ArtStatus")=="MESH",id.." reviewed mesh art available")
+			check(m.UpperTorso:IsA("MeshPart"),id.." native R15 human body mesh")
 			local motors,parts,sources=0,0,0
 			for _,v in m:GetDescendants() do
 				if v:IsA("Motor6D") then motors+=1 end
@@ -1745,13 +3919,21 @@ function Suite.run()
 			check(motors==15,id.." full articulated R15 skeleton")
 			check(parts<100,id.." part budget")
 			check(sources==0,id.." no embedded gameplay scripts")
+			local mounts=0
+			for _,v in m:GetDescendants() do if v:IsA("BasePart") and v:GetAttribute("ArmorLimb") then
+				local weld=v:FindFirstChild("ArmorMount")
+				check(not v.Anchored and v.Massless and not v.CanCollide and not v.CanQuery and not v.CanTouch,id.." armor cannot affect hitboxes/physics")
+				check(weld and weld.Part0==m[v:GetAttribute("ArmorLimb")] and weld.Part1==v,id.." correct single-limb armor mount")
+				mounts+=1
+			end end
+			check(mounts>=8,id.." articulated mesh armor fitted")
 			for _,action in {"Idle","Run","Fire","Reload"} do Pose.apply(m,1,.5,action,.5) end
 			check(m.Humanoid:FindFirstChildOfClass("Animator")~=nil,id.." future clip support")
 			check(Catalog.Heroes[id].Playable==(id=="VEX"),id.." honest selection availability")
 			if id=="PHANTOM" then
 				local left=0
 				for _,v in m:GetDescendants() do if v:IsA("WeldConstraint") and v.Part0==m.LeftHand and v.Part1:GetAttribute("GripHand")=="Left" then left+=1 end end
-				check(left==4,"PHANTOM left pistol is held in left hand")
+				check(left>=1,"PHANTOM left pistol is held in left hand")
 			elseif id=="ATLAS" then
 				check(m:FindFirstChild("PoweredGauntletLeft")~=nil and m:FindFirstChild("PoweredGauntletRight")~=nil,"ATLAS paired fitted gauntlets")
 			end
@@ -1774,7 +3956,7 @@ return Suite
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="47">
+      <Item class="ModuleScript" referent="144">
         <Properties>
           <string name="Name">Map.spec</string>
           <string name="Source"><![CDATA[local Suite={}
@@ -1851,7 +4033,7 @@ return Suite
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="48">
+      <Item class="ModuleScript" referent="145">
         <Properties>
           <string name="Name">Session.spec</string>
           <string name="Source"><![CDATA[local Suite={}
@@ -1891,22 +4073,22 @@ return Suite
       </Item>
     </Item>
   </Item>
-  <Item class="StarterPlayer" referent="49">
+  <Item class="StarterPlayer" referent="146">
     <Properties>
       <string name="Name">StarterPlayer</string>
       <token name="CameraMode">1</token>
       <float name="CharacterJumpPower">42</float>
       <float name="CharacterWalkSpeed">22</float>
     </Properties>
-    <Item class="StarterPlayerScripts" referent="50">
+    <Item class="StarterPlayerScripts" referent="147">
       <Properties>
         <string name="Name">StarterPlayerScripts</string>
       </Properties>
-      <Item class="Folder" referent="51">
+      <Item class="Folder" referent="148">
         <Properties>
           <string name="Name">ZeroClient</string>
         </Properties>
-        <Item class="ModuleScript" referent="52">
+        <Item class="ModuleScript" referent="149">
           <Properties>
             <string name="Name">Hud</string>
             <string name="Source"><![CDATA[local Hud = {}
@@ -1965,7 +4147,7 @@ return Hud
 ]]></string>
           </Properties>
         </Item>
-        <Item class="LocalScript" referent="53">
+        <Item class="LocalScript" referent="150">
           <Properties>
             <string name="Name">Main</string>
             <string name="Source"><![CDATA[local Players = game:GetService("Players")
@@ -2003,6 +4185,14 @@ local function makeViewmodel()
 	G.part(viewmodel, "RightGlove", Vector3.new(.33, .35, .48), CFrame.new(.63, -.83, -.7), Color3.fromRGB(29, 34, 41))
 	G.part(viewmodel, "RightArm", Vector3.new(.38, .4, 1.15), CFrame.new(.68, -.92, -.05) * CFrame.Angles(-.15, 0, 0), Color3.fromRGB(48, 55, 64))
 	G.part(viewmodel, "LeftArm", Vector3.new(.38, .4, 1.25), CFrame.new(.05, -.89, -1.04) * CFrame.Angles(-.2, -.8, -.15), Color3.fromRGB(48, 55, 64))
+	local art=game.ReplicatedStorage.ZeroAssets:FindFirstChild("HeroArt")
+	local common=art and art:FindFirstChild("Common")
+	if common and common:FindFirstChild("Forearm") then
+		for _,side in {"Left","Right"} do
+			local sleeve=require(game.ReplicatedStorage.ZeroShared.ArmorFit).equip(common.Forearm,viewmodel,side.."Arm",side.."Sleeve",Vector3.new(.43,1,.43),CFrame.Angles(math.pi/2,0,0))
+			for _,p in sleeve:GetDescendants() do if p:IsA("BasePart") then p.Color=Color3.fromRGB(64,69,77) end end
+		end
+	end
 	for _, p in viewmodel:GetDescendants() do
 		if p:IsA("BasePart") then p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = false, false, false, false end
 	end
@@ -2010,11 +4200,14 @@ local function makeViewmodel()
 end
 local ammoConnection
 local function attach(m)
-	character = m humanoid = m:WaitForChild("Humanoid")
+	local nextHumanoid=m:WaitForChild("Humanoid",5)
+	local root=m:WaitForChild("HumanoidRootPart",5)
+	-- A rapid menu/deployment transition may remove a replicated model mid-attach.
+	if not nextHumanoid or not root or player.Character~=m then return end
+	character,humanoid = m,nextHumanoid
 	workspace.CurrentCamera.CameraSubject = humanoid
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
 	workspace.CurrentCamera.FieldOfView = 80
-	local root = m:WaitForChild("HumanoidRootPart")
 	yaw, pitch = math.atan2(-root.CFrame.LookVector.X, -root.CFrame.LookVector.Z), 0
 	workspace.CurrentCamera.CFrame = CFrame.lookAt(m.Head.Position, m.Head.Position + root.CFrame.LookVector * 30)
 	player.CameraMode = Enum.CameraMode.LockFirstPerson
@@ -2153,7 +4346,7 @@ end)
 ]]></string>
           </Properties>
         </Item>
-        <Item class="ModuleScript" referent="54">
+        <Item class="ModuleScript" referent="151">
           <Properties>
             <string name="Name">MainMenu</string>
             <string name="Source"><![CDATA[local RunService=game:GetService("RunService")
@@ -2167,7 +4360,7 @@ local Pose=require(game.ReplicatedStorage.ZeroShared.AnimationPose)
 local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
 local Menu={}
 function Menu.create(player,flow)
- local self={isOpen=true,page="HOME",selected="VEX",pose="Idle",poseAt=0}
+ local self={isOpen=true,page="HOME",selected="VEX",pose="Idle",poseAt=0,orbit=0,zoom=1}
  local white,muted,orange=Color3.fromRGB(223,231,237),Color3.fromRGB(145,163,178),Color3.fromRGB(221,137,69)
  local gui=Instance.new("ScreenGui") gui.Name="ZeroMainMenu" gui.IgnoreGuiInset=true gui.ResetOnSpawn=false gui.DisplayOrder=30 gui.Parent=player:WaitForChild("PlayerGui")
  local bg=Instance.new("Frame") bg.Name="Backdrop" bg.Size=UDim2.fromScale(1,1) bg.BackgroundColor3=Color3.fromRGB(13,22,31) bg.BorderSizePixel=0 bg.Parent=gui
@@ -2230,6 +4423,13 @@ function Menu.create(player,flow)
   for i,id in Catalog.Order do button(cards,"Hero_"..id,id..(if id=="VEX" then "" else "  / PREVIEW"),UDim2.fromScale(0,(i-1)*.125),UDim2.fromScale(1,.105),function() choose(id) end) end
   local info=text(f,"HeroInfo","",UDim2.fromScale(.73,.3),UDim2.fromScale(.235,.4),white,24)
   local status=text(f,"HeroStatus","",UDim2.fromScale(.73,.71),UDim2.fromScale(.235,.12),orange,16)
+  local inspect=Instance.new("Frame") inspect.Name="Inspect" inspect.BackgroundTransparency=1 inspect.Position=UDim2.fromScale(.32,.78) inspect.Size=UDim2.fromScale(.39,.045) inspect.Parent=f
+  for i,d in {{"RotateLeft","LEFT",-.4,0},{"RotateRight","RIGHT",.4,0},{"ZoomIn","+",0,-.15},{"ZoomOut","−",0,.15},{"ResetView","RESET",0,0}} do
+   button(inspect,d[1],d[2],UDim2.fromScale((i-1)*.2,0),UDim2.fromScale(.185,1),function()
+    if d[1]=="ResetView" then self.orbit,self.zoom=0,1 else self.orbit+=d[3] self.zoom=math.clamp(self.zoom+d[4],.65,1.45) end
+    gui:SetAttribute("InspectYaw",self.orbit) gui:SetAttribute("InspectZoom",self.zoom)
+   end)
+  end
   local poses=Instance.new("Frame") poses.Name="Poses" poses.BackgroundTransparency=1 poses.Position=UDim2.fromScale(.32,.84) poses.Size=UDim2.fromScale(.39,.045) poses.Parent=f
   for i,a in {"Idle","Run","Fire","Reload"} do button(poses,"Pose_"..a,a,UDim2.fromScale((i-1)*.25,0),UDim2.fromScale(.235,1),function() self.pose=a self.poseAt=os.clock() gui:SetAttribute("PreviewAction",a) end) end
   heroFrames[mode]={cards=cards,info=info,status=status,poses=poses}
@@ -2256,13 +4456,14 @@ function Menu.create(player,flow)
   local low=not player:GetAttribute("ZeroReducedEffects") player:SetAttribute("ZeroReducedEffects",low) game.Lighting.GlobalShadows=not low refreshSettings()
  end)
  text(settings,"SettingsNote","Applies this session. FPS aim controls this game's camera.\nLOW reduces local effects and shadows. Roblox device quality stays in Roblox settings.",UDim2.fromScale(.055,.77),UDim2.fromScale(.69,.075),muted,15)
- text(pages.CREDITS,"Credits","PROJECT: ZERO\nAn original Roblox hero-shooter prototype\n\nNORRHAMN / 2042 • ZERO INITIATIVE\nLuau, Rojo and original fitted hero models\n\nPoly Haven / Jorge Camacho: CC0 industrial pipes\nCreator Store: Elttob, DesiredDestinyx1, legitperspective, circles_squared\nFull asset origins and usage terms: repository docs/ASSETS.md\n\nVisual prototype • only VEX currently playable",UDim2.fromScale(.055,.29),UDim2.fromScale(.66,.53),white,23)
+ text(pages.CREDITS,"Credits","PROJECT: ZERO\nAn original Roblox hero-shooter prototype\n\nNORRHAMN / 2042 • ZERO INITIATIVE\nLuau, Rojo and fitted human R15 models\nArmor meshes created with Roblox AI, then reviewed and adapted\n\nPoly Haven / Jorge Camacho: CC0 industrial pipes\nCreator Store: Elttob, DesiredDestinyx1, circles_squared\nSources, AI provenance and terms: repository docs/ASSETS.md\n\nVisual prototype • only VEX currently playable",UDim2.fromScale(.055,.29),UDim2.fromScale(.66,.53),white,23)
  local results=text(pages.RESULTS,"Results","",UDim2.fromScale(.055,.32),UDim2.fromScale(.53,.3),white,34)
  button(pages.RESULTS,"ReturnMenu","RETURN TO MAIN MENU",UDim2.fromScale(.055,.68),UDim2.fromScale(.43,.08),function() flow:FireServer("Menu") end)
  button(pages.RESULTS,"PlayAgain","PLAY AGAIN",UDim2.fromScale(.055,.79),UDim2.fromScale(.43,.065),function() flow:FireServer("Play") end)
  choose=function(id)
   local nextSubject=if self.page=="ARMORY" then Weapons.create(id,world,true) else Factory.create(id.."_Menu","Alpha",Vector3.zero,id)
-  if subject then subject:Destroy() end subject=nextSubject subject.Parent=world self.selected=id gui:SetAttribute("SelectedHero",id)
+  if subject then subject:Destroy() end subject=nextSubject subject.Parent=world self.selected=id self.orbit,self.zoom=0,1 gui:SetAttribute("SelectedHero",id)
+  gui:SetAttribute("InspectYaw",0) gui:SetAttribute("InspectZoom",1)
   if self.page=="ARMORY" then for _,p in subject:GetDescendants() do if p:IsA("BasePart") then p.Anchored=true p.CanCollide=false end end subject:ScaleTo(2.5)
   else for _,p in subject:GetDescendants() do if p:IsA("BasePart") then p.Anchored=p.Name=="HumanoidRootPart" p.CanCollide=false end end end
   local h=Catalog.Heroes[id]
@@ -2319,15 +4520,16 @@ function Menu.create(player,flow)
   local aspect=math.max(.15,viewport.AbsoluteSize.X/math.max(1,viewport.AbsoluteSize.Y))
   camera.FieldOfView=math.clamp(math.deg(2*math.atan(math.tan(math.rad(18.5))*math.max(1,.8/aspect))),37,82)
   if self.page=="ARMORY" then
-   subject:PivotTo(CFrame.new(0,2,0)*CFrame.Angles(0,1.2+math.sin(os.clock()*.25)*.25,0))
+   subject:PivotTo(CFrame.new(0,2,0)*CFrame.Angles(0,self.orbit+1.2+math.sin(os.clock()*.25)*.25,0))
    local center,size=subject:GetBoundingBox()
    local distance=math.max(10,size.Magnitude*.65/math.tan(math.rad(camera.FieldOfView/2))*math.max(1,1/aspect))
-   camera.CFrame=CFrame.lookAt(center.Position+Vector3.new(0,1,-distance),center.Position)
+   camera.CFrame=CFrame.lookAt(center.Position+Vector3.new(0,1,-distance*self.zoom),center.Position)
   else
-   subject.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,-.18+math.sin(os.clock()*.22)*.08,0)
+   subject.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,self.orbit-.18+math.sin(os.clock()*.22)*.08,0)
    local elapsed=os.clock()-self.poseAt local progress=if self.pose=="Reload" then (elapsed%2.5)/1.8 else (elapsed%.5)/.2
    Pose.apply(subject,os.clock(),if self.pose=="Run" and heroFrames[self.page] then 1 else 0,if heroFrames[self.page] then self.pose else "Idle",progress)
-   camera.CFrame=CFrame.lookAt(Vector3.new(7,4.7,-12),Vector3.new(0,2.8,0))
+   local distance=14*Catalog.Heroes[self.selected].Scale*self.zoom*math.max(1,.72/aspect)
+   camera.CFrame=CFrame.lookAt(Vector3.new(distance*.32,4.2,-distance),Vector3.new(0,2.8,0))
   end
  end)
  sync()
@@ -2340,7 +4542,7 @@ return Menu
       </Item>
     </Item>
   </Item>
-  <Item class="Workspace" referent="55">
+  <Item class="Workspace" referent="152">
     <Properties>
       <string name="Name">Workspace</string>
       <bool name="FilteringEnabled">true</bool>
