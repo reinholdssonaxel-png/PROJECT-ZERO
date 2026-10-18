@@ -314,7 +314,7 @@ return Style
           <string name="Source"><![CDATA[local G = require(script.Parent.Geometry)
 local Catalog = require(script.Parent.HeroCatalog)
 local Weapons = {}
-function Weapons.create(heroId, parent)
+function Weapons.create(heroId, parent, preview)
 	local hero = Catalog.Heroes[heroId]
 	if heroId == "VEX" then return G.rifle(parent) end
 	local m = Instance.new("Model") m.Name = "Weapon_" .. heroId
@@ -327,6 +327,12 @@ function Weapons.create(heroId, parent)
 	if heroId=="ATLAS" then
 		root.Transparency=1
 		-- The two powered gauntlets are fitted directly to LeftHand/RightHand by HeroStyle.
+		if preview then
+			for _,x in {-.75,.75} do
+				p("Gauntlet",Vector3.new(.9,.8,1.1),Vector3.new(x,0,0),hero.Primary)
+				p("PowerRail",Vector3.new(.35,.15,.8),Vector3.new(x,.5,0),accent,Enum.Material.Neon)
+			end
+		end
 	elseif heroId=="PHANTOM" then
 		root.Transparency=1
 		for _,x in {-.4,.4} do
@@ -369,6 +375,33 @@ return Weapons
         </Properties>
       </Item>
       <Item class="ModuleScript" referent="13">
+        <Properties>
+          <string name="Name">MapLayout</string>
+          <string name="Source"><![CDATA[local Layout = {Version=2, WalkSpeed=22, CombatLimit=92}
+function Layout.side(faction) return if faction=="Alpha" then -1 else 1 end
+function Layout.spawnPosition(faction) return Vector3.new(0,1.5,Layout.side(faction)*230) end
+function Layout.isSafe(p)
+	return math.abs(p.X)<=126 and math.abs(p.Z)>=184 and math.abs(p.Z)<=252 and p.Y<32
+end
+function Layout.inCombatArea(p)
+	return math.abs(p.Z)<=Layout.CombatLimit and math.abs(p.X)<150 and p.Y<30
+end
+function Layout.route(faction,exit)
+	local s,x=Layout.side(faction),if exit==1 then -1 else 1
+	local points={{42,212},{42,198},{96,198},{96,148},{48,148},{48,96},{36,68},{36,22},{0,0}}
+	local result={}
+	for _,p in points do table.insert(result,Vector3.new(p[1]*x,3,p[2]*s)) end
+	return result
+end
+function Layout.exitSamples(faction)
+	local s=Layout.side(faction)
+	return {Vector3.new(-42,5.5,210*s),Vector3.new(42,5.5,210*s),Vector3.new(-42,5.5,198*s),Vector3.new(42,5.5,198*s),Vector3.new(-96,5.5,194*s),Vector3.new(96,5.5,194*s),Vector3.new(-96,5.5,156*s),Vector3.new(96,5.5,156*s)}
+end
+return table.freeze(Layout)
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="14">
         <Properties>
           <string name="Name">RigFactory</string>
           <string name="Source"><![CDATA[local C = require(script.Parent.Config)
@@ -429,7 +462,7 @@ return Factory
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="14">
+      <Item class="ModuleScript" referent="15">
         <Properties>
           <string name="Name">WeaponRules</string>
           <string name="Source"><![CDATA[--!strict
@@ -455,229 +488,215 @@ return Rules
       </Item>
     </Item>
   </Item>
-  <Item class="ServerScriptService" referent="15">
+  <Item class="ServerScriptService" referent="16">
     <Properties>
       <string name="Name">ServerScriptService</string>
     </Properties>
-    <Item class="Folder" referent="16">
+    <Item class="Folder" referent="17">
       <Properties>
         <string name="Name">ZeroServer</string>
       </Properties>
-      <Item class="ModuleScript" referent="17">
+      <Item class="ModuleScript" referent="18">
         <Properties>
           <string name="Name">Arena</string>
-          <string name="Source"><![CDATA[--!strict
-local Lighting = game:GetService("Lighting")
-local G = require(game.ReplicatedStorage.ZeroShared.Geometry)
-local Arena = {}
-local steel = Color3.fromRGB(57, 72, 86)
-local charcoal = Color3.fromRGB(31, 39, 49)
-local orange = Color3.fromRGB(255, 143, 55)
-local cyan = Color3.fromRGB(68, 208, 240)
+          <string name="Source"><![CDATA[local Lighting=game:GetService("Lighting")
+local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Layout=require(game.ReplicatedStorage.ZeroShared.MapLayout)
+local Arena={}
 function Arena.build()
-	local existing = workspace:FindFirstChild("ZeroArena")
-	if existing then existing:Destroy() end
-	local f = Instance.new("Folder")
-	f.Name = "ZeroArena"
-	f.Parent = workspace
-	local doors = {}
-	local function box(name, size, pos, color, mat)
-		return G.part(f, name, size, CFrame.new(pos), color, mat)
-	end
-	local function sign(part, text, face)
-		local gui = Instance.new("SurfaceGui")
-		gui.Face, gui.SizingMode, gui.PixelsPerStud = face or Enum.NormalId.Front, Enum.SurfaceGuiSizingMode.PixelsPerStud, 24
-		gui.Parent = part
-		local label = Instance.new("TextLabel")
-		label.Size, label.BackgroundTransparency = UDim2.fromScale(1, 1), 1
-		label.Font, label.TextScaled, label.TextColor3 = Enum.Font.GothamBold, true, Color3.fromRGB(223, 236, 242)
-		label.Text = text
-		label.Parent = gui
-	end
-	local function lamp(pos, color)
-		local p = box("LightPanel", Vector3.new(8, .3, 1), pos, color, Enum.Material.Neon)
-		local l = Instance.new("PointLight")
-		l.Color, l.Brightness, l.Range = color, 2, 28
-		l.Parent = p
-	end
-	local ground = box("DampAsphalt", Vector3.new(184, 2, 290), Vector3.new(0, -1, 0), charcoal, Enum.Material.Asphalt)
-	ground.Reflectance = .12
-	box("Sea", Vector3.new(900, 2, 900), Vector3.new(0, -5, 0), Color3.fromRGB(18, 48, 66), Enum.Material.Glass)
-	for _, x in {-91, 91} do box("Boundary", Vector3.new(2, 17, 290), Vector3.new(x, 8, 0), steel, Enum.Material.Concrete) end
-	for _, z in {-145, 145} do box("HarborSeawall", Vector3.new(184, 3, 2), Vector3.new(0, 1, z), steel, Enum.Material.Concrete) end
-	for _, side in {-1, 1} do
-		local accent = if side == -1 then cyan else orange
-		local faction = if side == -1 then "Alpha" else "Bravo"
-		local z = side * 121
-		box("SpawnFloor" .. faction, Vector3.new(140, 1, 42), Vector3.new(0, .5, z), steel, Enum.Material.DiamondPlate)
-		box("SpawnRoof", Vector3.new(142, 1, 44), Vector3.new(0, 19, z), charcoal)
-		for _, x in {-70, 70} do box("SpawnWall", Vector3.new(2, 19, 44), Vector3.new(x, 9.5, z), steel) end
-		-- Back wall with broad panoramic glazing overlooking the water.
-		box("WindowBase", Vector3.new(140, 4, 1), Vector3.new(0, 2, side * 142), steel)
-		local window = box("PanoramicWindow", Vector3.new(138, 13, .5), Vector3.new(0, 10.5, side * 142), cyan, Enum.Material.Glass)
-		window.Transparency = .65
-		for _, x in {-46, 0, 46} do box("WindowMullion", Vector3.new(.6, 15, 1), Vector3.new(x, 11, side * 142), charcoal) end
-		for _, x in {-43, 43} do box("SpawnFront", Vector3.new(54, 19, 2), Vector3.new(x, 9.5, side * 100), steel) end
-		box("DoorLintel", Vector3.new(32, 5, 2), Vector3.new(0, 16.5, side * 100), charcoal)
-		local door = box("Door" .. faction, Vector3.new(32, 14, 1), Vector3.new(0, 7, side * 100), accent)
-		table.insert(doors, door)
-		sign(door, "ZERO // " .. string.upper(faction), if side == -1 then Enum.NormalId.Back else Enum.NormalId.Front)
-		for _, x in {-58, -50, -42, 42, 50, 58} do
-			box("Locker", Vector3.new(5, 10, 3), Vector3.new(x, 5.5, side * 136), charcoal)
-			box("LockerStripe", Vector3.new(3, .3, 3.1), Vector3.new(x, 8, side * 136), accent, Enum.Material.Neon)
-		end
-		local map = box("MapDisplay", Vector3.new(17, 8, .4), Vector3.new(30, 9, side * 139), charcoal)
-		sign(map, "HAMNVERKET\nW  |  C  |  E", if side == -1 then Enum.NormalId.Back else Enum.NormalId.Front)
-		for _, x in {-46, 0, 46} do lamp(Vector3.new(x, 17.8, z), accent) end
-		local spawn = Instance.new("SpawnLocation")
-		spawn.Name, spawn.Size = faction .. "Spawn", Vector3.new(12, 1, 10)
-		spawn.CFrame, spawn.Anchored, spawn.Transparency = CFrame.new(0, 1, z), true, 1
-		spawn.CanCollide, spawn.CanQuery, spawn.Duration = false, false, 0
-		spawn.Parent = f
-	end
-	for _, x in {-52, 0, 52} do
-		box("LaneMarking", Vector3.new(.35, .04, 180), Vector3.new(x, .04, 0), orange)
-	end
-	-- Mirrored cover leaves three approach lanes and cross-connections.
-	for _, side in {-1, 1} do
-		for _, x in {-30, 30} do
-			for _, z in {28, 68} do
-				local color = if x < 0 then steel else Color3.fromRGB(132, 78, 43)
-				box("CargoContainer", Vector3.new(20, 12, 23), Vector3.new(x, 6, side * z), color)
-				for rib = -9, 9, 3 do box("ContainerRib", Vector3.new(.35, 11, 23.3), Vector3.new(x + rib, 6, side * z), charcoal) end
-			end
-		end
-		for _, x in {-64, 64} do
-			box("Warehouse", Vector3.new(24, 20, 32), Vector3.new(x, 10, side * 42), Color3.fromRGB(83, 64, 60), Enum.Material.Brick)
-			lamp(Vector3.new(x, 16, side * 23), cyan)
-		end
-		for _, x in {-10, 10} do box("LowCover", Vector3.new(7, 4, 7), Vector3.new(x, 2, side * 14), steel) end
-	end
-	box("ControlPoint", Vector3.new(18, .1, 18), Vector3.new(0, .08, 0), cyan, Enum.Material.Neon)
-	for _, x in {-84, 84} do
-		for _, z in {-78, 0, 78} do
-			box("FloodlightPole", Vector3.new(1, 22, 1), Vector3.new(x, 11, z), charcoal)
-			local fixture = box("Floodlight", Vector3.new(3, 1, 2), Vector3.new(x, 22, z), Color3.fromRGB(235, 219, 189), Enum.Material.Neon)
-			local light = Instance.new("PointLight") light.Brightness, light.Range, light.Color = 3, 55, Color3.fromRGB(213, 225, 242) light.Parent = fixture
-		end
-	end
-	for _, x in {48, 76} do
-		for _, z in {-14, 14} do box("CatwalkPillar", Vector3.new(1.5, 8, 1.5), Vector3.new(x, 4, z), steel) end
-	end
-	box("FactoryCatwalk", Vector3.new(30, 1, 30), Vector3.new(62, 8.5, 0), steel, Enum.Material.DiamondPlate)
-	for _, side in {-1, 1} do
-		for n = 1, 8 do box("CatwalkStair", Vector3.new(8, n, 2.5), Vector3.new(62, n / 2, side * (35 - n * 2.5)), steel) end
-	end
-	-- Harbor silhouette outside the playable boundary.
-	for _, z in {-60, 65} do
-		for _, x in {-125, -102} do box("CraneLeg", Vector3.new(3, 65, 3), Vector3.new(x, 27, z), orange) end
-		box("CraneBeam", Vector3.new(73, 4, 4), Vector3.new(-118, 60, z), orange)
-		box("CraneCable", Vector3.new(.3, 35, .3), Vector3.new(-148, 40, z), charcoal)
-	end
-	box("ShipHull", Vector3.new(28, 14, 96), Vector3.new(-165, -1, 5), charcoal)
-	box("ShipBridge", Vector3.new(22, 20, 20), Vector3.new(-165, 13, 35), steel)
-	Lighting.ClockTime, Lighting.Brightness = 20.5, 3
-	Lighting.Ambient, Lighting.OutdoorAmbient = Color3.fromRGB(82, 99, 126), Color3.fromRGB(90, 107, 135)
-	local at = Lighting:FindFirstChild("ZeroAtmosphere") or Instance.new("Atmosphere")
-	at.Name, at.Density, at.Haze, at.Color = "ZeroAtmosphere", .22, 1, Color3.fromRGB(158, 180, 206)
-	at.Parent = Lighting
-	local cc = Lighting:FindFirstChild("ZeroColor") or Instance.new("ColorCorrectionEffect")
-	cc.Name, cc.Contrast, cc.Saturation = "ZeroColor", .08, -.12
-	cc.Parent = Lighting
-	require(script.Parent.HarborDetail).build(f)
-	return f, doors
+ local old=workspace:FindFirstChild("ZeroArena") if old then old:Destroy() end
+ local arena=Instance.new("Folder") arena.Name="ZeroArena" arena.Parent=workspace arena:SetAttribute("LayoutVersion",2)
+ local steel,dark,brick=Color3.fromRGB(78,94,107),Color3.fromRGB(38,48,59),Color3.fromRGB(111,76,66)
+ local doors={}
+ local function box(name,size,pos,color,mat)
+  local p=G.part(arena,name,size,CFrame.new(pos),color or steel,mat or Enum.Material.Concrete) p.CanTouch=false return p
+ end
+ box("Quay",Vector3.new(320,3,520),Vector3.new(0,-1.5,0),dark,Enum.Material.Asphalt).Reflectance=.12
+ local sea=box("HarborWater",Vector3.new(1100,2,1100),Vector3.new(0,-6,0),Color3.fromRGB(27,62,80),Enum.Material.Glass) sea.CanCollide=false sea.CanQuery=false sea.Reflectance=.2
+ for _,x in {-159,159} do
+  box("QuayBoundary",Vector3.new(2,5,520),Vector3.new(x,2.5,0),steel)
+  local p=box("HarborBoundary",Vector3.new(2,60,520),Vector3.new(x,30,0)) p.Transparency=1 p.CanQuery=false
+ end
+ for _,z in {-259,259} do
+  local p=box("HarborBoundary",Vector3.new(320,60,2),Vector3.new(0,30,z)) p.Transparency=1 p.CanQuery=false
+  box("Seawall",Vector3.new(320,2,3),Vector3.new(0,1,z),steel)
+ end
+ -- Equal circulation footprints; different cladding and service identities.
+ for _,s in {-1,1} do
+  local faction=if s==-1 then "Alpha" else "Bravo"
+  local skin=if s==-1 then brick else steel
+  local mat=if s==-1 then Enum.Material.Brick else Enum.Material.Metal
+  box(faction.."RoomFloor",Vector3.new(132,1,40),Vector3.new(0,.5,s*232),steel,Enum.Material.DiamondPlate)
+  box(faction.."RoomRoof",Vector3.new(136,2,42),Vector3.new(0,25,s*232),dark)
+  for _,x in {-66,66} do box("RoomSide",Vector3.new(2,25,40),Vector3.new(x,12.5,s*232),skin,mat) end
+  box("WindowSill",Vector3.new(132,4,2),Vector3.new(0,2,s*252),skin,mat)
+  local glass=box(faction.."PanoramicWindow",Vector3.new(130,18,1),Vector3.new(0,13,s*252),Color3.fromRGB(123,172,188),Enum.Material.Glass) glass.Transparency=.65
+  box("WindowHeader",Vector3.new(132,3,2),Vector3.new(0,23.5,s*252),skin,mat)
+  for _,x in {-44,0,44} do box("WindowMullion",Vector3.new(.5,20,2),Vector3.new(x,14,s*252),dark,Enum.Material.Metal) end
+  for _,d in {{-58.5,15},{0,66},{58.5,15}} do box("RoomFront",Vector3.new(d[2],25,3),Vector3.new(d[1],12.5,s*212),skin,mat) end
+  for _,x in {-42,42} do
+   box("DoorHeader",Vector3.new(18,10,3),Vector3.new(x,20,s*212),skin,mat)
+   local d=box(faction..(if x<0 then "WestDoor" else "EastDoor"),Vector3.new(18,15,1),Vector3.new(x,7.5,s*212),dark,Enum.Material.Metal)
+   d:SetAttribute("ClosedCFrame",d.CFrame) table.insert(doors,d)
+  end
+  -- Split vestibules terminate at a real roofed cross-dock, forcing two turns.
+  box("VestibuleDivider",Vector3.new(3,28,26),Vector3.new(0,14,s*198),skin,mat)
+  box("CrossDock",Vector3.new(152,32,26),Vector3.new(0,16,s*172),skin,mat)
+  box("VestibuleCanopy",Vector3.new(250,2,28),Vector3.new(0,28,s*198),dark,Enum.Material.Metal)
+  for _,x in {-142,142} do box("ServiceWarehouse",Vector3.new(32,32,74),Vector3.new(x,16,s*177),skin,mat) end
+  for _,x in {-98,98} do box("WorkshopGatehouse",Vector3.new(64,32,26),Vector3.new(x,16,s*123),skin,mat) end
+  box("TransferOffice",Vector3.new(42,26,16),Vector3.new(0,13,s*110),skin,mat)
+  box("DispatchHouse",Vector3.new(36,24,22),Vector3.new(0,12,s*42),skin,mat)
+  local spawn=Instance.new("SpawnLocation") spawn.Name=faction.."Spawn" spawn.Size=Vector3.new(10,1,10) spawn.CFrame=CFrame.new(Layout.spawnPosition(faction)) spawn.Anchored=true spawn.Transparency=1 spawn.CanCollide=false spawn.CanQuery=false spawn.Duration=0 spawn.Parent=arena
+ end
+ -- West warehouse: two side portals and alternating fire compartments.
+ box("WestWarehouseFloor",Vector3.new(78,.3,168),Vector3.new(-103,.15,0),steel)
+ box("WestOuterWall",Vector3.new(3,28,168),Vector3.new(-143,14,0),brick,Enum.Material.Brick)
+ box("WestWarehouseRoof",Vector3.new(82,2,172),Vector3.new(-103,29,0),dark,Enum.Material.Metal)
+ for _,z in {-66,0,66} do box("WestInnerWall",Vector3.new(3,28,36),Vector3.new(-63,14,z),brick,Enum.Material.Brick) end
+ for _,s in {-1,1} do
+  for _,d in {{-133,22},{-81,34}} do box("WarehousePortal",Vector3.new(d[2],28,3),Vector3.new(d[1],14,s*84),brick,Enum.Material.Brick) end
+  box("PortalHeader",Vector3.new(26,10,3),Vector3.new(-110,23,s*84),brick,Enum.Material.Brick)
+ end
+ box("WarehouseFireWallA",Vector3.new(46,26,4),Vector3.new(-120,13,-22),brick,Enum.Material.Brick)
+ box("WarehouseFireWallB",Vector3.new(46,26,4),Vector3.new(-86,13,22),brick,Enum.Material.Brick)
+ -- East factory: machinery, ground flank and a protected dogleg catwalk.
+ box("FactoryOuterWall",Vector3.new(3,30,168),Vector3.new(145,15,0),steel,Enum.Material.Metal)
+ for _,z in {-66,0,66} do box("FactoryInnerWall",Vector3.new(3,30,36),Vector3.new(63,15,z),steel,Enum.Material.Metal) end
+ for _,s in {-1,1} do
+  for _,d in {{77,26},{136,18}} do box("FactoryPortal",Vector3.new(d[2],30,3),Vector3.new(d[1],15,s*84),steel,Enum.Material.Metal) end
+  box("FactoryPortalHeader",Vector3.new(36,15,3),Vector3.new(108,22.5,s*84),steel,Enum.Material.Metal)
+  box("CatwalkDeck",Vector3.new(14,1,48),Vector3.new(136,10.5,s*40),dark,Enum.Material.DiamondPlate)
+  box("CatwalkTurn",Vector3.new(38,1,14),Vector3.new(124,10.5,s*16),dark,Enum.Material.DiamondPlate)
+  for n=1,20 do box("FactoryStairs",Vector3.new(14,n*.55,1.6),Vector3.new(136,n*.275,s*(94-n*1.5)),steel,Enum.Material.Metal) end
+ end
+ box("CatwalkBypass",Vector3.new(14,1,32),Vector3.new(112,10.5,0),dark,Enum.Material.DiamondPlate)
+ box("FactoryLiftHouse",Vector3.new(22,32,16),Vector3.new(136,16,0),steel,Enum.Material.Metal)
+ box("MachineIsland",Vector3.new(18,12,48),Vector3.new(81,6,0),dark,Enum.Material.Metal)
+ for _,s in {-1,1} do box("Switchgear",Vector3.new(16,14,12),Vector3.new(114,7,s*30),steel,Enum.Material.Metal) end
+ -- Marked cargo bays; no random container grid or uninterrupted central lane.
+ for _,s in {-1,1} do
+  local cargo=box("LoadingBayCargo",Vector3.new(16,11,28),Vector3.new(-44,5.5,s*56),Color3.fromRGB(145,91,48),Enum.Material.Metal) cargo:SetAttribute("ArtContainer",true)
+  box("LoadingBayBarrier",Vector3.new(5,4,26),Vector3.new(49,2,s*60),steel)
+ end
+ box("ControlPoint",Vector3.new(34,.12,34),Vector3.new(0,.1,0),Color3.fromRGB(48,126,147),Enum.Material.Metal)
+ for _,x in {-36,36} do box("WeighbridgeControlBooth",Vector3.new(18,18,18),Vector3.new(x,9,0),steel,Enum.Material.Metal) end
+ for _,x in {-25,25} do for _,s in {-1,1} do box("ObjectiveParapet",Vector3.new(10,3.5,3),Vector3.new(x,1.75,s*15),steel) end end
+ Lighting.ClockTime=20.5 Lighting.Brightness=3 Lighting.ExposureCompensation=.5 Lighting.GlobalShadows=true Lighting.Ambient=Color3.fromRGB(110,122,142) Lighting.OutdoorAmbient=Color3.fromRGB(116,132,157)
+ local at=Lighting:FindFirstChild("ZeroAtmosphere") or Instance.new("Atmosphere") at.Name="ZeroAtmosphere" at.Density=.22 at.Haze=1 at.Color=Color3.fromRGB(185,196,208) at.Parent=Lighting
+ at.Decay=Color3.fromRGB(83,103,130) at.Glare=.1 at.Offset=0
+ local cc=Lighting:FindFirstChild("ZeroColor") or Instance.new("ColorCorrectionEffect") cc.Name="ZeroColor" cc.Contrast=.05 cc.Saturation=-.06 cc.Brightness=0 cc.TintColor=Color3.new(1,1,1) cc.Parent=Lighting
+ require(script.Parent.HarborDetail).build(arena)
+ return arena,doors
 end
 return Arena
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="18">
+      <Item class="ModuleScript" referent="19">
         <Properties>
           <string name="Name">Bots</string>
-          <string name="Source"><![CDATA[local Players = game:GetService("Players")
-local PathfindingService = game:GetService("PathfindingService")
-local C = require(game.ReplicatedStorage.ZeroShared.Config)
-local Characters = require(script.Parent.Characters)
-local Combat = require(script.Parent.Combat)
-local Bots = {active = {}}
-local rng = Random.new()
-function Bots.spawn(index)
-	local m = Characters.create("VEX_BOT_" .. index, "Bravo", Characters.spawnPosition("Bravo"))
-	m:SetAttribute("Bot", true)
-	m.Parent = workspace
-	m.HumanoidRootPart:SetNetworkOwner(nil)
-	local brain = {model = m, index = index, nextPath = 0, waypoints = {}, waypoint = 1, computing = false, target = nil, spottedAt = 0}
-	Bots.active[m] = brain
-	Characters.register(m, function()
-		Bots.active[m] = nil
-		task.delay(C.RespawnTime, function() Bots.spawn(index) end)
-	end)
-	Combat.register(m)
-	return m
+          <string name="Source"><![CDATA[local PathfindingService=game:GetService("PathfindingService")
+local C=require(game.ReplicatedStorage.ZeroShared.Config)
+local Layout=require(game.ReplicatedStorage.ZeroShared.MapLayout)
+local Characters=require(script.Parent.Characters)
+local Combat=require(script.Parent.Combat)
+local Bots={active={},generation=0}
+local rng=Random.new()
+function Bots.reset()
+ Bots.generation+=1
+ for m in Bots.active do m:Destroy() end
+ table.clear(Bots.active)
 end
-local function visible(m, target)
-	local params = RaycastParams.new() params.FilterDescendantsInstances = {m}
-	local result = workspace:Raycast(m.Head.Position, target.Head.Position - m.Head.Position, params)
-	return result and result.Instance:IsDescendantOf(target)
+function Bots.spawn(index,faction)
+ faction=faction or "Bravo"
+ local m=Characters.create("VEX_BOT_"..index.."_"..faction,faction,Characters.spawnPosition(faction))
+ m:SetAttribute("Bot",true) m.Parent=workspace
+ if faction=="Alpha" then m:PivotTo(CFrame.new(m:GetPivot().Position)*CFrame.Angles(0,math.pi,0)) end
+ m.HumanoidRootPart:SetNetworkOwner(nil)
+ local b={model=m,index=index,faction=faction,stage=1,route=Layout.route(faction,if index%2==1 then 1 else 2),nextPath=0,waypoints={},waypoint=1,computing=false,spottedAt=0,shots=0}
+ Bots.active[m]=b
+ local generation=Bots.generation
+ Characters.register(m,function()
+  Bots.active[m]=nil
+  task.delay(C.RespawnTime,function() if generation==Bots.generation and workspace:GetAttribute("ZeroPhase")=="ACTIVE" then Bots.spawn(index,faction) end end)
+ end)
+ Combat.register(m)
+ return m,b
+end
+function Bots.visible(m,target)
+ local params=RaycastParams.new() params.FilterDescendantsInstances={m}
+ local hit=workspace:Raycast(m.Head.Position,target.Head.Position-m.Head.Position,params)
+ return hit~=nil and hit.Instance:IsDescendantOf(target)
+end
+local function navigate(b,goal,time)
+ local m=b.model
+ if not b.goal or (b.goal-goal).Magnitude>8 then b.nextPath=0 b.waypoints={} end
+ b.goal=goal
+ if time>=b.nextPath and not b.computing then
+  b.nextPath=time+1.2 b.computing=true
+  task.spawn(function()
+   local path=PathfindingService:CreatePath({AgentRadius=2.5,AgentHeight=6,AgentCanJump=true,WaypointSpacing=5})
+   local ok=pcall(function() path:ComputeAsync(m.HumanoidRootPart.Position,goal) end)
+   if m.Parent and ok and path.Status==Enum.PathStatus.Success and b.goal and (b.goal-goal).Magnitude<8 then
+    b.waypoints=path:GetWaypoints() b.waypoint=2 m:SetAttribute("BotPathStatus","Success")
+   elseif m.Parent then m:SetAttribute("BotPathStatus","NoPath") end
+   b.computing=false
+  end)
+ end
+ local p=b.waypoints[b.waypoint]
+ if p and (m.HumanoidRootPart.Position-p.Position).Magnitude<4.5 then b.waypoint+=1 p=b.waypoints[b.waypoint] end
+ if p then
+  if p.Action==Enum.PathWaypointAction.Jump then m.Humanoid.Jump=true end
+  m.Humanoid:MoveTo(p.Position)
+ else m.Humanoid:MoveTo(m.HumanoidRootPart.Position) end
+end
+-- The same brain entry point is exercised with real R15 targets by Studio tests.
+function Bots.step(b,time,candidates)
+ local m=b.model
+ if not m.Parent or m.Humanoid.Health<=0 then return end
+ local node=b.route[b.stage]
+ if node and (m.HumanoidRootPart.Position-node).Magnitude<6 then b.stage+=1 node=b.route[b.stage] end
+ m:SetAttribute("BotStage",b.stage)
+ if node and b.stage<=7 then navigate(b,node,time) return end
+ local target,distance=nil,230
+ if Layout.inCombatArea(m.HumanoidRootPart.Position) then
+  for _,char in candidates do
+   if char~=m and char.Parent and char:FindFirstChild("Head") and char:FindFirstChildOfClass("Humanoid") and char.Humanoid.Health>0 and char:GetAttribute("Faction")~=b.faction and Layout.inCombatArea(char.HumanoidRootPart.Position) then
+    local d=(char.HumanoidRootPart.Position-m.HumanoidRootPart.Position).Magnitude
+    if d<distance then target,distance=char,d end
+   end
+  end
+ end
+ local los=target and Bots.visible(m,target)
+ if target~=b.target or not los then b.spottedAt=time end
+ b.target=target m:SetAttribute("BotTarget",if target then target.Name else "")
+ if los then
+  local root=m.HumanoidRootPart local goal=target.HumanoidRootPart.Position
+  root.CFrame=CFrame.lookAt(root.Position,Vector3.new(goal.X,root.Position.Y,goal.Z))
+  if distance>60 then navigate(b,goal,time) else m.Humanoid:MoveTo(root.Position) end
+  if time-b.spottedAt>=C.BotReactionTime then
+   local jitter=Vector3.new(rng:NextNumber(-1,1),rng:NextNumber(-1,1),rng:NextNumber(-1,1))*C.BotSpread*distance
+   if Combat.fire(m,(target.UpperTorso.Position+jitter-m.Head.Position).Unit) then b.shots+=1 m:SetAttribute("BotShots",b.shots) end
+  end
+ else navigate(b,Vector3.new(0,3,0),time) end
+ local state=Combat.states[m] if state and state.ammo==0 then Combat.reload(m) end
 end
 function Bots.think()
-	if workspace:GetAttribute("ZeroPhase") ~= "ACTIVE" then return end
-	local time = workspace:GetServerTimeNow()
-	for m, b in Bots.active do
-		if not m.Parent or m.Humanoid.Health <= 0 then continue end
-		local target, distance = nil, 220
-		for _, player in Players:GetPlayers() do
-			local char = player.Character
-			if char and char:FindFirstChild("Head") and char:FindFirstChildOfClass("Humanoid") and char.Humanoid.Health > 0
-				and char:GetAttribute("Faction") ~= m:GetAttribute("Faction") and math.abs(char.HumanoidRootPart.Position.Z) < 100 then
-				local d = (char.HumanoidRootPart.Position - m.HumanoidRootPart.Position).Magnitude
-				if d < distance then target, distance = char, d end
-			end
-		end
-		local goal = if target then target.HumanoidRootPart.Position else Vector3.new(0, 3, -55)
-		local los = target and visible(m, target)
-		if target ~= b.target or not los then b.spottedAt = time end
-		b.target = target
-		if los then
-			local root = m.HumanoidRootPart
-			root.CFrame = CFrame.lookAt(root.Position, Vector3.new(goal.X, root.Position.Y, goal.Z))
-			m.Humanoid:MoveTo(if distance > 60 then goal else root.Position)
-			if time - b.spottedAt >= C.BotReactionTime then
-				local jitter = Vector3.new(rng:NextNumber(-1, 1), rng:NextNumber(-1, 1), rng:NextNumber(-1, 1)) * C.BotSpread * distance
-				Combat.fire(m, (target.UpperTorso.Position + jitter - m.Head.Position).Unit)
-			end
-		else
-			if time >= b.nextPath and not b.computing then
-				b.nextPath, b.computing = time + 1.25, true
-				task.spawn(function()
-					local path = PathfindingService:CreatePath({AgentRadius = 2, AgentHeight = 6, AgentCanJump = true, WaypointSpacing = 6})
-					local ok = pcall(function() path:ComputeAsync(m.HumanoidRootPart.Position, goal) end)
-					if ok and path.Status == Enum.PathStatus.Success and m.Parent then
-						b.waypoints, b.waypoint = path:GetWaypoints(), 2
-					end
-					b.computing = false
-				end)
-			end
-			local waypoint = b.waypoints[b.waypoint]
-			if waypoint then
-				if (m.HumanoidRootPart.Position - waypoint.Position).Magnitude < 4 then b.waypoint += 1 end
-				if waypoint.Action == Enum.PathWaypointAction.Jump then m.Humanoid.Jump = true end
-				m.Humanoid:MoveTo(waypoint.Position)
-			else m.Humanoid:MoveTo(goal) end
-		end
-		local state = Combat.states[m]
-		if state and state.ammo == 0 then Combat.reload(m) end
-	end
+ if workspace:GetAttribute("ZeroPhase")~="ACTIVE" then return end
+ local targets={} for m in Characters.records do if m.Parent then table.insert(targets,m) end end
+ for _,b in Bots.active do Bots.step(b,workspace:GetServerTimeNow(),targets) end
 end
 return Bots
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="19">
+      <Item class="ModuleScript" referent="20">
         <Properties>
           <string name="Name">Characters</string>
           <string name="Source"><![CDATA[local C = require(game.ReplicatedStorage.ZeroShared.Config)
 local Factory = require(game.ReplicatedStorage.ZeroShared.RigFactory)
+local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 local Characters = {records = {}}
 function Characters.create(name, faction, position, heroId)
  local m = Factory.create(name, faction, position, heroId)
@@ -685,7 +704,7 @@ function Characters.create(name, faction, position, heroId)
  return m
 end
 function Characters.spawnPosition(faction)
-	return Vector3.new(0, 1.5, if faction == "Alpha" then -121 else 121)
+	return Layout.spawnPosition(faction)
 end
 function Characters.register(m, onDeath)
 	local h = m:FindFirstChildOfClass("Humanoid")
@@ -716,20 +735,21 @@ return Characters
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="20">
+      <Item class="ModuleScript" referent="21">
         <Properties>
           <string name="Name">Combat</string>
           <string name="Source"><![CDATA[-- All authoritative ammo, raycasts, damage and ability timing live here.
 local Players = game:GetService("Players")
 local C = require(game.ReplicatedStorage.ZeroShared.Config)
 local Rules = require(game.ReplicatedStorage.ZeroShared.WeaponRules)
+local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 local Combat = {states = {}, buckets = {}}
 local function now() return workspace:GetServerTimeNow() end
 local function alive(m)
 	local h = m and m:FindFirstChildOfClass("Humanoid")
 	return h and h.Health > 0 and m:FindFirstChild("Head") and m:FindFirstChild("HumanoidRootPart")
 end
-local function safe(m) return math.abs(m.HumanoidRootPart.Position.Z) >= 100 end
+local function safe(m) return Layout.isSafe(m.HumanoidRootPart.Position) end
 function Combat.init(remotes)
 	Combat.remotes = remotes
 end
@@ -748,6 +768,8 @@ function Combat.sync(m)
 	m:SetAttribute("DashReadyAt", s.nextDash)
 end
 function Combat.allowed(m)
+	local player = m and Players:GetPlayerFromCharacter(m)
+	if player and player:GetAttribute("ZeroSession") ~= "ACTIVE" then return false end
 	return alive(m) and Combat.states[m] ~= nil and workspace:GetAttribute("ZeroPhase") == "ACTIVE"
 end
 function Combat.reload(m)
@@ -850,266 +872,289 @@ return Combat
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="21">
+      <Item class="ModuleScript" referent="22">
         <Properties>
           <string name="Name">HarborDetail</string>
-          <string name="Source"><![CDATA[-- Static art has no gameplay scripts, touch events or per-frame updates.
-local G = require(game.ReplicatedStorage.ZeroShared.Geometry)
-local Detail = {}
+          <string name="Source"><![CDATA[local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Detail={}
 function Detail.build(arena)
-	local f=Instance.new("Folder") f.Name="HarborDetail" f.Parent=arena
-	local steel=Color3.fromRGB(73,87,99)
-	local dark=Color3.fromRGB(32,43,54)
-	local orange=Color3.fromRGB(213,121,48)
-	local pale=Color3.fromRGB(185,209,221)
-	local function box(name,size,pos,color,mat,rotation)
-		local p=G.part(f,name,size,CFrame.new(pos)*(rotation or CFrame.identity),color or steel,mat)
-		p.CanCollide,p.CanQuery,p.CanTouch=false,false,false
-		p.CastShadow=size.Magnitude>15
-		return p
-	end
-	local function beam(name,a,b,width,color)
-		return box(name,Vector3.new(width,width,(b-a).Magnitude),(a+b)/2,color,Enum.Material.Metal,CFrame.lookAt(Vector3.zero,b-a).Rotation)
-	end
-	local function sign(name,text,pos,size,color,face)
-		local p=box(name,size,pos,dark)
-		local gui=Instance.new("SurfaceGui") gui.Face=face or Enum.NormalId.Front gui.PixelsPerStud=28 gui.SizingMode=Enum.SurfaceGuiSizingMode.PixelsPerStud gui.LightInfluence=.25 gui.Parent=p
-		local t=Instance.new("TextLabel") t.Size=UDim2.fromScale(.94,.85) t.Position=UDim2.fromScale(.03,.075) t.BackgroundTransparency=1 t.TextColor3=color or pale t.TextScaled=true t.Font=Enum.Font.GothamBold t.Text=text t.Parent=gui
-		return p
-	end
-	local function light(pos,color,range)
-		local p=box("IndustrialLuminaire",Vector3.new(4,.4,1.5),pos,color,Enum.Material.Neon)
-		local l=Instance.new("PointLight") l.Color,l.Brightness,l.Range,l.Shadows=color,2,range or 32,false l.Parent=p
-	end
-	-- Wet asphalt, drained service strips and flush loading-rail seams.
-	for _,x in {-80,80} do
-		box("DrainChannel",Vector3.new(1.4,.04,194),Vector3.new(x,.03,0),dark,Enum.Material.DiamondPlate)
-		for z=-90,90,15 do box("DrainSlot",Vector3.new(1.6,.03,.22),Vector3.new(x,.06,z),pale) end
-	end
-	for _,x in {-8,8} do box("LoadingRail",Vector3.new(.25,.06,168),Vector3.new(x,.04,0),steel) end
-	local rng=Random.new(2042)
-	for n=1,22 do
-		local p=box("RainPuddle",Vector3.new(rng:NextNumber(2,8),.025,rng:NextNumber(2,12)),Vector3.new(rng:NextNumber(-77,77),.035,rng:NextNumber(-92,92)),Color3.fromRGB(61,82,96),Enum.Material.Glass)
-		p.Transparency,p.Reflectance=.38,.38
-	end
-	-- Containers gain end doors, hinges, latches, serial numbers and hazard corners.
-	for _,p in arena:GetChildren() do
-		if p.Name=="CargoContainer" then
-			local x,z=p.Position.X,p.Position.Z
-			for _,side in {-1,1} do
-				box("ContainerDoor",Vector3.new(9.3,10.8,.16),Vector3.new(x+side*4.85,6,z-11.65),p.Color)
-				box("LockingBar",Vector3.new(.15,9.7,.18),Vector3.new(x+side*4.7,6,z-11.8),steel)
-				box("LockHandle",Vector3.new(1,.14,.3),Vector3.new(x+side*4.7,5,z-11.95),pale)
-			end
-			for _,side in {-1,1} do box("HazardCorner",Vector3.new(.5,1.2,.2),Vector3.new(x+side*9.5,10.5,z-11.8),orange) end
-			sign("CargoSerial","NHU 2042\nNORRHAMN",Vector3.new(x,9.5,z-11.85),Vector3.new(5,1.6,.1),pale)
-		end
-	end
-	for _,x in {-64,64} do for _,side in {-1,1} do
-		local z=side*42
-		box("WarehouseRoof",Vector3.new(27,1.5,35),Vector3.new(x,20.5,z),dark)
-		box("LoadingDoor",Vector3.new(13,12,.3),Vector3.new(x,6,z-side*16.2),steel)
-		for n=1,8 do box("DoorSlat",Vector3.new(13,.12,.2),Vector3.new(x,n*1.35,z-side*16.4),dark) end
-		for _,dx in {-8,8} do
-			local w=box("WarehouseWindow",Vector3.new(4,3,.25),Vector3.new(x+dx,16,z-side*16.25),Color3.fromRGB(195,168,114),Enum.Material.Neon) w.Transparency=.25
-		end
-		light(Vector3.new(x,14,z-side*17),Color3.fromRGB(245,205,146),37)
-		box("VentilationDuct",Vector3.new(4,2,9),Vector3.new(x-5,22,z),steel,Enum.Material.DiamondPlate)
-		box("ExtractionStack",Vector3.new(2,7,2),Vector3.new(x+6,24,z+5),dark)
-		sign("WarehouseID",if x<0 then "MAGASIN 04\nVÄSTRA KAJEN" else "VERKSTAD 07\nÖSTRA FABRIKEN",Vector3.new(x,12,z-side*16.5),Vector3.new(14,2.5,.2),pale,if side==1 then Enum.NormalId.Front else Enum.NormalId.Back)
-	end end
-	-- Safety rails on the factory bridge, with two open stair approaches.
-	for _,x in {47,77} do
-		for _,z in {-14,0,14} do box("CatwalkPost",Vector3.new(.25,3,.25),Vector3.new(x,10.5,z),orange) end
-		for _,y in {10,12} do beam("CatwalkRail",Vector3.new(x,y,-15),Vector3.new(x,y,15),.18,orange) end
-	end
-	-- Perimeter fences are decorative over the existing collision boundary.
-	for _,x in {-90,90} do
-		for z=-90,90,12 do
-			box("FencePost",Vector3.new(.35,8,.35),Vector3.new(x,4,z),steel)
-			if z<90 then for _,y in {2,4,6} do beam("FenceWire",Vector3.new(x,y,z),Vector3.new(x,y,z+12),.07,steel) end end
-		end
-	end
-	-- Readable lane names / central future Control site.
-	sign("CenterSign","HAMNVERKET\nNORRHAMN • 2042",Vector3.new(0,24,96),Vector3.new(38,7,.5),pale)
-	sign("AlphaLaneGuide","01 MAGASIN   /   02 LASTGÅRD   /   03 FABRIK",Vector3.new(0,13,-99),Vector3.new(46,1.6,.2),pale,Enum.NormalId.Back)
-	sign("BravoLaneGuide","03 FABRIK   /   02 LASTGÅRD   /   01 MAGASIN",Vector3.new(0,13,99),Vector3.new(46,1.6,.2),pale)
-	for _,x in {-10,10} do for _,z in {-10,10} do
-		box("ObjectiveBollard",Vector3.new(.8,1.5,.8),Vector3.new(x,.75,z),dark)
-		box("ObjectiveIndicator",Vector3.new(.82,.15,.82),Vector3.new(x,1.4,z),Color3.fromRGB(80,196,220),Enum.Material.Neon)
-	end end
-	-- Adapted, reviewed Creator Store meshes. Visual only; collisions stay simple.
-	local art=game.ServerStorage:FindFirstChild("ZeroArt")
-	if art then
-		local pipes=art:FindFirstChild("IndustrialPipes")
-		if pipes then
-			for _,x in {-78,78} do for _,side in {-1,1} do
-				local kit=pipes:Clone() kit.Name="ReviewedPipeKit" kit:ScaleTo(1.7) kit:PivotTo(CFrame.new(x,5,side*42)*CFrame.Angles(0,0,math.pi/2)) kit.Parent=f
-			end end
-		end
-		local cargo=art:FindFirstChild("ShippingContainer")
-		if cargo then
-			for n=1,6 do
-				local copy=cargo:Clone() copy.Name="BackgroundCargo" copy:ScaleTo(.6)
-				copy:PivotTo(CFrame.new(-125+(n%3)*22,4+math.floor((n-1)/3)*12,168)) copy.Parent=f
-			end
-		end
-	end
-	-- Additional gantry bracing, suspended spreaders, cabin and harbor hardware.
-	for _,z in {-60,65} do
-		for _,y in {8,28,48} do
-			beam("CraneCrossBrace",Vector3.new(-125,y,z),Vector3.new(-102,y+12,z),.6,orange)
-			beam("CraneCrossBrace",Vector3.new(-102,y,z),Vector3.new(-125,y+12,z),.6,orange)
-		end
-		box("CraneCabin",Vector3.new(6,6,7),Vector3.new(-105,54,z),steel)
-		box("CraneCabinGlass",Vector3.new(.1,3,5),Vector3.new(-101.9,55,z),Color3.fromRGB(124,192,216),Enum.Material.Glass)
-		box("CraneSpreader",Vector3.new(13,2,4),Vector3.new(-148,22,z),orange)
-		light(Vector3.new(-118,57,z),Color3.fromRGB(242,193,122),50)
-	end
-	for _,x in {-160,-170} do for z=-25,25,10 do box("ShipCargo",Vector3.new(8,6,8),Vector3.new(x,9,z),if z%20==0 then steel else orange) end end
-	for _,z in {-120,120} do
-		for _,x in {-80,-60,-40,40,60,80} do
-			box("MooringBollard",Vector3.new(1.2,1.5,1.2),Vector3.new(x,.8,z+math.sign(z)*26),dark)
-		end
-	end
-	for n=1,14 do
-		local x=-220+n*31
-		local height=rng:NextInteger(20,54)
-		box("DistantNorrhamn",Vector3.new(18,height,24),Vector3.new(x,height/2-4,-225),Color3.fromRGB(42,56,72),Enum.Material.Concrete)
-		for y=8,height-3,10 do box("DistantWindowBand",Vector3.new(16,1,.1),Vector3.new(x,y,-212.9),Color3.fromRGB(146,168,184),Enum.Material.Neon) end
-	end
-	-- Enrich safe rooms without narrowing their playable circulation.
-	for _,side in {-1,1} do
-		local z=side*121
-		for _,x in {-28,28} do
-			box("SpawnBench",Vector3.new(12,1.2,3),Vector3.new(x,2,z+side*10),steel)
-			for _,dx in {-4,4} do box("BenchLeg",Vector3.new(.5,2,.5),Vector3.new(x+dx,1,z+side*10),dark) end
-		end
-		sign("SafetyNotice","SKYDDSZON\nZERO INITIATIVE / 2042",Vector3.new(-28,10,side*139),Vector3.new(17,6,.3),pale,if side==-1 then Enum.NormalId.Back else Enum.NormalId.Front)
-		for _,x in {-68,68} do box("SpawnFloorGuide",Vector3.new(.4,.04,34),Vector3.new(x,1.02,z),orange,Enum.Material.Neon) end
-	end
-	local L=game.Lighting
-	L.Brightness,L.ExposureCompensation=3.5,.65
-	L.Ambient,L.OutdoorAmbient=Color3.fromRGB(110,122,142),Color3.fromRGB(116,132,157)
-	local at=L:FindFirstChild("ZeroAtmosphere")
-	if at then at.Density,at.Color,at.Decay,at.Glare=.24,Color3.fromRGB(185,192,203),Color3.fromRGB(65,83,115),.15 end
-	return f
+ local f=Instance.new("Folder") f.Name="HarborDetail" f.Parent=arena
+ local steel,dark,pale,orange=Color3.fromRGB(89,107,119),Color3.fromRGB(31,42,53),Color3.fromRGB(197,212,219),Color3.fromRGB(184,109,51)
+ local count=0
+ local function box(name,size,pos,color,mat,rotation)
+  local p=G.part(f,name,size,CFrame.new(pos)*(rotation or CFrame.identity),color or steel,mat or Enum.Material.Metal)
+  p.CanCollide=false p.CanQuery=false p.CanTouch=false p.CastShadow=size.Magnitude>18 count+=1
+  if count%120==0 then task.wait() end
+  return p
+ end
+ local function sign(text,pos,size,face,color)
+  local p=box("Wayfinding",size,pos,dark)
+  local gui=Instance.new("SurfaceGui") gui.Face=face or Enum.NormalId.Front gui.PixelsPerStud=24 gui.SizingMode=Enum.SurfaceGuiSizingMode.PixelsPerStud gui.LightInfluence=.2 gui.Parent=p
+  local l=Instance.new("TextLabel") l.Size=UDim2.fromScale(.94,.88) l.Position=UDim2.fromScale(.03,.06) l.BackgroundTransparency=1 l.Text=text l.TextScaled=true l.Font=Enum.Font.GothamBold l.TextColor3=color or pale l.Parent=gui
+ end
+ local function light(pos,color,range)
+  local p=box("Luminaire",Vector3.new(4,.4,1),pos,color,Enum.Material.Neon)
+  local l=Instance.new("PointLight") l.Color=color l.Range=range or 35 l.Brightness=1.8 l.Shadows=false l.Parent=p
+ end
+ -- Architectural detail belongs to specific structures and never changes collision.
+ for _,p in arena:GetChildren() do
+  if p:IsA("BasePart") and (p.Name=="CrossDock" or p.Name=="WorkshopGatehouse" or p.Name=="TransferOffice" or p.Name=="DispatchHouse" or p.Name=="ServiceWarehouse") then
+   local z=p.Position.Z local front=z-math.sign(z)*(p.Size.Z/2+.2)
+   box("RoofCoping",p.Size*Vector3.new(1,0,1)+Vector3.new(2,1,2),p.Position+Vector3.new(0,p.Size.Y/2+.5,0),dark)
+   local columns=math.max(1,math.floor(p.Size.X/14))
+   for n=1,columns do
+    local x=p.Position.X-p.Size.X/2+(n-.5)*p.Size.X/columns
+    local panel=box("Clerestory",Vector3.new(math.min(8,p.Size.X/columns-2),3,.2),Vector3.new(x,p.Size.Y-6,front),if z<0 then Color3.fromRGB(154,171,176) else Color3.fromRGB(204,170,125),Enum.Material.Glass) panel.Transparency=.25
+   end
+   box("ServiceDoor",Vector3.new(math.min(9,p.Size.X-2),12,.3),Vector3.new(p.Position.X,6,front),dark)
+   for y=2,12,2 do box("ShutterSlat",Vector3.new(math.min(9,p.Size.X-2),.1,.2),Vector3.new(p.Position.X,y,front-.15),steel) end
+   light(Vector3.new(p.Position.X,16,front-math.sign(z)),Color3.fromRGB(235,207,168),34)
+  end
+ end
+ for _,s in {-1,1} do
+  local accent=if s<0 then Color3.fromRGB(65,157,190) else Color3.fromRGB(195,100,49)
+  local face=if s<0 then Enum.NormalId.Front else Enum.NormalId.Back
+  local inward=if s<0 then Enum.NormalId.Back else Enum.NormalId.Front
+  -- Two wayfinding systems describe distinct operations rather than mirrored labels.
+  sign(if s<0 then "VANGUARD // KAJKONTOR" else "ZERO // TULLTERMINAL",Vector3.new(0,20,s*214),Vector3.new(58,4,.2),face,accent)
+  for _,x in {-42,42} do
+   sign(if x<0 then "01 MAGASIN / VÄSTRA VÄGEN" else "03 VERKSTAD / ÖSTRA VÄGEN",Vector3.new(x,16,s*213.6),Vector3.new(24,2,.2),face,pale)
+   light(Vector3.new(x,24,s*231),accent,32)
+   sign("KAJVÄG / FÖLJ GUL LINJE",Vector3.new(x,10,s*185.2),Vector3.new(26,3,.2),face,pale)
+  end
+  for _,x in {-96,96} do
+   light(Vector3.new(x,23,s*194),Color3.fromRGB(221,208,183),40)
+   sign("←  LASTGÅRD  /  FÖLJ GUL LINJE",Vector3.new(x,9,s*137.3),Vector3.new(29,3,.2),face)
+   -- Painted L-shaped circulation lines follow the actual two-turn routes.
+   for _,a in {{69,198,54, .35},{96,173,.35,50},{72,148,48,.35},{48,122,.35,52}} do
+    box("ExitRoutePaint",Vector3.new(a[3],.025,a[4]),Vector3.new(math.sign(x)*a[1],.025,s*a[2]),orange)
+   end
+  end
+  for _,x in {-52,-44,44,52} do
+   box("Locker",Vector3.new(5,11,3),Vector3.new(x,6,s*247),dark)
+   box("LockerHandle",Vector3.new(.15,1,.1),Vector3.new(x,6,s*245.4),pale)
+  end
+  for _,x in {-26,26} do box("RoomBench",Vector3.new(14,2,3),Vector3.new(x,1.5,s*240),steel) end
+  sign("HAMNVERKET 2042\n01 MAGASIN | 02 LASTGÅRD | 03 FABRIK",Vector3.new(0,12,s*250.8),Vector3.new(32,9,.2),inward)
+  sign("02 LASTGÅRD\nCENTRAL KONTROLLPUNKT",Vector3.new(0,18,s*30.7),Vector3.new(30,5,.2),inward)
+  -- Functional bays on the dispatch buildings give them a recognizable purpose.
+  for _,x in {-19,19} do box("OfficeDownpipe",Vector3.new(.5,24,.5),Vector3.new(x,12,s*42),steel) end
+ end
+ -- The west brick warehouse has repeated structural bays and roof sawteeth.
+ for z=-72,72,24 do
+  box("WarehouseButtress",Vector3.new(2,28,2),Vector3.new(-61.2,14,z),steel)
+  box("WarehouseRoofVent",Vector3.new(30,2,8),Vector3.new(-104,31,z),steel)
+  light(Vector3.new(-103,26,z),Color3.fromRGB(226,201,157),30)
+ end
+ for z=-60,60,24 do
+  box("FactoryColumn",Vector3.new(2,28,2),Vector3.new(64.8,14,z),steel)
+  box("FactoryTruss",Vector3.new(78,1.2,1.2),Vector3.new(104,30,z),steel)
+ end
+ for _,s in {-1,1} do
+  for z=20,60,10 do
+   for _,x in {129,143} do box("CatwalkRailPost",Vector3.new(.2,3,.2),Vector3.new(x,12.5,s*z),orange) end
+  end
+  for _,x in {129,143} do box("CatwalkHandrail",Vector3.new(.2,.2,44),Vector3.new(x,14,s*42),orange) end
+  light(Vector3.new(110,25,s*58),Color3.fromRGB(187,210,221),40)
+ end
+ for _,p in arena:GetChildren() do if p:GetAttribute("ArtContainer") then
+  for dx=-7,7,2 do box("ContainerRib",Vector3.new(.18,10,28.2),p.Position+Vector3.new(dx,0,0),dark) end
+  for _,dx in {-4,4} do box("CargoDoor",Vector3.new(7.6,10,.2),p.Position+Vector3.new(dx,0,-14.2),p.Color) end
+  sign("NHU 2042 // KAJ 02",p.Position+Vector3.new(0,3,-14.4),Vector3.new(13,1.5,.2))
+ end end
+ for _,x in {-54,54} do
+  box("Drain",Vector3.new(1,.03,180),Vector3.new(x,.02,0),dark,Enum.Material.DiamondPlate)
+  for _,z in {-90,90} do light(Vector3.new(x,19,z),Color3.fromRGB(206,218,221),38) end
+ end
+ -- Puddles are restrained and placed in loading/drainage areas, away from stair treads.
+ for _,p in {{-40,-92,12,5},{38,88,9,4},{-35,15,7,5},{42,-18,8,3},{96,152,13,4},{-96,-152,11,3}} do
+  local puddle=box("RainPuddle",Vector3.new(p[3],.02,p[4]),Vector3.new(p[1],.035,p[2]),Color3.fromRGB(66,92,108),Enum.Material.Glass) puddle.Transparency=.35 puddle.Reflectance=.3
+ end
+ local art=game.ServerStorage:FindFirstChild("ZeroArt")
+ if art and art:FindFirstChild("IndustrialPipes") then
+  for _,p in {{-151,7,-165},{151,7,165},{70,7,-58},{70,7,58}} do local kit=art.IndustrialPipes:Clone() kit.Name="ReviewedServicePipes" kit:ScaleTo(1.5) kit:PivotTo(CFrame.new(unpack(p))*CFrame.Angles(0,0,math.pi/2)) kit.Parent=f end
+ end
+ -- Harbor scenery has no combat collision; the quay remains visually open to water.
+ for _,z in {-98,105} do
+  for _,x in {-205,-178} do box("GantryLeg",Vector3.new(3,64,3),Vector3.new(x,28,z),orange) end
+  box("GantryBeam",Vector3.new(87,4,5),Vector3.new(-200,61,z),orange)
+  box("CraneCabin",Vector3.new(7,7,7),Vector3.new(-180,55,z),steel)
+  for y=5,45,20 do
+   box("GantryBrace",Vector3.new(36,.7,.7),Vector3.new(-191,y+7,z),orange,Enum.Material.Metal,CFrame.Angles(0,0,.45))
+  end
+  box("CraneCable",Vector3.new(.2,35,.2),Vector3.new(-232,42,z),dark)
+  box("CraneSpreader",Vector3.new(18,2,4),Vector3.new(-232,24,z),orange)
+ end
+ box("ShipHull",Vector3.new(38,16,140),Vector3.new(-243,-1,5),dark)
+ box("ShipBridge",Vector3.new(28,24,26),Vector3.new(-243,17,47),steel)
+ if art and art:FindFirstChild("ShippingContainer") then for n=1,6 do local c=art.ShippingContainer:Clone() c.Name="ShipCargo" c:ScaleTo(.6) c:PivotTo(CFrame.new(-243,10,10-n*16)) c.Parent=f end end
+ for n=1,9 do
+  local h=24+(n%4)*7 box("NorrhamnSkyline",Vector3.new(24,h,28),Vector3.new(-170+n*40,h/2-4,-320),dark,Enum.Material.Brick)
+ end
+ for _,x in {-22,22} do box("ControlEdge",Vector3.new(.3,.04,42),Vector3.new(x,.03,0),Color3.fromRGB(55,154,174),Enum.Material.Neon) end
+ return f
 end
 return Detail
 ]]></string>
         </Properties>
       </Item>
-      <Item class="Script" referent="22">
+      <Item class="Script" referent="23">
         <Properties>
           <string name="Name">Main</string>
           <token name="RunContext">0</token>
-          <string name="Source"><![CDATA[local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
-local Teams = game:GetService("Teams")
-local C = require(ReplicatedStorage.ZeroShared.Config)
-local Arena = require(script.Parent.Arena)
-local Characters = require(script.Parent.Characters)
-local Combat = require(script.Parent.Combat)
-local Bots = require(script.Parent.Bots)
-Players.CharacterAutoLoads, Players.RespawnTime = false, C.RespawnTime
-local remotesFolder = Instance.new("Folder") remotesFolder.Name = "ZeroRemotes" remotesFolder.Parent = ReplicatedStorage
-local remotes = {}
-for _, name in {"Action", "FX"} do
-	local event = Instance.new("RemoteEvent") event.Name = name event.Parent = remotesFolder remotes[name] = event
+          <string name="Source">local Players=game:GetService("Players")
+local ReplicatedStorage=game:GetService("ReplicatedStorage")
+local RunService=game:GetService("RunService")
+local Teams=game:GetService("Teams")
+local C=require(ReplicatedStorage.ZeroShared.Config)
+local Characters=require(script.Parent.Characters)
+local Combat=require(script.Parent.Combat)
+local Bots=require(script.Parent.Bots)
+local Match=require(script.Parent.MatchService)
+Players.CharacterAutoLoads=false Players.RespawnTime=C.RespawnTime
+local folder=Instance.new("Folder") folder.Name="ZeroRemotes" folder.Parent=ReplicatedStorage
+local remotes={}
+for _,name in {"Action","FX","Flow"} do local e=Instance.new("RemoteEvent") e.Name=name e.Parent=folder remotes[name]=e end
+Combat.init(remotes) remotes.Action.OnServerEvent:Connect(Combat.request) remotes.Flow.OnServerEvent:Connect(Match.request)
+local arena,doors=require(script.Parent.Arena).build() Match.doors=doors Match.reset()
+for _,name in {"Baseplate","SpawnLocation"} do local p=workspace:FindFirstChild(name) if p and p:IsA("BasePart") then p.Transparency=1 p.CanCollide=false p.CanQuery=false end end
+for _,name in {"Alpha","Bravo"} do local team=Teams:FindFirstChild(name) or Instance.new("Team") team.Name=name team.AutoAssignable=false team.TeamColor=BrickColor.new(if name=="Alpha" then "Cyan" else "Bright orange") team.Parent=Teams end
+local joined=0
+local function add(p)
+ joined+=1 p.Team=Teams:FindFirstChild(if workspace:GetAttribute("ZeroPvP") and joined%2==0 then "Bravo" else "Alpha")
+ local stats=Instance.new("Folder") stats.Name="leaderstats" stats.Parent=p
+ for _,name in {"Kills","Deaths"} do local v=Instance.new("IntValue") v.Name=name v.Parent=stats end
+ Match.addPlayer(p)
 end
-Combat.init(remotes)
-remotes.Action.OnServerEvent:Connect(Combat.request)
-local arena, doors = Arena.build()
--- Hide only the default baseplate/spawn; preserve unrelated user content.
-for _, name in {"Baseplate", "SpawnLocation"} do
-	local item = workspace:FindFirstChild(name)
-	if item and item:IsA("BasePart") then item.CanCollide, item.CanQuery, item.Transparency = false, false, 1 end
-end
-for _, name in {"Alpha", "Bravo"} do
-	local team = Teams:FindFirstChild(name) or Instance.new("Team")
-	team.Name, team.AutoAssignable = name, false
-	team.TeamColor = BrickColor.new(if name == "Alpha" then "Cyan" else "Bright orange")
-	team.Parent = Teams
-end
-local function spawnPlayer(player)
-	if player.Parent ~= Players then return end
-	local old = player.Character
-	if old then old:Destroy() end
-	local faction = player.Team.Name
-	local m = Characters.create(player.Name, faction, Characters.spawnPosition(faction))
-	m.Parent = workspace
-	if faction == "Alpha" then m:PivotTo(CFrame.new(m:GetPivot().Position) * CFrame.Angles(0, math.pi, 0)) end
-	Characters.register(m, function()
-		player.leaderstats.Deaths.Value += 1
-		task.delay(C.RespawnTime, function() spawnPlayer(player) end)
-	end)
-	Combat.register(m)
-	player.Character, player.CameraMode = m, Enum.CameraMode.LockFirstPerson
-	-- Roblox clients simulate normal locomotion; server validates all combat actions.
-	m.HumanoidRootPart:SetNetworkOwner(player)
-end
-local joined = 0
-local function onPlayer(player)
-	joined += 1
-	player.Team = Teams:FindFirstChild(if workspace:GetAttribute("ZeroPvP") and joined % 2 == 0 then "Bravo" else "Alpha")
-	local stats = Instance.new("Folder") stats.Name = "leaderstats" stats.Parent = player
-	for _, name in {"Kills", "Deaths"} do local value = Instance.new("IntValue") value.Name = name value.Parent = stats end
-	spawnPlayer(player)
-end
-Players.PlayerAdded:Connect(onPlayer)
-Players.PlayerRemoving:Connect(function(player) Combat.buckets[player] = nil if player.Character then player.Character:Destroy() end end)
-for _, player in Players:GetPlayers() do task.spawn(onPlayer, player) end
-workspace:SetAttribute("ZeroPhase", "PREPARE")
-workspace:SetAttribute("ZeroPhaseEnd", workspace:GetServerTimeNow() + C.PreparationTime)
-local started = false
-local function startMatch()
-	if started then return end
-	started = true
-	workspace:SetAttribute("ZeroPhase", "ACTIVE")
-	for _, door in doors do
-		door.CanCollide, door.CanQuery = false, false
-		TweenService:Create(door, TweenInfo.new(1), {CFrame = door.CFrame + Vector3.new(0, 15, 0)}):Play()
-	end
-	for index = 1, C.BotCount do Bots.spawn(index) end
-	print("[PROJECT ZERO] Training active: VEX / VX-7 / HAMNVERKET")
-end
--- Wait for the first player before consuming the preparation countdown.
-task.spawn(function()
-	while #Players:GetPlayers() == 0 do
-		workspace:SetAttribute("ZeroPhaseEnd", workspace:GetServerTimeNow() + C.PreparationTime)
-		task.wait(.25)
-	end
-	workspace:SetAttribute("ZeroPhaseEnd", workspace:GetServerTimeNow() + C.PreparationTime)
-	task.wait(C.PreparationTime)
-	startMatch()
-end)
-local accumulator, regenAccumulator = 0, 0
+Players.PlayerAdded:Connect(add)
+for _,p in Players:GetPlayers() do add(p) end
+Players.PlayerRemoving:Connect(function(p) Combat.buckets[p]=nil Match.buckets[p]=nil Match.selectSerial[p]=nil if p.Character then p.Character:Destroy() end task.defer(function() if Match.participants()==0 then Match.reset() end end) end)
+local elapsed,regen=0,0
 RunService.Heartbeat:Connect(function(dt)
-	accumulator += dt regenAccumulator += dt
-	if accumulator >= C.BotThinkInterval then accumulator = 0 Bots.think() end
-	if regenAccumulator >= .2 then Characters.regenerate(regenAccumulator) regenAccumulator = 0 end
-end)
+ elapsed+=dt regen+=dt
+ if elapsed&gt;=C.BotThinkInterval then elapsed=0 Bots.think() end
+ if regen&gt;=.2 then Characters.regenerate(regen) regen=0 end
+end)</string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="24">
+        <Properties>
+          <string name="Name">MatchService</string>
+          <string name="Source"><![CDATA[local Players=game:GetService("Players")
+local TweenService=game:GetService("TweenService")
+local C=require(game.ReplicatedStorage.ZeroShared.Config)
+local Characters=require(script.Parent.Characters)
+local Combat=require(script.Parent.Combat)
+local Bots=require(script.Parent.Bots)
+local Match={doors={},round=0,buckets={},selectSerial={}}
+local function now() return workspace:GetServerTimeNow() end
+local function phase(p,value) p:SetAttribute("ZeroSession",value) end
+local function removeCharacter(p)
+ local m=p.Character p.Character=nil if m then m:Destroy() end
+end
+local function freeze(p,value)
+ local m=p.Character if not m then return end
+ m.HumanoidRootPart.Anchored=value m.Humanoid.WalkSpeed=if value then 0 else C.WalkSpeed
+ m.Humanoid.JumpPower=if value then 0 else 42
+ if not value then m.HumanoidRootPart:SetNetworkOwner(p) end
+end
+function Match.setDoors(open)
+ for _,d in Match.doors do
+  local closed=d:GetAttribute("ClosedCFrame") d.CanCollide=not open d.CanQuery=not open
+  TweenService:Create(d,TweenInfo.new(.6),{CFrame=if open then closed+Vector3.new(0,16,0) else closed}):Play()
+ end
+end
+function Match.participants()
+ local n=0 for _,p in Players:GetPlayers() do local s=p:GetAttribute("ZeroSession") if s=="ACTIVE" or s=="INSPECT" or s=="PREPARE" then n+=1 end end return n
+end
+function Match.reset()
+ Match.round+=1 Bots.reset() workspace:SetAttribute("ZeroPhase","IDLE") workspace:SetAttribute("ZeroRoundEnd",0) Match.setDoors(false)
+end
+function Match.finishRound()
+ Match.round+=1 Bots.reset() workspace:SetAttribute("ZeroPhase","RESULTS")
+ for _,p in Players:GetPlayers() do
+  local s=p:GetAttribute("ZeroSession")
+  if s=="ACTIVE" or s=="INSPECT" or s=="PREPARE" then
+   p:SetAttribute("ZeroResultKills",p.leaderstats.Kills.Value) p:SetAttribute("ZeroResultDeaths",p.leaderstats.Deaths.Value)
+   phase(p,"RESULTS") removeCharacter(p)
+  end
+ end
+ Match.setDoors(false)
+end
+function Match.startRound()
+ Match.round+=1 local token=Match.round
+ workspace:SetAttribute("ZeroPhase","PREPARE") workspace:SetAttribute("ZeroPhaseEnd",now()+C.PreparationTime)
+ Match.setDoors(false)
+ task.delay(C.PreparationTime,function()
+  if Match.round~=token or Match.participants()==0 then return end
+  workspace:SetAttribute("ZeroPhase","ACTIVE") workspace:SetAttribute("ZeroRoundEnd",now()+180) Match.setDoors(true)
+  for _,p in Players:GetPlayers() do if p:GetAttribute("ZeroSession")=="PREPARE" then phase(p,"ACTIVE") freeze(p,false) end end
+  for i=1,C.BotCount do Bots.spawn(i) end
+  task.delay(180,function() if Match.round==token then Match.finishRound() end end)
+ end)
+end
+function Match.spawn(p)
+ if p.Parent~=Players then return end
+ local session=p:GetAttribute("ZeroSession")
+ if session~="ACTIVE" and session~="PREPARE" and session~="INSPECT" then return end
+ removeCharacter(p)
+ local faction=p.Team.Name
+ local m=Characters.create(p.Name,faction,Characters.spawnPosition(faction)) m.Parent=workspace
+ if faction=="Alpha" then m:PivotTo(CFrame.new(m:GetPivot().Position)*CFrame.Angles(0,math.pi,0)) end
+ Characters.register(m,function()
+  p.leaderstats.Deaths.Value+=1
+  task.delay(C.RespawnTime,function() if p.Parent==Players and (p:GetAttribute("ZeroSession")=="ACTIVE" or p:GetAttribute("ZeroSession")=="INSPECT") then phase(p,"ACTIVE") Match.spawn(p) end end)
+ end)
+ Combat.register(m) p.Character=m p.CameraMode=Enum.CameraMode.LockFirstPerson
+ freeze(p,session=="PREPARE" or session=="INSPECT")
+end
+function Match.deploy(p,hero)
+ if p:GetAttribute("ZeroSession")~="SELECT" or hero~="VEX" then return false end
+ p.leaderstats.Kills.Value=0 p.leaderstats.Deaths.Value=0
+ local roundPhase=workspace:GetAttribute("ZeroPhase")
+ if roundPhase~="ACTIVE" and roundPhase~="PREPARE" then Match.startRound() roundPhase="PREPARE" end
+ phase(p,roundPhase) Match.spawn(p) return true
+end
+function Match.request(p,action,arg)
+ local t=now() local b=Match.buckets[p] or {tokens=8,time=t}
+ b.tokens=math.min(8,b.tokens+(t-b.time)*4) b.time=t Match.buckets[p]=b
+ if b.tokens<1 then return end b.tokens-=1
+ local s=p:GetAttribute("ZeroSession")
+ if action=="Play" and (s=="MENU" or s=="RESULTS") then
+  phase(p,"SELECT") Match.selectSerial[p]=(Match.selectSerial[p] or 0)+1 local serial=Match.selectSerial[p]
+  p:SetAttribute("ZeroSelectEnd",t+30)
+  task.delay(30,function() if p.Parent==Players and Match.selectSerial[p]==serial and p:GetAttribute("ZeroSession")=="SELECT" then Match.deploy(p,"VEX") end end)
+ elseif action=="Deploy" then Match.deploy(p,arg)
+ elseif action=="Menu" then
+  phase(p,"MENU") removeCharacter(p)
+  if Match.participants()==0 then Match.reset() end
+ elseif action=="Inspect" and s=="ACTIVE" then phase(p,"INSPECT") freeze(p,true)
+ elseif action=="Resume" and s=="INSPECT" then phase(p,"ACTIVE") freeze(p,false) end
+end
+function Match.addPlayer(p)
+ phase(p,"MENU")
+ removeCharacter(p)
+end
+return Match
 ]]></string>
         </Properties>
       </Item>
     </Item>
   </Item>
-  <Item class="ServerStorage" referent="23">
+  <Item class="ServerStorage" referent="25">
     <Properties>
       <string name="Name">ServerStorage</string>
     </Properties>
-    <Item class="Folder" referent="24">
+    <Item class="Folder" referent="26">
       <Properties>
         <string name="Name">ZeroArt</string>
       </Properties>
-      <Item class="Model" referent="25">
+      <Item class="Model" referent="27">
         <Properties>
           <string name="Name">IndustrialPipes</string>
           <bool name="NeedsPivotMigration">false</bool>
         </Properties>
-        <Item class="MeshPart" referent="26">
+        <Item class="MeshPart" referent="28">
           <Properties>
             <string name="Name">Straight Long</string>
             <bool name="Anchored">true</bool>
@@ -1150,7 +1195,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="27">
+          <Item class="SurfaceAppearance" referent="29">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1168,7 +1213,7 @@ end)
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="28">
+        <Item class="MeshPart" referent="30">
           <Properties>
             <string name="Name">S</string>
             <bool name="Anchored">true</bool>
@@ -1209,7 +1254,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="29">
+          <Item class="SurfaceAppearance" referent="31">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1227,7 +1272,7 @@ end)
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="30">
+        <Item class="MeshPart" referent="32">
           <Properties>
             <string name="Name">U</string>
             <bool name="Anchored">true</bool>
@@ -1268,7 +1313,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="31">
+          <Item class="SurfaceAppearance" referent="33">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1286,7 +1331,7 @@ end)
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="32">
+        <Item class="MeshPart" referent="34">
           <Properties>
             <string name="Name">T</string>
             <bool name="Anchored">true</bool>
@@ -1327,7 +1372,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="33">
+          <Item class="SurfaceAppearance" referent="35">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1345,7 +1390,7 @@ end)
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="34">
+        <Item class="MeshPart" referent="36">
           <Properties>
             <string name="Name">Cross</string>
             <bool name="Anchored">true</bool>
@@ -1386,7 +1431,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="35">
+          <Item class="SurfaceAppearance" referent="37">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1404,7 +1449,7 @@ end)
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="36">
+        <Item class="MeshPart" referent="38">
           <Properties>
             <string name="Name">Valve</string>
             <bool name="Anchored">true</bool>
@@ -1445,7 +1490,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="37">
+          <Item class="SurfaceAppearance" referent="39">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1463,7 +1508,7 @@ end)
             </Properties>
           </Item>
         </Item>
-        <Item class="MeshPart" referent="38">
+        <Item class="MeshPart" referent="40">
           <Properties>
             <string name="Name">Straight</string>
             <bool name="Anchored">true</bool>
@@ -1504,7 +1549,7 @@ end)
             </Content>
             <float name="Transparency">0</float>
           </Properties>
-          <Item class="SurfaceAppearance" referent="39">
+          <Item class="SurfaceAppearance" referent="41">
             <Properties>
               <string name="Name">SurfaceAppearance</string>
               <Content name="ColorMapContent">
@@ -1523,12 +1568,12 @@ end)
           </Item>
         </Item>
       </Item>
-      <Item class="Model" referent="40">
+      <Item class="Model" referent="42">
         <Properties>
           <string name="Name">ShippingContainer</string>
           <bool name="NeedsPivotMigration">false</bool>
         </Properties>
-        <Item class="MeshPart" referent="41">
+        <Item class="MeshPart" referent="43">
           <Properties>
             <string name="Name">Shipping Container 0.164K</string>
             <bool name="Anchored">true</bool>
@@ -1571,11 +1616,11 @@ end)
         </Item>
       </Item>
     </Item>
-    <Item class="Folder" referent="42">
+    <Item class="Folder" referent="44">
       <Properties>
         <string name="Name">ZeroTests</string>
       </Properties>
-      <Item class="ModuleScript" referent="43">
+      <Item class="ModuleScript" referent="45">
         <Properties>
           <string name="Name">Combat.spec</string>
           <string name="Source"><![CDATA[-- Run only in a Studio server play session:
@@ -1584,6 +1629,7 @@ local Suite = {}
 function Suite.run()
 	local C = require(game.ReplicatedStorage.ZeroShared.Config)
 	local Rules = require(game.ReplicatedStorage.ZeroShared.WeaponRules)
+	local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 	local Characters = require(game.ServerScriptService.ZeroServer.Characters)
 	local Combat = require(game.ServerScriptService.ZeroServer.Combat)
 	assert(workspace:GetAttribute("ZeroPhase") == "ACTIVE", "Wait for preparation to finish")
@@ -1629,7 +1675,7 @@ function Suite.run()
 		check(target.Humanoid.Health == health, "weapon range enforced")
 		target:PivotTo(originalPivot)
 		local originalShooter = shooter:GetPivot()
-		shooter:PivotTo(originalShooter + Vector3.new(0, 0, -80))
+		shooter:PivotTo(CFrame.new(Layout.spawnPosition("Alpha") + Vector3.new(0,3.1,0)))
 		local beforeAmmo = state.ammo
 		check(not Combat.fire(shooter, aim(target.Head)) and state.ammo == beforeAmmo, "safe room blocks firing without spending ammo")
 		shooter:PivotTo(originalShooter)
@@ -1670,7 +1716,7 @@ return Suite
 ]]></string>
         </Properties>
       </Item>
-      <Item class="ModuleScript" referent="44">
+      <Item class="ModuleScript" referent="46">
         <Properties>
           <string name="Name">Heroes.spec</string>
           <string name="Source"><![CDATA[local Suite={}
@@ -1728,114 +1774,139 @@ return Suite
 ]]></string>
         </Properties>
       </Item>
+      <Item class="ModuleScript" referent="47">
+        <Properties>
+          <string name="Name">Map.spec</string>
+          <string name="Source"><![CDATA[local Suite={}
+function Suite.run()
+	local Layout=require(game.ReplicatedStorage.ZeroShared.MapLayout)
+	local Pathfinding=game:GetService("PathfindingService")
+	local Characters=require(game.ServerScriptService.ZeroServer.Characters)
+	local Combat=require(game.ServerScriptService.ZeroServer.Combat)
+	local Bots=require(game.ServerScriptService.ZeroServer.Bots)
+	local arena=workspace.ZeroArena
+	local report={assertions=0,rays=0,routes={}}
+	local function check(ok,message) assert(ok,message) report.assertions+=1 end
+	local params=RaycastParams.new() params.FilterType=Enum.RaycastFilterType.Include params.FilterDescendantsInstances={arena}
+	local function distance(a,b)
+		local path=Pathfinding:CreatePath({AgentRadius=2.5,AgentHeight=6,AgentCanJump=true,WaypointSpacing=4})
+		path:ComputeAsync(a,b)
+		check(path.Status==Enum.PathStatus.Success,"Navigation failed: "..tostring(a).." -> "..tostring(b))
+		local waypoints=path:GetWaypoints() local length=0
+		for i=2,#waypoints do length+=(waypoints[i].Position-waypoints[i-1].Position).Magnitude end
+		return length
+	end
+	check(arena:GetAttribute("LayoutVersion")==2,"correct layout")
+	for _,faction in {"Alpha","Bravo"} do
+		check(Layout.isSafe(Layout.spawnPosition(faction)),faction.." spawn safe")
+		local doors=0
+		for _,v in arena:GetChildren() do if string.find(v.Name,faction) and string.find(v.Name,"Door") then doors+=1 check(not v.CanCollide,"test requires active/open doors") end end
+		check(doors==2,faction.." has two doors")
+		for _,target in Layout.exitSamples(faction) do
+			for _,x in {-140,-104,-48,0,48,104,140} do for _,z in {-90,-70,0,70,90} do for _,height in {5.5,15.5,24} do
+				local origin=Vector3.new(x,height,z)
+				check(workspace:Raycast(origin,target-origin,params)~=nil,"EXPOSED EXIT: "..faction.." "..tostring(target).." from "..tostring(origin))
+				report.rays+=1 if report.rays%160==0 then task.wait() end
+			end end end
+		end
+		for exit=1,2 do
+			local route=Layout.route(faction,exit)
+			local length=distance(route[1],route[7])
+			local seconds=length/Layout.WalkSpeed
+			check(seconds>=7 and seconds<=15,"deployment traversal outside 7–15 s budget")
+			table.insert(report.routes,{team=faction,exit=exit,length=length,seconds=seconds})
+		end
+	end
+	for i=1,2 do check(math.abs(report.routes[i].length-report.routes[i+2].length)<10,"team route parity") end
+	for _,x in {-110,36,110} do
+		distance(Vector3.new(x,3,-90),Vector3.new(x,3,90))
+		check(workspace:Raycast(Vector3.new(x,5.5,-90),Vector3.new(0,0,180),params)~=nil,"lane has an uninterrupted 180-stud shooting corridor")
+	end
+	-- Real server-authoritative bot brain + real R15 targets, no spawn invulnerability.
+	Bots.reset()
+	for _,faction in {"Alpha","Bravo"} do
+		local enemy=if faction=="Alpha" then "Bravo" else "Alpha"
+		local m,b=Bots.spawn(40,faction) Bots.active[m]=nil b.stage=8 m.HumanoidRootPart.Anchored=true
+		m:PivotTo(CFrame.new(0,3.2,if faction=="Alpha" then -70 else 70))
+		local target=Characters.create("SpawnSightTarget",enemy,Vector3.zero) target.Parent=workspace target.HumanoidRootPart.Anchored=true
+		target:SetAttribute("ProtectedUntil",0)
+		for _,p in Layout.exitSamples(enemy) do
+			target:PivotTo(CFrame.new(p-Vector3.new(0,1.8,0)))
+			local ammo=Combat.states[m].ammo
+			Bots.step(b,workspace:GetServerTimeNow(),{target}) Bots.step(b,workspace:GetServerTimeNow()+1,{target})
+			check(Combat.states[m].ammo==ammo and b.target==nil,"bot targets/shoots protected deployment")
+		end
+		m:PivotTo(CFrame.new(0,3.2,10)) target:PivotTo(CFrame.new(0,3.2,-10))
+		b.target=nil b.spottedAt=0
+		Bots.step(b,workspace:GetServerTimeNow(),{target})
+		for n=1,5 do Combat.states[m].lastShot=-math.huge Bots.step(b,workspace:GetServerTimeNow()+1+n,{target}) end
+		check(Combat.states[m].ammo<36 and target.Humanoid.Health<275,"bot can still engage at control point")
+		Characters.records[m]=nil m:Destroy() target:Destroy()
+	end
+	if workspace:GetAttribute("ZeroPhase")=="ACTIVE" then Bots.spawn(1) end
+	print("[PROJECT ZERO] Map verification: "..report.assertions.." checks / "..report.rays.." blocked exit rays")
+	return report
+end
+return Suite
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="48">
+        <Properties>
+          <string name="Name">Session.spec</string>
+          <string name="Source"><![CDATA[local Suite={}
+function Suite.run(player)
+	local Match=require(game.ServerScriptService.ZeroServer.MatchService)
+	local Combat=require(game.ServerScriptService.ZeroServer.Combat)
+	local n=0
+	local function check(ok,msg) assert(ok,msg) n+=1 end
+	check(player:GetAttribute("ZeroSession")=="ACTIVE","test requires an active player")
+	Match.buckets[player]=nil
+	local m=player.Character local ammo=m:GetAttribute("Ammo")
+	Match.request(player,"Inspect")
+	check(player:GetAttribute("ZeroSession")=="INSPECT" and m.HumanoidRootPart.Anchored,"inspection locks server movement")
+	check(not Combat.fire(m,Vector3.new(0,0,1)) and m:GetAttribute("Ammo")==ammo,"inspection blocks server fire")
+	check(not Combat.dash(m,Vector3.new(1,0,0)),"inspection blocks server dash")
+	Match.request(player,"Resume")
+	check(player:GetAttribute("ZeroSession")=="ACTIVE" and not m.HumanoidRootPart.Anchored and m.Humanoid.WalkSpeed==22,"resume restores controls")
+	Match.finishRound()
+	check(player:GetAttribute("ZeroSession")=="RESULTS" and player.Character==nil,"results remove combat character")
+	check(not Match.deploy(player,"VEX"),"deployment without selection rejected")
+	Match.request(player,"Menu")
+	check(player:GetAttribute("ZeroSession")=="MENU" and player.Character==nil,"menu has no movable character")
+	Match.request(player,"Play")
+	check(player:GetAttribute("ZeroSession")=="SELECT" and player.Character==nil,"play opens selection before spawn")
+	check(not Match.deploy(player,"TITAN") and not Match.deploy(player,{}),"locked/invalid heroes rejected")
+	check(Match.deploy(player,"VEX"),"VEX deployment accepted")
+	check(player:GetAttribute("ZeroSession")=="PREPARE" and player.Character.HumanoidRootPart.Anchored,"preparation locks movement")
+	check(not Combat.fire(player.Character,Vector3.new(0,0,1)),"preparation blocks combat")
+	Match.request(player,"Menu")
+	check(player:GetAttribute("ZeroSession")=="MENU" and player.Character==nil and workspace:GetAttribute("ZeroPhase")=="IDLE","leaving last player resets round")
+	print("[PROJECT ZERO] Session verification: "..n.." checks")
+	return n
+end
+return Suite
+]]></string>
+        </Properties>
+      </Item>
     </Item>
   </Item>
-  <Item class="StarterPlayer" referent="45">
+  <Item class="StarterPlayer" referent="49">
     <Properties>
       <string name="Name">StarterPlayer</string>
       <token name="CameraMode">1</token>
       <float name="CharacterJumpPower">42</float>
       <float name="CharacterWalkSpeed">22</float>
     </Properties>
-    <Item class="StarterPlayerScripts" referent="46">
+    <Item class="StarterPlayerScripts" referent="50">
       <Properties>
         <string name="Name">StarterPlayerScripts</string>
       </Properties>
-      <Item class="Folder" referent="47">
+      <Item class="Folder" referent="51">
         <Properties>
           <string name="Name">ZeroClient</string>
         </Properties>
-        <Item class="ModuleScript" referent="48">
-          <Properties>
-            <string name="Name">Armory</string>
-            <string name="Source"><![CDATA[local RunService=game:GetService("RunService")
-local UIS=game:GetService("UserInputService")
-local Catalog=require(game.ReplicatedStorage.ZeroShared.HeroCatalog)
-local Factory=require(game.ReplicatedStorage.ZeroShared.RigFactory)
-local Pose=require(game.ReplicatedStorage.ZeroShared.AnimationPose)
-local Armory={isOpen=false}
-function Armory.create(player)
-	local gui=Instance.new("ScreenGui") gui.Name="ZeroArmory" gui.IgnoreGuiInset=true gui.ResetOnSpawn=false gui.DisplayOrder=20 gui.Enabled=false gui.Parent=player.PlayerGui
-	local bg=Instance.new("Frame") bg.Size=UDim2.fromScale(1,1) bg.BackgroundColor3=Color3.new(1,1,1) bg.BorderSizePixel=0 bg.Parent=gui
-	local grad=Instance.new("UIGradient") grad.Color=ColorSequence.new(Color3.fromRGB(12,20,29),Color3.fromRGB(35,53,68)) grad.Rotation=30 grad.Parent=bg
-	local function label(text,pos,size,color,fontSize)
-		local l=Instance.new("TextLabel") l.Text=text l.Position=pos l.Size=size l.BackgroundTransparency=1 l.TextColor3=color or Color3.fromRGB(220,231,238) l.Font=Enum.Font.GothamBold l.TextScaled=true l.TextXAlignment=Enum.TextXAlignment.Left l.Parent=bg
-		local limit=Instance.new("UITextSizeConstraint") limit.MaxTextSize=fontSize or 24 limit.MinTextSize=9 limit.Parent=l
-		return l
-	end
-	local function button(text,pos,size,callback)
-		local b=Instance.new("TextButton") b.Text=text b.Position=pos b.Size=size b.BackgroundColor3=Color3.fromRGB(38,56,70) b.BorderSizePixel=0 b.TextColor3=Color3.fromRGB(217,230,238) b.Font=Enum.Font.GothamBold b.TextScaled=true b.Parent=bg
-		local limit=Instance.new("UITextSizeConstraint") limit.MaxTextSize=17 limit.Parent=b
-		b.Activated:Connect(callback)
-		return b
-	end
-	label("ZERO // OPERATIVE ARCHIVE",UDim2.fromScale(.04,.04),UDim2.fromScale(.7,.055),nil,30)
-	label("NORRHAMN 2042  /  EIGHT HUMAN OPERATIVES",UDim2.fromScale(.04,.105),UDim2.fromScale(.7,.035),Color3.fromRGB(103,180,208),13)
-	local viewport=Instance.new("ViewportFrame") viewport.Name="HeroPreview" viewport.Position=UDim2.fromScale(.31,.15) viewport.Size=UDim2.fromScale(.36,.78) viewport.BackgroundTransparency=1 viewport.Ambient=Color3.fromRGB(163,177,196) viewport.LightColor=Color3.fromRGB(250,228,207) viewport.LightDirection=Vector3.new(-1,-1,-2) viewport.Parent=bg
-	local world=Instance.new("WorldModel") world.Parent=viewport
-	local camera=Instance.new("Camera") camera.FieldOfView=35 camera.CFrame=CFrame.lookAt(Vector3.new(7,4.8,-12),Vector3.new(0,2.8,0)) camera.Parent=viewport viewport.CurrentCamera=camera
-	local name=label("VEX",UDim2.fromScale(.69,.25),UDim2.fromScale(.28,.09),nil,48)
-	local role=label("",UDim2.fromScale(.69,.35),UDim2.fromScale(.27,.04),nil,18)
-	local identity=label("",UDim2.fromScale(.69,.42),UDim2.fromScale(.27,.07),nil,18)
-	local weapon=label("",UDim2.fromScale(.69,.51),UDim2.fromScale(.27,.06),nil,18)
-	local silhouette=label("",UDim2.fromScale(.69,.59),UDim2.fromScale(.27,.08),nil,15)
-	local status=label("",UDim2.fromScale(.69,.7),UDim2.fromScale(.27,.11),nil,14)
-	local preview,selected,action,actionAt="","VEX","Idle",0
-	local cards={}
-	local function choose(id)
-		local h=Catalog.Heroes[id]
-		local nextPreview=Factory.create(id.."_Preview","Alpha",Vector3.zero,id)
-		if typeof(preview)=="Instance" then preview:Destroy() end
-		preview=nextPreview selected=id gui:SetAttribute("SelectedHero",id)
-		for _,p in preview:GetDescendants() do if p:IsA("BasePart") then p.Anchored=p.Name=="HumanoidRootPart" p.CanCollide=false end end
-		preview.Parent=world
-		name.Text,role.Text,identity.Text=id,string.upper(h.Role).."  /  "..h.HP.." HP",h.Name.."\n"..h.Origin
-		name.TextColor3,role.TextColor3=h.Accent,h.Accent
-		weapon.Text,silhouette.Text=h.Weapon,h.Silhouette
-		status.Text=if h.Playable then "VEX: PLAYABLE\nDash available / grenade + ultimate pending" else "VISUAL PROTOTYPE\nWeapon and animation previews ready\nGameplay kit remains locked"
-		status.TextColor3=if h.Playable then Color3.fromRGB(110,222,193) else Color3.fromRGB(230,177,109)
-		for key,b in cards do b.BackgroundColor3=if key==id then h.Primary else Color3.fromRGB(30,44,57) end
-	end
-	for i,id in Catalog.Order do
-		local h=Catalog.Heroes[id]
-		cards[id]=button(id.."  /  "..string.upper(h.Role)..(if h.Playable then "" else "  [PREVIEW]"),UDim2.fromScale(.04,.19+(i-1)*.083),UDim2.fromScale(.25,.065),function() choose(id) end)
-		cards[id].Name="Hero_"..id
-	end
-	for i,a in {"Idle","Run","Fire","Reload"} do
-		local b=button(a,UDim2.fromScale(.32+(i-1)*.085,.91),UDim2.fromScale(.078,.04),function() action=a actionAt=os.clock() gui:SetAttribute("PreviewAction",a) end)
-		b.Name="Pose_"..a
-	end
-	local function close()
-		Armory.isOpen=false gui.Enabled=false
-		workspace.CurrentCamera.CameraType=Enum.CameraType.Custom
-		player.CameraMode=Enum.CameraMode.LockFirstPerson
-		UIS.MouseIconEnabled=false
-	end
-	button("RETURN TO VEX  /  H",UDim2.fromScale(.69,.87),UDim2.fromScale(.27,.065),close)
-	label("Visual previews do not unlock unimplemented kits.",UDim2.fromScale(.04,.94),UDim2.fromScale(.26,.025),Color3.fromRGB(132,152,167),11)
-	UIS.InputBegan:Connect(function(input,processed)
-		if processed or input.KeyCode~=Enum.KeyCode.H then return end
-		if Armory.isOpen then close() else
-			Armory.isOpen=true gui.Enabled=true workspace.CurrentCamera.CameraType=Enum.CameraType.Scriptable UIS.MouseIconEnabled=true UIS.MouseBehavior=Enum.MouseBehavior.Default
-		end
-	end)
-	player.CharacterAdded:Connect(function() if Armory.isOpen then close() end end)
-	RunService:BindToRenderStep("ZeroArmory",Enum.RenderPriority.Camera.Value+3,function()
-		if not Armory.isOpen then return end
-		UIS.MouseBehavior=Enum.MouseBehavior.Default UIS.MouseIconEnabled=true
-		local elapsed=os.clock()-actionAt
-		local progress=if action=="Reload" then (elapsed%2.5)/1.8 elseif action=="Fire" then (elapsed%(.5))/.2 else 0
-		Pose.apply(preview,os.clock(),if action=="Run" then 1 else 0,action,progress)
-		preview.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,math.sin(os.clock()*.18)*.18,0)
-	end)
-	choose("VEX")
-	return Armory
-end
-return Armory
-]]></string>
-          </Properties>
-        </Item>
-        <Item class="ModuleScript" referent="49">
+        <Item class="ModuleScript" referent="52">
           <Properties>
             <string name="Name">Hud</string>
             <string name="Source"><![CDATA[local Hud = {}
@@ -1865,7 +1936,7 @@ function Hud.create(player)
 	panel(UDim2.new(0, 28, 1, -134), UDim2.fromOffset(255, 105))
 	panel(UDim2.new(1, -255, 1, -134), UDim2.fromOffset(227, 105))
 	label("Brand", "PROJECT: ZERO", UDim2.fromOffset(28, 30), UDim2.fromOffset(260, 32), 25)
-	label("Build", "2042  /  ZERO INITIATIVE  /  H: ARMORY", UDim2.fromOffset(30, 64), UDim2.fromOffset(330, 20), 11, CYAN)
+	label("Build", "2042 / H: HEROES / M: MAIN MENU", UDim2.fromOffset(30, 64), UDim2.fromOffset(330, 20), 11, CYAN)
 	label("Map", "HAMNVERKET", UDim2.new(1, -280, 0, 32), UDim2.fromOffset(250, 30), 21, WHITE, Enum.TextXAlignment.Right)
 	label("Location", "NORRHAMN  /  20:30", UDim2.new(1, -280, 0, 64), UDim2.fromOffset(250, 20), 11, CYAN, Enum.TextXAlignment.Right)
 	local phase = label("Phase", "PREPARE", UDim2.new(.5, -220, 0, 35), UDim2.fromOffset(440, 32), 19, ORANGE, Enum.TextXAlignment.Center)
@@ -1894,7 +1965,7 @@ return Hud
 ]]></string>
           </Properties>
         </Item>
-        <Item class="LocalScript" referent="50">
+        <Item class="LocalScript" referent="53">
           <Properties>
             <string name="Name">Main</string>
             <string name="Source"><![CDATA[local Players = game:GetService("Players")
@@ -1908,13 +1979,17 @@ local Hud = require(script.Parent.Hud)
 local player = Players.LocalPlayer
 local remotes = game.ReplicatedStorage:WaitForChild("ZeroRemotes")
 local hud = Hud.create(player)
-local armory = require(script.Parent.Armory).create(player)
+local menu = require(script.Parent.MainMenu).create(player, remotes:WaitForChild("Flow"))
+local Layout = require(game.ReplicatedStorage.ZeroShared.MapLayout)
 local Pose = require(game.ReplicatedStorage.ZeroShared.AnimationPose)
 local character, humanoid, viewmodel
 local ammo, localReloadEnd, nextShot, recoil, hitUntil = 36, 0, 0, 0, 0
 local holding = false
+local yaw, pitch = 0, 0
 local shotSound = Instance.new("Sound") shotSound.SoundId = C.ShotSound shotSound.Volume = .35 shotSound.Parent = SoundService
 local tickSound = Instance.new("Sound") tickSound.SoundId = "rbxasset://sounds/button.wav" tickSound.Volume = .15 tickSound.Parent = SoundService
+shotSound.SoundGroup = SoundService:WaitForChild("ZeroAudio")
+tickSound.SoundGroup = shotSound.SoundGroup
 workspace:GetAttributeChangedSignal("ZeroPhase"):Connect(function() tickSound:Play() end)
 local fxFolder = Instance.new("Folder") fxFolder.Name = "ZeroLocalFX" fxFolder.Parent = workspace
 local visualShots = setmetatable({}, {__mode = "k"})
@@ -1940,6 +2015,7 @@ local function attach(m)
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
 	workspace.CurrentCamera.FieldOfView = 80
 	local root = m:WaitForChild("HumanoidRootPart")
+	yaw, pitch = math.atan2(-root.CFrame.LookVector.X, -root.CFrame.LookVector.Z), 0
 	workspace.CurrentCamera.CFrame = CFrame.lookAt(m.Head.Position, m.Head.Position + root.CFrame.LookVector * 30)
 	player.CameraMode = Enum.CameraMode.LockFirstPerson
 	UserInputService.MouseIconEnabled = false
@@ -1950,6 +2026,12 @@ local function attach(m)
 end
 player.CharacterAdded:Connect(attach)
 if player.Character then task.spawn(attach, player.Character) end
+player.CharacterRemoving:Connect(function(m)
+	if character ~= m then return end
+	character, humanoid, holding = nil, nil, false
+	if viewmodel then viewmodel:Destroy() viewmodel = nil end
+	if ammoConnection then ammoConnection:Disconnect() ammoConnection = nil end
+end)
 local function reload()
 	if not humanoid or humanoid.Health <= 0 or ammo == 36 or workspace:GetServerTimeNow() < localReloadEnd then return end
 	localReloadEnd = workspace:GetServerTimeNow() + C.Weapon.ReloadTime
@@ -1957,7 +2039,7 @@ local function reload()
 	tickSound:Play()
 end
 UserInputService.InputBegan:Connect(function(input, processed)
-	if processed or armory.isOpen then return end
+	if processed or menu.isOpen or player:GetAttribute("ZeroSession") ~= "ACTIVE" then return end
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then holding = true
 	elseif input.KeyCode == Enum.KeyCode.R then reload()
 	elseif input.KeyCode == Enum.KeyCode.Q and humanoid and humanoid.Health > 0 then
@@ -1994,15 +2076,30 @@ remotes.FX.OnClientEvent:Connect(function(shooter, origin, endpoint, hit, headsh
 	end
 end)
 RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, function(dt)
-	hud.gui.Enabled = not armory.isOpen
-	if armory.isOpen then holding = false end
+	hud.gui.Enabled = not menu.isOpen and character ~= nil
+	if menu.isOpen then holding = false end
 	local time = workspace:GetServerTimeNow()
 	local alive = humanoid and humanoid.Health > 0
 	local phase = workspace:GetAttribute("ZeroPhase")
 	hud.phase.Text = if phase == "PREPARE" then "PREPARE  /  " .. math.max(0, math.ceil((workspace:GetAttribute("ZeroPhaseEnd") or time) - time)) else "TRAINING  /  LIVE"
 	hud.info.Text = if phase == "PREPARE" then "VEX ONLINE  •  DOORS OPEN AT ZERO" else "ALPHA vs BRAVO  /  ELIMINATE HOSTILES"
+	if phase == "ACTIVE" then
+		local remaining = math.max(0, math.ceil((workspace:GetAttribute("ZeroRoundEnd") or time) - time))
+		hud.info.Text = string.format("TRAINING  %d:%02d  /  M: MAIN MENU", math.floor(remaining / 60), remaining % 60)
+	end
 	hud.hit.Visible = os.clock() < hitUntil
 	if not character or not humanoid then return end
+	local active = player:GetAttribute("ZeroSession") == "ACTIVE"
+	if not menu.isOpen and humanoid.Health > 0 then
+		local delta = UserInputService:GetMouseDelta()
+		local sensitivity = player:GetAttribute("ZeroAimSensitivity") or 1
+		yaw -= delta.X * .002 * sensitivity
+		pitch = math.clamp(pitch - delta.Y * .002 * sensitivity, -1.4, 1.4)
+		UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+		workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+		workspace.CurrentCamera.CFrame = CFrame.new(character.Head.Position) * CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)
+		if active then humanoid.AutoRotate = false character.HumanoidRootPart.CFrame = CFrame.new(character.HumanoidRootPart.Position) * CFrame.Angles(0, yaw, 0) end
+	end
 	hud.health.Text = tostring(math.ceil(humanoid.Health))
 	hud.healthBar.Size = UDim2.fromScale(math.clamp(humanoid.Health / C.MaxHealth, 0, 1), 1)
 	hud.ammo.Text = string.format("%02d", ammo)
@@ -2012,24 +2109,24 @@ RunService:BindToRenderStep("ZeroFPS", Enum.RenderPriority.Camera.Value + 1, fun
 	local cooldown = math.max(0, (character:GetAttribute("DashReadyAt") or 0) - time)
 	hud.dash.Text = if cooldown > 0 then "Q  DASH  /  " .. string.format("%.1fs", cooldown) else "Q  DASH  /  READY"
 	local respawnAt = character:GetAttribute("RespawnAt") or time
-	hud.death.Text = if not alive then "VEX DOWN\nREDEPLOY IN " .. math.max(0, math.ceil(respawnAt - time)) .. "s" elseif math.abs(character.HumanoidRootPart.Position.Z) >= 100 then "SPAWN PROTECTED" else ""
-	if holding and alive and not reloading and phase == "ACTIVE" and time >= nextShot and math.abs(character.HumanoidRootPart.Position.Z) < 100 then
+	hud.death.Text = if not alive then "VEX DOWN\nREDEPLOY IN " .. math.max(0, math.ceil(respawnAt - time)) .. "s" elseif Layout.isSafe(character.HumanoidRootPart.Position) then "SPAWN PROTECTED" else ""
+	if holding and alive and active and not reloading and phase == "ACTIVE" and time >= nextShot and not Layout.isSafe(character.HumanoidRootPart.Position) then
 		if ammo > 0 then
 			nextShot = time + C.Weapon.FireInterval
 			ammo -= 1
 			remotes.Action:FireServer("Fire", workspace.CurrentCamera.CFrame.LookVector)
 			recoil = math.min(.16, recoil + .045)
-			workspace.CurrentCamera.CFrame *= CFrame.Angles(math.rad(.45), 0, 0)
+			pitch = math.min(1.4, pitch + math.rad(.45))
 			shotSound.PlaybackSpeed = .96 + math.random() * .08 shotSound:Play()
 			local muzzle = viewmodel and viewmodel:FindFirstChild("VX7") and viewmodel.VX7:FindFirstChild("Barrel")
-			if muzzle then
+			if muzzle and not player:GetAttribute("ZeroReducedEffects") then
 				local flash = Instance.new("PointLight") flash.Color = Color3.fromRGB(255, 181, 81) flash.Brightness = 2 flash.Range = 8 flash.Parent = muzzle Debris:AddItem(flash, .04)
 			end
 		else reload() end
 	end
 	recoil *= math.exp(-dt * 16)
 	if viewmodel then
-		viewmodel.Parent = if alive and not armory.isOpen then workspace.CurrentCamera else nil
+		viewmodel.Parent = if alive and not menu.isOpen then workspace.CurrentCamera else nil
 		local bob = math.sin(os.clock() * 10) * math.min(humanoid.MoveDirection.Magnitude, 1) * .025
 		local tilt = if reloading then math.sin(math.clamp(1 - (math.max(serverReload, localReloadEnd) - time) / C.Weapon.ReloadTime, 0, 1) * math.pi) else 0
 		viewmodel:PivotTo(workspace.CurrentCamera.CFrame * CFrame.new(0, bob - tilt * .35, recoil) * CFrame.Angles(tilt * -.4, 0, tilt * -.65))
@@ -2056,10 +2153,194 @@ end)
 ]]></string>
           </Properties>
         </Item>
+        <Item class="ModuleScript" referent="54">
+          <Properties>
+            <string name="Name">MainMenu</string>
+            <string name="Source"><![CDATA[local RunService=game:GetService("RunService")
+local TweenService=game:GetService("TweenService")
+local UIS=game:GetService("UserInputService")
+local SoundService=game:GetService("SoundService")
+local Catalog=require(game.ReplicatedStorage.ZeroShared.HeroCatalog)
+local Factory=require(game.ReplicatedStorage.ZeroShared.RigFactory)
+local Weapons=require(game.ReplicatedStorage.ZeroShared.HeroWeapons)
+local Pose=require(game.ReplicatedStorage.ZeroShared.AnimationPose)
+local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
+local Menu={}
+function Menu.create(player,flow)
+ local self={isOpen=true,page="HOME",selected="VEX",pose="Idle",poseAt=0}
+ local white,muted,orange=Color3.fromRGB(223,231,237),Color3.fromRGB(145,163,178),Color3.fromRGB(221,137,69)
+ local gui=Instance.new("ScreenGui") gui.Name="ZeroMainMenu" gui.IgnoreGuiInset=true gui.ResetOnSpawn=false gui.DisplayOrder=30 gui.Parent=player:WaitForChild("PlayerGui")
+ local bg=Instance.new("Frame") bg.Name="Backdrop" bg.Size=UDim2.fromScale(1,1) bg.BackgroundColor3=Color3.fromRGB(13,22,31) bg.BorderSizePixel=0 bg.Parent=gui
+ local viewport=Instance.new("ViewportFrame") viewport.Name="Scene" viewport.BackgroundTransparency=1 viewport.Position=UDim2.fromScale(.35,.1) viewport.Size=UDim2.fromScale(.65,.9) viewport.Ambient=Color3.fromRGB(130,149,171) viewport.LightColor=Color3.fromRGB(216,195,173) viewport.LightDirection=Vector3.new(-1,-1,-2) viewport.Parent=bg
+ local world=Instance.new("WorldModel") world.Parent=viewport
+ local camera=Instance.new("Camera") camera.FieldOfView=37 camera.Parent=viewport viewport.CurrentCamera=camera
+ local stage=Instance.new("Model") stage.Name="IndustrialStage" stage.Parent=world
+ G.part(stage,"Floor",Vector3.new(28,.5,24),CFrame.new(0,-.3,0),Color3.fromRGB(36,48,59),Enum.Material.Concrete)
+ G.part(stage,"TerminalWall",Vector3.new(26,15,1),CFrame.new(0,7,5),Color3.fromRGB(46,59,70),Enum.Material.Metal)
+ for _,x in {-8,8} do
+  G.part(stage,"StructuralColumn",Vector3.new(.7,15,2),CFrame.new(x,7,4.5),Color3.fromRGB(86,103,115),Enum.Material.Metal)
+  G.part(stage,"WarningStrip",Vector3.new(.12,7,.1),CFrame.new(x,5,3.4),Color3.fromRGB(142,83,32),Enum.Material.Neon)
+ end
+ for n=1,7 do G.part(stage,"Shutter",Vector3.new(12,.15,.3),CFrame.new(0,n*1.5,4.3),Color3.fromRGB(29,42,54),Enum.Material.Metal) end
+ local subject
+ local function text(parent,name,value,pos,size,color,max)
+  local l=Instance.new("TextLabel") l.Name=name l.Text=value l.Position=pos l.Size=size l.BackgroundTransparency=1 l.Font=Enum.Font.GothamBold l.TextColor3=color or white l.TextScaled=true l.TextXAlignment=Enum.TextXAlignment.Left l.TextYAlignment=Enum.TextYAlignment.Center l.Parent=parent
+  l.TextWrapped=true
+  local limit=Instance.new("UITextSizeConstraint") limit.MaxTextSize=max or 22 limit.MinTextSize=9 limit.Parent=l return l
+ end
+ local content=Instance.new("Frame") content.Name="Content" content.Size=UDim2.fromScale(1,1) content.BackgroundTransparency=1 content.Parent=bg
+ local pages={}
+ for _,name in {"HOME","PLAY","HEROES","ARMORY","SETTINGS","CREDITS","SELECT","RESULTS"} do local f=Instance.new("Frame") f.Name=name f.Size=UDim2.fromScale(1,1) f.BackgroundTransparency=1 f.Visible=false f.Parent=content pages[name]=f end
+ local header=text(bg,"Logo","PROJECT: ZERO",UDim2.fromScale(.055,.065),UDim2.fromScale(.85,.105),white,76)
+ header.RichText=true
+ local sub=text(bg,"Subtitle","NORRHAMN  /  2042  /  ZERO INITIATIVE",UDim2.fromScale(.058,.17),UDim2.fromScale(.82,.04),orange,14)
+ local footer=text(bg,"Footer","TRAINING PROTOTYPE   •   HAMNVERKET",UDim2.fromScale(.055,.95),UDim2.fromScale(.8,.025),muted,11)
+ local fade=Instance.new("Frame") fade.Name="Transition" fade.Size=UDim2.fromScale(1,1) fade.BackgroundColor3=bg.BackgroundColor3 fade.BackgroundTransparency=1 fade.BorderSizePixel=0 fade.ZIndex=40 fade.Parent=bg
+ local group=SoundService:FindFirstChild("ZeroAudio") or Instance.new("SoundGroup") group.Name="ZeroAudio" group.Volume=.7 group.Parent=SoundService
+ local click=Instance.new("Sound") click.Name="ZeroMenuClick" click.SoundId="rbxasset://sounds/button.wav" click.Volume=.1 click.SoundGroup=group click.Parent=SoundService
+ player:SetAttribute("ZeroAimSensitivity",1) player:SetAttribute("ZeroReducedEffects",false)
+ local function button(parent,name,value,pos,size,callback,locked)
+  local b=Instance.new("TextButton") b.Name=name b.Text="  "..value b.Position=pos b.Size=size b.BackgroundColor3=Color3.fromRGB(30,45,59) b.BackgroundTransparency=.1 b.BorderSizePixel=0 b.TextColor3=if locked then muted else white b.Font=Enum.Font.GothamBold b.TextScaled=true b.TextXAlignment=Enum.TextXAlignment.Left b.AutoButtonColor=false b.Selectable=not locked b.Active=not locked b.Parent=parent
+  local limit=Instance.new("UITextSizeConstraint") limit.MaxTextSize=22 limit.MinTextSize=9 limit.Parent=b
+  local stroke=Instance.new("UIStroke") stroke.ApplyStrokeMode=Enum.ApplyStrokeMode.Border stroke.Color=Color3.fromRGB(66,86,102) stroke.Transparency=.4 stroke.Parent=b
+  if not locked then
+   b.MouseEnter:Connect(function() TweenService:Create(b,TweenInfo.new(.16),{BackgroundColor3=Color3.fromRGB(65,73,77),TextColor3=orange}):Play() end)
+   b.MouseLeave:Connect(function() TweenService:Create(b,TweenInfo.new(.18),{BackgroundColor3=Color3.fromRGB(30,45,59),TextColor3=white}):Play() end)
+   b.Activated:Connect(function() click:Play() callback() end)
+  end
+  return b
+ end
+ local show,choose
+ local back=button(bg,"Back","←  BACK",UDim2.fromScale(.055,.88),UDim2.fromScale(.22,.052),function()
+  local s=player:GetAttribute("ZeroSession")
+  if s=="INSPECT" then flow:FireServer("Resume") elseif s=="SELECT" then flow:FireServer("Menu") else show("HOME") end
+ end)
+ local nav=Instance.new("Frame") nav.Name="Navigation" nav.Position=UDim2.fromScale(.055,.32) nav.Size=UDim2.fromScale(.34,.54) nav.BackgroundTransparency=1 nav.Parent=pages.HOME
+ for i,name in {"PLAY","HEROES","ARMORY","SETTINGS","CREDITS"} do button(nav,"Nav_"..name,name,UDim2.fromScale(0,(i-1)*.19),UDim2.fromScale(1,.15),function() show(name) end) end
+ text(pages.HOME,"Tagline","HUMAN OPERATIVES.\nADVANCED WARFARE.",UDim2.fromScale(.6,.78),UDim2.fromScale(.34,.12),muted,21)
+ text(pages.PLAY,"Title","SELECT OPERATION",UDim2.fromScale(.055,.29),UDim2.fromScale(.6,.06),white,32)
+ button(pages.PLAY,"Training","TRAINING  /  VEX vs AI",UDim2.fromScale(.055,.4),UDim2.fromScale(.42,.1),function() flow:FireServer("Play") end)
+ text(pages.PLAY,"TrainingInfo","HAMNVERKET • 3-minute training round\n30-second hero selection • 15-second preparation",UDim2.fromScale(.058,.52),UDim2.fromScale(.43,.11),muted,18)
+ button(pages.PLAY,"MultiplayerLocked","MULTIPLAYER  /  COMING SOON",UDim2.fromScale(.055,.67),UDim2.fromScale(.42,.07),nil,true)
+ button(pages.PLAY,"ControlLocked","CONTROL / ESCORT  /  LOCKED",UDim2.fromScale(.055,.77),UDim2.fromScale(.42,.07),nil,true)
+ local heroFrames={}
+ for _,mode in {"HEROES","ARMORY","SELECT"} do
+  local f=pages[mode]
+  local cards=Instance.new("Frame") cards.Name="Cards" cards.BackgroundTransparency=1 cards.Position=UDim2.fromScale(.055,.29) cards.Size=UDim2.fromScale(.23,.55) cards.Parent=f
+  for i,id in Catalog.Order do button(cards,"Hero_"..id,id..(if id=="VEX" then "" else "  / PREVIEW"),UDim2.fromScale(0,(i-1)*.125),UDim2.fromScale(1,.105),function() choose(id) end) end
+  local info=text(f,"HeroInfo","",UDim2.fromScale(.73,.3),UDim2.fromScale(.235,.4),white,24)
+  local status=text(f,"HeroStatus","",UDim2.fromScale(.73,.71),UDim2.fromScale(.235,.12),orange,16)
+  local poses=Instance.new("Frame") poses.Name="Poses" poses.BackgroundTransparency=1 poses.Position=UDim2.fromScale(.32,.84) poses.Size=UDim2.fromScale(.39,.045) poses.Parent=f
+  for i,a in {"Idle","Run","Fire","Reload"} do button(poses,"Pose_"..a,a,UDim2.fromScale((i-1)*.25,0),UDim2.fromScale(.235,1),function() self.pose=a self.poseAt=os.clock() gui:SetAttribute("PreviewAction",a) end) end
+  heroFrames[mode]={cards=cards,info=info,status=status,poses=poses}
+ end
+ local deploy=button(pages.SELECT,"Deploy","DEPLOY VEX",UDim2.fromScale(.73,.85),UDim2.fromScale(.235,.065),function() if self.selected=="VEX" then flow:FireServer("Deploy","VEX") end end)
+ local timer=text(pages.SELECT,"SelectTimer","",UDim2.fromScale(.055,.23),UDim2.fromScale(.8,.04),orange,18)
+ local settings=pages.SETTINGS
+ text(settings,"Title","FIELD SETTINGS",UDim2.fromScale(.055,.29),UDim2.fromScale(.65,.065),white,32)
+ local volume=text(settings,"VolumeValue","",UDim2.fromScale(.055,.4),UDim2.fromScale(.47,.06),white,23)
+ local sensitivity=text(settings,"SensitivityValue","",UDim2.fromScale(.055,.53),UDim2.fromScale(.47,.06),white,23)
+ local quality=text(settings,"QualityValue","",UDim2.fromScale(.055,.66),UDim2.fromScale(.47,.06),white,23)
+ local function refreshSettings()
+  volume.Text="MASTER AUDIO  /  "..math.floor(group.Volume*100+.5).."%"
+  sensitivity.Text=string.format("FPS AIM  /  %.1f ×",player:GetAttribute("ZeroAimSensitivity"))
+  quality.Text="LOCAL EFFECTS  /  "..(if player:GetAttribute("ZeroReducedEffects") then "LOW" else "HIGH")
+ end
+ for _,d in {{"VolumeMinus",.4,-.1},{"VolumePlus",.4,.1},{"SensitivityMinus",.53,-.1},{"SensitivityPlus",.53,.1}} do
+  local name,y,delta=d[1],d[2],d[3]
+  button(settings,name,if delta<0 then "  −" else "  +",UDim2.fromScale(if delta<0 then .55 else .65,y),UDim2.fromScale(.08,.065),function()
+   if string.find(name,"Volume") then group.Volume=math.clamp(group.Volume+delta,0,1) else player:SetAttribute("ZeroAimSensitivity",math.clamp(player:GetAttribute("ZeroAimSensitivity")+delta,.2,2)) end refreshSettings()
+  end)
+ end
+ button(settings,"QualityToggle","TOGGLE",UDim2.fromScale(.55,.66),UDim2.fromScale(.18,.065),function()
+  local low=not player:GetAttribute("ZeroReducedEffects") player:SetAttribute("ZeroReducedEffects",low) game.Lighting.GlobalShadows=not low refreshSettings()
+ end)
+ text(settings,"SettingsNote","Applies this session. FPS aim controls this game's camera.\nLOW reduces local effects and shadows. Roblox device quality stays in Roblox settings.",UDim2.fromScale(.055,.77),UDim2.fromScale(.69,.075),muted,15)
+ text(pages.CREDITS,"Credits","PROJECT: ZERO\nAn original Roblox hero-shooter prototype\n\nNORRHAMN / 2042 • ZERO INITIATIVE\nLuau, Rojo and original fitted hero models\n\nPoly Haven / Jorge Camacho: CC0 industrial pipes\nCreator Store: Elttob, DesiredDestinyx1, legitperspective, circles_squared\nFull asset origins and usage terms: repository docs/ASSETS.md\n\nVisual prototype • only VEX currently playable",UDim2.fromScale(.055,.29),UDim2.fromScale(.66,.53),white,23)
+ local results=text(pages.RESULTS,"Results","",UDim2.fromScale(.055,.32),UDim2.fromScale(.53,.3),white,34)
+ button(pages.RESULTS,"ReturnMenu","RETURN TO MAIN MENU",UDim2.fromScale(.055,.68),UDim2.fromScale(.43,.08),function() flow:FireServer("Menu") end)
+ button(pages.RESULTS,"PlayAgain","PLAY AGAIN",UDim2.fromScale(.055,.79),UDim2.fromScale(.43,.065),function() flow:FireServer("Play") end)
+ choose=function(id)
+  local nextSubject=if self.page=="ARMORY" then Weapons.create(id,world,true) else Factory.create(id.."_Menu","Alpha",Vector3.zero,id)
+  if subject then subject:Destroy() end subject=nextSubject subject.Parent=world self.selected=id gui:SetAttribute("SelectedHero",id)
+  if self.page=="ARMORY" then for _,p in subject:GetDescendants() do if p:IsA("BasePart") then p.Anchored=true p.CanCollide=false end end subject:ScaleTo(2.5)
+  else for _,p in subject:GetDescendants() do if p:IsA("BasePart") then p.Anchored=p.Name=="HumanoidRootPart" p.CanCollide=false end end end
+  local h=Catalog.Heroes[id]
+  for _,f in heroFrames do
+   f.info.Text=id.."\n"..h.Role.." / "..h.HP.." HP\n\n"..h.Name.."\n"..h.Weapon
+   f.status.Text=if id=="VEX" then "PLAYABLE\nVX-7 + Dash\nGrenade / ultimate pending" else "VISUAL PREVIEW\nGameplay kit locked\n"..h.Kit
+  end
+  deploy.Text=if id=="VEX" then "  DEPLOY VEX" else "  KIT LOCKED / PREVIEW ONLY" deploy.Active=id=="VEX" deploy.Selectable=id=="VEX"
+  heroFrames.ARMORY.status.Text=h.Silhouette.."\n\nPLANNED KIT: "..h.Kit
+ end
+ local function responsive()
+  local narrow=gui.AbsoluteSize.X<700
+  for _,f in heroFrames do
+   f.cards.Position=if narrow then UDim2.fromScale(.055,.27) else UDim2.fromScale(.055,.29)
+   f.cards.Size=if narrow then UDim2.fromScale(.25,.56) else UDim2.fromScale(.23,.55)
+   f.info.Position=UDim2.fromScale(.73,.3) f.info.Size=UDim2.fromScale(.235,.4)
+  end
+  nav.Size=UDim2.fromScale(if narrow then .43 else .34,.54)
+ end
+ show=function(page)
+  self.page=page gui:SetAttribute("Page",page)
+  for name,f in pages do f.Visible=name==page end
+  back.Visible=page~="HOME" and page~="RESULTS"
+  header.Text=if page=="HOME" then 'PROJECT: <font color="#DD8945">ZERO</font>' elseif page=="SELECT" then "CHOOSE YOUR OPERATIVE" else "ZERO // "..page
+  sub.Text=if page=="HOME" then "NORRHAMN / 2042 / ZERO INITIATIVE" else "HAMNVERKET / OPERATIVE COMMAND"
+  viewport.Visible=page=="HOME" or page=="PLAY" or heroFrames[page]~=nil or page=="RESULTS"
+  viewport.Position=if heroFrames[page] then UDim2.fromScale(.29,.24) else UDim2.fromScale(.38,.15)
+  viewport.Size=if heroFrames[page] then UDim2.fromScale(.43,.59) else UDim2.fromScale(.62,.8)
+  if page=="HOME" or page=="PLAY" or page=="RESULTS" then choose("VEX") elseif heroFrames[page] then choose(self.selected) end
+  if page=="RESULTS" then results.Text="TRAINING COMPLETE\n\n"..(player:GetAttribute("ZeroResultKills") or 0).." ELIMINATIONS\n"..(player:GetAttribute("ZeroResultDeaths") or 0).." DEATHS" end
+  heroFrames.ARMORY.poses.Visible=false
+  fade.BackgroundTransparency=.4 TweenService:Create(fade,TweenInfo.new(.25),{BackgroundTransparency=1}):Play()
+  refreshSettings() responsive()
+ end
+ local function sync()
+  local s=player:GetAttribute("ZeroSession") or "MENU"
+  self.isOpen=s=="MENU" or s=="SELECT" or s=="RESULTS" or s=="INSPECT" gui.Enabled=self.isOpen
+  if self.isOpen then workspace.CurrentCamera.CameraType=Enum.CameraType.Scriptable UIS.MouseBehavior=Enum.MouseBehavior.Default UIS.MouseIconEnabled=true
+   show(if s=="SELECT" then "SELECT" elseif s=="RESULTS" then "RESULTS" elseif s=="INSPECT" then "HEROES" else "HOME")
+  else UIS.MouseIconEnabled=false end
+ end
+ player:GetAttributeChangedSignal("ZeroSession"):Connect(sync)
+ gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(responsive)
+ UIS.InputBegan:Connect(function(input,processed)
+  if processed then return end
+  if input.KeyCode==Enum.KeyCode.M then flow:FireServer("Menu")
+  elseif input.KeyCode==Enum.KeyCode.H and player:GetAttribute("ZeroSession")=="ACTIVE" then flow:FireServer("Inspect") end
+ end)
+ RunService:BindToRenderStep("ZeroMainMenu",Enum.RenderPriority.Camera.Value+3,function(dt)
+  if not self.isOpen then return end
+  UIS.MouseBehavior=Enum.MouseBehavior.Default UIS.MouseIconEnabled=true workspace.CurrentCamera.CameraType=Enum.CameraType.Scriptable
+  if self.page=="SELECT" then timer.Text="VEX AVAILABLE / OTHER KITS LOCKED  •  AUTO-DEPLOY IN "..math.max(0,math.ceil((player:GetAttribute("ZeroSelectEnd") or workspace:GetServerTimeNow())-workspace:GetServerTimeNow())).."s" end
+  if not subject then return end
+  local aspect=math.max(.15,viewport.AbsoluteSize.X/math.max(1,viewport.AbsoluteSize.Y))
+  camera.FieldOfView=math.clamp(math.deg(2*math.atan(math.tan(math.rad(18.5))*math.max(1,.8/aspect))),37,82)
+  if self.page=="ARMORY" then
+   subject:PivotTo(CFrame.new(0,2,0)*CFrame.Angles(0,1.2+math.sin(os.clock()*.25)*.25,0))
+   local center,size=subject:GetBoundingBox()
+   local distance=math.max(10,size.Magnitude*.65/math.tan(math.rad(camera.FieldOfView/2))*math.max(1,1/aspect))
+   camera.CFrame=CFrame.lookAt(center.Position+Vector3.new(0,1,-distance),center.Position)
+  else
+   subject.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,-.18+math.sin(os.clock()*.22)*.08,0)
+   local elapsed=os.clock()-self.poseAt local progress=if self.pose=="Reload" then (elapsed%2.5)/1.8 else (elapsed%.5)/.2
+   Pose.apply(subject,os.clock(),if self.pose=="Run" and heroFrames[self.page] then 1 else 0,if heroFrames[self.page] then self.pose else "Idle",progress)
+   camera.CFrame=CFrame.lookAt(Vector3.new(7,4.7,-12),Vector3.new(0,2.8,0))
+  end
+ end)
+ sync()
+ return self
+end
+return Menu
+]]></string>
+          </Properties>
+        </Item>
       </Item>
     </Item>
   </Item>
-  <Item class="Workspace" referent="51">
+  <Item class="Workspace" referent="55">
     <Properties>
       <string name="Name">Workspace</string>
       <bool name="FilteringEnabled">true</bool>

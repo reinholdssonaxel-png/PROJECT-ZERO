@@ -1,5 +1,9 @@
 # Verification — 2026-10-17
 
+## Current revision — 2026-10-18
+
+The historical evidence below describes earlier milestones. Current evidence is in [HAMNVERKET_V2.md](HAMNVERKET_V2.md) and [MAIN_MENU.md](MAIN_MENU.md): 1,723 map checks including 1,680 blocked spawn rays, 114 combat/hero checks, 14 session checks, actual four-bot traversal, real menu/preview/settings input and a natural timed training ending. Current map budget: 666 instances / 552 parts / 34 meshes. Joining now opens the main menu, rather than auto-deploying VEX.
+
 ## Visual / eight-hero milestone
 
 - Official Luau syntax compilation and Rojo place build cover **19 Luau files** plus three sanitized JSON art templates.

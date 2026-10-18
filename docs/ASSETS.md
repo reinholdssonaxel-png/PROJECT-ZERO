@@ -2,6 +2,8 @@
 
 The current milestone combines original fitted hero armor/weapons and procedural poses with reviewed free Creator Store art templates and audio. Searches covered sci-fi rifles/helmets, R15 rigs/armor/animations, industrial containers/pipes and harbor cranes. No paid assets were obtained. No Toolbox gameplay code is included.
 
+2026-10-18 revision: the same audited pipe kits are installed as building services, the container meshes are ship cargo, and original architecture now supplies all gameplay cover. Main-menu scenery is original Parts and existing hero/weapon factories. No additional third-party models or scripts were imported for the layout/menu revision.
+
 ## Integrated visual assets
 
 | Asset / source | Audit | Adaptation and checked-in template |

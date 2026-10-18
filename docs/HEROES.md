@@ -13,7 +13,7 @@ All models are humans using fitted advanced equipment on the same articulated R1
 | NOVA | 250 | White/gray medical armor, cyan visor, med pack/canisters and medical insignia; energy carbine | R15/weapon/pose preview; healing/drone/pulse boost/Revival Field gameplay pending |
 | ECHO | 275 | Blue/gray layered tech armor, projection core and translucent forearm emitters; pulse carbine | R15/weapon/pose preview; pulse/shield/disruptor/Amplify gameplay pending |
 
-Open **H / Armory** while in a safe spawn room. Every card is selectable for visual inspection and shows canonical HP/identity. Idle, Run, Fire and Reload buttons drive original procedural R15 poses. VEX returns to gameplay; previewing another operative does not grant its unimplemented kit. Preview models are local, in a WorldModel, and only one is instantiated at a time.
+Open **HEROES** or **ARMORY** from the main menu, or H during an active session to inspect heroes. Every card is selectable for visual inspection and shows canonical HP/identity. Hero pose buttons drive original procedural R15 poses; Armory instead frames each standalone weapon/equipment set. PLAY opens an actual match-start selector where only VEX deploys. Preview models are local WorldModels, with one operative/weapon instantiated at a time. H inspection freezes movement/combat server-side; Back resumes.
 
 These are stylized development models, not final skinned production art. All have an Animator for a later Animation Editor pass. Current motion is generated through R15 Motor6D poses, not published external animation clips. The two pistol meshes are attached to different hands; Atlas's weapons are fitted directly to both hands.
 
