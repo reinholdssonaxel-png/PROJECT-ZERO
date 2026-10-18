@@ -84,3 +84,30 @@ Planned composition per team: **1 Tank, 2 Damage, 2 Support**. Eight heroes:
 
 ## Acceptance criteria for first playable milestone
 Player can join in first person as VEX, move, aim, fire VX-7, reload, see health/ammo, hit a target or bot with server-validated damage, use Dash, die and respawn on a basic industrial map. README explains Rojo/Studio setup and exact manual test steps. Do not claim finished features until they are implemented and tested.
+
+## First prototype implementation decisions (2026-10-17)
+- Headshots use **1.5× damage** (19.5 HP); body damage remains 13.
+- Unit conversion: **1 stud = 0.28 m**; Dash is 64.286 studs/s for 0.18 s with an 8 s cooldown. Weapon range is 650 studs. These are prototype tuning values.
+- One Bravo VEX AI opponent; humans join Alpha in training. Optional `Workspace.ZeroPvP` alternates human factions for local opponent testing. This is not the final 5v5 team/match system.
+- Compact original Parts blockout, R15 placeholder rigs, procedural gait/reload poses and one documented free Creator Store shot sound. Production meshes and authored Animator clips remain later work.
+- Spawn rooms are safe zones and respawns also have two seconds of protection. No damage is dealt from inside a spawn room. The initial 15-second preparation starts when the first player joins.
+- Verification evidence and untested multiplayer/publication gaps are tracked in `docs/VERIFICATION.md`; `README.md` documents the exact setup and test steps. All canonical heroes and deferred mechanics above are preserved.
+
+## Visual and roster milestone (2026-10-17)
+- HAMNVERKET receives Swedish industrial signage, drainage/loading rails, wet surfaces, warehouse shutters/windows/vents, cargo hardware, fencing, catwalk rails, gantry bracing/cabins, port/city background and reviewed free art templates. Three lanes, the central landmark and two symmetrical safe spawn rooms remain.
+- All eight canonical heroes now have distinct original R15 armor/weapon prototypes and Idle/Run/Fire/Reload procedural poses, with canonical identities, roles and HP in `HeroCatalog`. They remain human combatants under fitted protective equipment.
+- **H / Armory** previews all eight and reports actual implementation status. VEX remains the only playable kit; the other seven remain visual previews until their server weapon/abilities are implemented and tested. This does not substitute Armory for the later match-start hero-deployment flow.
+- Checked-in sanitized art templates contain no scripts. Asset IDs, authors, audit findings, CC0/Creator Store terms and published-permission caveats are in `docs/ASSETS.md`. Per-hero status is in `docs/HEROES.md`.
+
+## Protected layout and main menu revision (2026-10-18)
+- HAMNVERKET v2 replaces the former container grid with a 320 × 520-stud harbor layout, two protected exits per spawn, split vestibules, cross-dock/workshop doglegs and three architectural lanes. Physical geometry blocks sampled spawn sightlines; equal route metrics coexist with different facade/service identities. See `docs/HAMNVERKET_V2.md`.
+- The command menu opens on join with a 3D VEX industrial stage. PLAY leads to training selection, 30-second VEX deployment selection, 15-second preparation and a 180-second training round/results. Competitive modes remain locked.
+- HEROES reuses all eight R15 models; ARMORY displays each weapon/equipment set. Only VEX deploys. SETTINGS provides local/session audio, custom FPS aim sensitivity and effects/shadow controls. CREDITS lists real project/asset information.
+- MENU/SELECT/RESULTS have no combat character. INSPECT and PREPARE freeze movement server-side and reject combat. M returns to menu; H inspects during play. This is standard Roblox replication/RemoteEvents, not custom networking.
+- Existing VEX numerical combat balance and all canonical hero identities remain unchanged. Menu/map engine-test evidence and remaining published/multi-client/device gaps are documented in `docs/MAIN_MENU.md` and `docs/HAMNVERKET_V2.md`.
+
+## Mesh armor revision (2026-10-18)
+- All eight humans have fitted mesh helmets/cuirasses, native Roblox R15 body geometry under their equipment, separate shoulder/forearm/shin shells and distinct role-specific equipment. Rigid armor mounts to one limb; it does not replace the server's existing hit volumes.
+- VEX adapts reviewed free Creator Store tactical helmet/carrier assets. Other armor and weapon meshes were created with Roblox's AI tools, reviewed and fitted; this is disclosed in CREDITS and the asset registry. Badly segmented or franchise-derived candidates are excluded from the shipped build.
+- HEROES/ARMORY add rotation, zoom and reset. Motion uses stable stored bind poses and anatomical limb pivots. Authored Animator clips/skinned production art remain future work; seven gameplay kits remain locked.
+- HAMNVERKET retains protected spawn exits and three lanes, with repeated warehouse sawtooth roof/northlight architecture. See `docs/HERO_ART.md` for checks and remaining limits.

@@ -1,0 +1,531 @@
+{
+  "Children": [
+    {
+      "Name": "VEX",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "23a1f5a2-4c21-4660-996b-3df4a2cbc3d6"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://106542168436332",
+                "MeshId": "rbxassetid://112651838196386",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.0000019073486328125,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.21351462602615356,
+                  0.8999999761581421,
+                  1.580324411392212
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "TITAN",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "165b040b-3847-4c01-8342-d00dc6d7d467"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://116733976135130",
+                "MeshId": "rbxassetid://86915120410830",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0.000008411705493927002,
+                  -0.00000762939453125,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.4937855005264282,
+                  1,
+                  1.480007290840149
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "NOVA",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "d891f658-ff77-4339-a23a-1753f5aeffe3"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://100462618944572",
+                "MeshId": "rbxassetid://107110792980957",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  1.4901161193847656e-8,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.2729605734348297,
+                  1,
+                  2.2754852771759033
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "HAVOC",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "e977329a-9eda-4248-9127-6aa4f8766746"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://137282536340574",
+                "MeshId": "rbxassetid://88497603568735",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  7.450580596923828e-9,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.46095776557922363,
+                  1,
+                  1.1125316619873047
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "PHANTOM",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "5d1400db-635b-449d-a666-3c5e05c1e75b"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://124483565585492",
+                "MeshId": "rbxassetid://131384125713894",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0,
+                  0.00002288818359375,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.22859390079975128,
+                  1,
+                  1.4004117250442505
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "ATLAS",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "405dff41-8533-4d5f-9c3f-58cc831d872b"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://115910655631623",
+                "MeshId": "rbxassetid://87063399689368",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  1.4901161193847656e-8,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.558417558670044,
+                  1,
+                  0.5281596779823303
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "ECHO",
+      "Children": [
+        {
+          "Name": "world",
+          "Children": [
+            {
+              "Name": "body",
+              "Children": [
+                {
+                  "Name": "body_geom",
+                  "Properties": {
+                    "CanQuery": false,
+                    "CanCollide": false,
+                    "TextureID": "rbxassetid://114294567928963",
+                    "MeshId": "rbxassetid://128575467863027",
+                    "CanTouch": false,
+                    "Anchored": true,
+                    "CFrame": [
+                      0,
+                      0.00000762939453125,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0.9999998807907104,
+                      0,
+                      0,
+                      0,
+                      0.9999998807907104
+                    ],
+                    "CollisionFidelity": "Box",
+                    "Color": [
+                      0.6392157077789307,
+                      0.6352941393852234,
+                      0.6470588445663452
+                    ],
+                    "Material": "Plastic",
+                    "RenderFidelity": "Automatic",
+                    "Size": [
+                      0.2840636074542999,
+                      1,
+                      1.3005924224853516
+                    ]
+                  },
+                  "ClassName": "MeshPart"
+                }
+              ],
+              "ClassName": "Model"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "SPECTRE",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "32a9a732-b449-4b38-9020-2234f10742a0"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "body",
+          "Children": [
+            {
+              "Name": "body_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://87995762851563",
+                "MeshId": "rbxassetid://75487758799068",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -7.450580596923828e-9,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999998807907104,
+                  0,
+                  0,
+                  0,
+                  0.9999998807907104
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.28232115507125854,
+                  1,
+                  2.4368646144866943
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    }
+  ],
+  "ClassName": "Folder"
+}

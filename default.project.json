@@ -1,0 +1,15 @@
+{
+  "name": "PROJECT ZERO",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "ZeroShared": { "$path": "src/shared" }, "ZeroAssets": { "$path": "assets/characters" } },
+    "ServerScriptService": { "ZeroServer": { "$path": "src/server" } },
+    "StarterPlayer": {
+      "$properties": { "CameraMode": "LockFirstPerson", "CharacterWalkSpeed": 22, "CharacterJumpPower": 42 },
+      "StarterPlayerScripts": { "ZeroClient": { "$path": "src/client" } }
+    },
+    "Workspace": { "$properties": { "FilteringEnabled": true, "Gravity": 196.2 } },
+    "Lighting": { "$properties": { "ClockTime": 20.5, "Brightness": 3, "Ambient": [0.24, 0.29, 0.38], "OutdoorAmbient": [0.3, 0.35, 0.45] } },
+    "ServerStorage": { "ZeroTests": { "$path": "tests" }, "ZeroArt": { "$path": "assets/environment" } }
+  }
+}

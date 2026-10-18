@@ -1,0 +1,70 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "Properties": {
+            "Offset": [
+              0,
+              0,
+              0
+            ],
+            "VertexColor": [
+              1,
+              1,
+              1
+            ],
+            "MeshType": "FileMesh",
+            "Scale": [
+              1,
+              1,
+              1
+            ],
+            "MeshId": "rbxassetid://15217278641",
+            "TextureId": "http://www.roblox.com/asset/?id=15217298299"
+          },
+          "Name": "SpecialMesh",
+          "ClassName": "SpecialMesh"
+        }
+      ],
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Transparency": 0,
+        "Shape": "Block",
+        "Reflectance": 0,
+        "CFrame": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          1,
+          1,
+          1
+        ]
+      },
+      "Name": "Handle",
+      "ClassName": "Part"
+    }
+  ],
+  "ClassName": "Model"
+}

@@ -1,0 +1,383 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308856893",
+            "NormalMap": "rbxassetid://12308857416",
+            "RoughnessMap": "rbxassetid://12308854581",
+            "MetalnessMap": "rbxassetid://12308853495"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308850014",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          0.8644561767578125,
+          -0.24462127685546875,
+          -5.0964508056640625,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          1.0034104585647583,
+          0.9996192455291748,
+          9.47015380859375
+        ]
+      },
+      "Name": "Straight Long",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308856893",
+            "NormalMap": "rbxassetid://12308857416",
+            "RoughnessMap": "rbxassetid://12308854581",
+            "MetalnessMap": "rbxassetid://12308853495"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308850008",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          -3.7861251831054688,
+          -0.24448394775390625,
+          -0.914276123046875,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          2.900430202484131,
+          0.9998873472213745,
+          6.368143558502197
+        ]
+      },
+      "Name": "S",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308857309",
+            "NormalMap": "rbxassetid://12308857615",
+            "RoughnessMap": "rbxassetid://12308855119",
+            "MetalnessMap": "rbxassetid://12308853487"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308849988",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          -1.88848876953125,
+          -0.24597930908203125,
+          5.0415496826171875,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          2.897712469100952,
+          0.9997335076332092,
+          2.0972204208374023
+        ]
+      },
+      "Name": "U",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308857309",
+            "NormalMap": "rbxassetid://12308857615",
+            "RoughnessMap": "rbxassetid://12308855119",
+            "MetalnessMap": "rbxassetid://12308853487"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308853559",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          -2.5897979736328125,
+          -0.24446868896484375,
+          3.1267547607421875,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          1.7323569059371948,
+          0.999910831451416,
+          1.495788335800171
+        ]
+      },
+      "Name": "T",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308857309",
+            "NormalMap": "rbxassetid://12308857615",
+            "RoughnessMap": "rbxassetid://12308855119",
+            "MetalnessMap": "rbxassetid://12308853487"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308853643",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          -4.7351837158203125,
+          -0.24446868896484375,
+          -5.0942840576171875,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          1.728710412979126,
+          0.9999117255210876,
+          1.9916694164276123
+        ]
+      },
+      "Name": "Cross",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308857309",
+            "NormalMap": "rbxassetid://12308857615",
+            "RoughnessMap": "rbxassetid://12308855119",
+            "MetalnessMap": "rbxassetid://12308853487"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308853705",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          -1.1020660400390625,
+          0.00070953369140625,
+          -1.080718994140625,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          1.2901890277862549,
+          1.4902726411819458,
+          1.8354113101959229
+        ]
+      },
+      "Name": "Valve",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Children": [
+        {
+          "Properties": {
+            "ColorMap": "rbxassetid://12308856893",
+            "NormalMap": "rbxassetid://12308857416",
+            "RoughnessMap": "rbxassetid://12308854581",
+            "MetalnessMap": "rbxassetid://12308853495"
+          },
+          "Name": "SurfaceAppearance",
+          "ClassName": "SurfaceAppearance"
+        }
+      ],
+      "Properties": {
+        "CollisionFidelity": "Box",
+        "CanQuery": false,
+        "CanCollide": false,
+        "Color": [
+          0.6392157077789307,
+          0.6352941393852234,
+          0.6470588445663452
+        ],
+        "Anchored": true,
+        "CanTouch": false,
+        "Reflectance": 0,
+        "TextureID": "",
+        "Transparency": 0,
+        "MeshId": "rbxassetid://12308849879",
+        "RenderFidelity": "Performance",
+        "CFrame": [
+          -0.9527664184570312,
+          -0.2446136474609375,
+          1.9120330810546875,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "Material": "Plastic",
+        "CastShadow": false,
+        "Size": [
+          1.0034284591674805,
+          0.9996200799942017,
+          4.162121772766113
+        ]
+      },
+      "Name": "Straight",
+      "ClassName": "MeshPart"
+    }
+  ],
+  "ClassName": "Model"
+}
