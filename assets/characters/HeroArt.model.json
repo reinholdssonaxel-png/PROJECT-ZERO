@@ -1,0 +1,1167 @@
+{
+  "Children": [
+    {
+      "Name": "VEX",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "ae47fe43-e303-4948-8b2d-87358e92ba23"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Properties": {
+            "Attributes": {
+              "ZeroSourceAssetId": {
+                "String": "10094020550"
+              }
+            }
+          },
+          "Children": [
+            {
+              "Name": "Tactical Mich/Fast Helmet",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://3797942365",
+                "MeshId": "rbxassetid://3744222272",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.0000152587890625,
+                  -0.0000152587890625,
+                  0,
+                  0,
+                  1.2428982643086783e-7,
+                  1.0000001192092896,
+                  6.216578185558319e-8,
+                  1,
+                  1.2428981222001312e-7,
+                  -0.9999999403953552,
+                  -6.216578185558319e-8,
+                  0
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Fabric",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.6594009399414062,
+                  1.662577748298645,
+                  1.651057481765747
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Properties": {
+            "Attributes": {
+              "ZeroSourceAssetId": {
+                "String": "5017067006"
+              }
+            }
+          },
+          "Children": [
+            {
+              "Name": "Handle",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "CFrame": [
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CanTouch": false,
+                "Anchored": true,
+                "Material": "Plastic",
+                "Shape": "Block",
+                "Size": [
+                  2.200000286102295,
+                  2.200000524520874,
+                  1.600000023841858
+                ]
+              },
+              "Children": [
+                {
+                  "Name": "Mesh",
+                  "Properties": {
+                    "Offset": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "VertexColor": [
+                      1,
+                      1,
+                      1
+                    ],
+                    "MeshType": "FileMesh",
+                    "Scale": [
+                      1,
+                      1,
+                      1
+                    ],
+                    "MeshId": "http://www.roblox.com/asset/?id=108788572 ",
+                    "TextureId": "http://www.roblox.com/asset/?id=109282716"
+                  },
+                  "ClassName": "SpecialMesh"
+                }
+              ],
+              "ClassName": "Part"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "NOVA",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "29673b53-f0d3-428c-8402-2bb1955ca19e"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Children": [
+            {
+              "Name": "Helmet_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://90769934521379",
+                "MeshId": "rbxassetid://101817014707106",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0.00002288818359375,
+                  0,
+                  -0.0000152587890625,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.8832755088806152,
+                  1.241986632347107,
+                  0.9717462062835693
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://88329294838888",
+                "MeshId": "rbxassetid://110211176630948",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0,
+                  0,
+                  0.0000152587890625,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  2.2929792404174805,
+                  2.067648410797119,
+                  1.2590278387069702
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "HAVOC",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "c441b14d-c939-4238-bb54-1ad523a1a081"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Children": [
+            {
+              "Name": "Helmet_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://90289646587860",
+                "MeshId": "rbxassetid://140423839919472",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0.00000762939453125,
+                  -0.000011444091796875,
+                  0,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  0.9618223905563354,
+                  0.8110463619232178,
+                  1.0379362106323242
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://119357799675860",
+                "MeshId": "rbxassetid://125085001826958",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0,
+                  0,
+                  0.0000152587890625,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.4223703145980835,
+                  2.7103540897369385,
+                  1.6876254081726074
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "SPECTRE",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "02278c56-60bd-4b78-a79e-7ecbbfcddcdc"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Children": [
+            {
+              "Name": "Helmet_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://76422465090221",
+                "MeshId": "rbxassetid://126843204753827",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.00000762939453125,
+                  -0.000034332275390625,
+                  -0.0000457763671875,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.0631649494171143,
+                  1.4274494647979736,
+                  1.3678524494171143
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://126186269316411",
+                "MeshId": "rbxassetid://127908961271993",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.00000762939453125,
+                  0,
+                  0,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.3890255689620972,
+                  1.6575486660003662,
+                  1.5491509437561035
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "ATLAS",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "bd1badff-6514-4090-a904-72c8c34e75e2"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Children": [
+            {
+              "Name": "Helmet_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://72171029724036",
+                "MeshId": "rbxassetid://129021030475782",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.0000152587890625,
+                  0,
+                  -0.0000152587890625,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.1617357730865479,
+                  1.3694214820861816,
+                  1.2157124280929565
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://128798576876752",
+                "MeshId": "rbxassetid://102433782500968",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0.00000762939453125,
+                  0,
+                  0,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.6328978538513184,
+                  1.9496597051620483,
+                  1.4097838401794434
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "PHANTOM",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "40f31493-9be8-4c72-a939-3eab72d3e51e"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Children": [
+            {
+              "Name": "Helmet_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://102570793401332",
+                "MeshId": "rbxassetid://88118102613549",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0,
+                  -0.0000152587890625,
+                  0,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.0715768337249756,
+                  1.263027548789978,
+                  1.1556153297424316
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://104849778990684",
+                "MeshId": "rbxassetid://98184993558970",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0.00000762939453125,
+                  0.00002288818359375,
+                  0,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.738840937614441,
+                  1.815425157546997,
+                  1.3687885999679565
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "ECHO",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "25b5ae14-6b9f-4561-b38a-113300df221a"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://107982130326011",
+                "MeshId": "rbxassetid://84110479567659",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.00000762939453125,
+                  0.0000152587890625,
+                  0,
+                  1.000000238418579,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0.9999999403953552
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.1187324523925781,
+                  1.1945816278457642,
+                  1.0007128715515137
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Helmet",
+          "Properties": {
+            "Attributes": {
+              "RBX_AI_GENERATION_TYPE": {
+                "String": "GenerateMesh"
+              },
+              "RBX_AI_GENERATED": {
+                "Bool": true
+              },
+              "RBX_AI_GENERATION_ID": {
+                "String": "a91d2c9d-4f58-4159-b537-a959ab3ee541"
+              },
+              "RBX_AI_MODEL_FLOW": {
+                "String": "mesh"
+              }
+            }
+          },
+          "Children": [
+            {
+              "Name": "body",
+              "Children": [
+                {
+                  "Name": "body_geom",
+                  "Properties": {
+                    "CanQuery": false,
+                    "CanCollide": false,
+                    "TextureID": "rbxassetid://99958529731296",
+                    "MeshId": "rbxassetid://138209628705780",
+                    "CanTouch": false,
+                    "Anchored": true,
+                    "CFrame": [
+                      0.000011444091796875,
+                      -0.00000762939453125,
+                      0.0000152587890625,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "CollisionFidelity": "Box",
+                    "Color": [
+                      0.6392157077789307,
+                      0.6352941393852234,
+                      0.6470588445663452
+                    ],
+                    "Material": "Plastic",
+                    "RenderFidelity": "Automatic",
+                    "Size": [
+                      1.2981417179107666,
+                      1.3675103187561035,
+                      1.399999976158142
+                    ]
+                  },
+                  "ClassName": "MeshPart"
+                }
+              ],
+              "ClassName": "Model"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "TITAN",
+      "Properties": {
+        "Attributes": {
+          "RBX_AI_GENERATION_TYPE": {
+            "String": "GenerateMesh"
+          },
+          "RBX_AI_GENERATED": {
+            "Bool": true
+          },
+          "RBX_AI_GENERATION_ID": {
+            "String": "a7a4f0e6-8e6f-4ace-8066-dd2605a3441f"
+          },
+          "RBX_AI_MODEL_FLOW": {
+            "String": "mesh"
+          }
+        }
+      },
+      "Children": [
+        {
+          "Name": "Helmet",
+          "Children": [
+            {
+              "Name": "Helmet_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://88008022778194",
+                "MeshId": "rbxassetid://120755190892536",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  -0.000011444091796875,
+                  0,
+                  0.0000152587890625,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.1309040784835815,
+                  1.184145212173462,
+                  1.0867736339569092
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Chest",
+          "Children": [
+            {
+              "Name": "Chest_geom",
+              "Properties": {
+                "CanQuery": false,
+                "CanCollide": false,
+                "TextureID": "rbxassetid://136468841358311",
+                "MeshId": "rbxassetid://97338811560289",
+                "CanTouch": false,
+                "Anchored": true,
+                "CFrame": [
+                  0.000019073486328125,
+                  0.0000152587890625,
+                  -0.0000152587890625,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "CollisionFidelity": "Box",
+                "Color": [
+                  0.6392157077789307,
+                  0.6352941393852234,
+                  0.6470588445663452
+                ],
+                "Material": "Plastic",
+                "RenderFidelity": "Automatic",
+                "Size": [
+                  1.7437587976455688,
+                  1.845750331878662,
+                  1.847934603691101
+                ]
+              },
+              "ClassName": "MeshPart"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Model"
+    },
+    {
+      "Name": "Common",
+      "Children": [
+        {
+          "Name": "Shin",
+          "Properties": {
+            "Attributes": {
+              "RBX_AI_GENERATION_TYPE": {
+                "String": "GenerateMesh"
+              },
+              "RBX_AI_GENERATED": {
+                "Bool": true
+              },
+              "RBX_AI_GENERATION_ID": {
+                "String": "2daf53c4-5242-4290-bf00-962f36353306"
+              },
+              "RBX_AI_MODEL_FLOW": {
+                "String": "mesh"
+              }
+            }
+          },
+          "Children": [
+            {
+              "Name": "body",
+              "Children": [
+                {
+                  "Name": "body_geom",
+                  "Properties": {
+                    "CanQuery": false,
+                    "CanCollide": false,
+                    "TextureID": "rbxassetid://105759258510728",
+                    "MeshId": "rbxassetid://122163543623774",
+                    "CanTouch": false,
+                    "Anchored": true,
+                    "CFrame": [
+                      -0.0000019073486328125,
+                      -0.00000762939453125,
+                      0.000030517578125,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "CollisionFidelity": "Box",
+                    "Color": [
+                      0.6392157077789307,
+                      0.6352941393852234,
+                      0.6470588445663452
+                    ],
+                    "Material": "Plastic",
+                    "RenderFidelity": "Automatic",
+                    "Size": [
+                      0.6203463077545166,
+                      1.4000000953674316,
+                      0.6905127763748169
+                    ]
+                  },
+                  "ClassName": "MeshPart"
+                }
+              ],
+              "ClassName": "Model"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Forearm",
+          "Properties": {
+            "Attributes": {
+              "RBX_AI_GENERATION_TYPE": {
+                "String": "GenerateMesh"
+              },
+              "RBX_AI_GENERATED": {
+                "Bool": true
+              },
+              "RBX_AI_GENERATION_ID": {
+                "String": "7fd4b805-2bc4-4992-970f-0c0fcfae435f"
+              },
+              "RBX_AI_MODEL_FLOW": {
+                "String": "mesh"
+              }
+            }
+          },
+          "Children": [
+            {
+              "Name": "body",
+              "Children": [
+                {
+                  "Name": "body_geom",
+                  "Properties": {
+                    "CanQuery": false,
+                    "CanCollide": false,
+                    "TextureID": "rbxassetid://131187854862724",
+                    "MeshId": "rbxassetid://75433514822623",
+                    "CanTouch": false,
+                    "Anchored": true,
+                    "CFrame": [
+                      0.0000133514404296875,
+                      0,
+                      0.0000152587890625,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "CollisionFidelity": "Box",
+                    "Color": [
+                      0.6392157077789307,
+                      0.6352941393852234,
+                      0.6470588445663452
+                    ],
+                    "Material": "Plastic",
+                    "RenderFidelity": "Automatic",
+                    "Size": [
+                      0.6807025671005249,
+                      1.399999976158142,
+                      1.0266876220703125
+                    ]
+                  },
+                  "ClassName": "MeshPart"
+                }
+              ],
+              "ClassName": "Model"
+            }
+          ],
+          "ClassName": "Model"
+        },
+        {
+          "Name": "Shoulder",
+          "Properties": {
+            "Attributes": {
+              "RBX_AI_GENERATION_TYPE": {
+                "String": "GenerateMesh"
+              },
+              "RBX_AI_GENERATED": {
+                "Bool": true
+              },
+              "RBX_AI_GENERATION_ID": {
+                "String": "ee923e22-25eb-4332-b18d-f2faf7d643d0"
+              },
+              "RBX_AI_MODEL_FLOW": {
+                "String": "mesh"
+              }
+            }
+          },
+          "Children": [
+            {
+              "Name": "body",
+              "Children": [
+                {
+                  "Name": "body_geom",
+                  "Properties": {
+                    "CanQuery": false,
+                    "CanCollide": false,
+                    "TextureID": "rbxassetid://109871832740712",
+                    "MeshId": "rbxassetid://97317980171987",
+                    "CanTouch": false,
+                    "Anchored": true,
+                    "CFrame": [
+                      -0.0000171661376953125,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "CollisionFidelity": "Box",
+                    "Color": [
+                      0.6392157077789307,
+                      0.6352941393852234,
+                      0.6470588445663452
+                    ],
+                    "Material": "Plastic",
+                    "RenderFidelity": "Automatic",
+                    "Size": [
+                      1.3999998569488525,
+                      1.312363624572754,
+                      0.9745140075683594
+                    ]
+                  },
+                  "ClassName": "MeshPart"
+                }
+              ],
+              "ClassName": "Model"
+            }
+          ],
+          "ClassName": "Model"
+        }
+      ],
+      "ClassName": "Folder"
+    }
+  ],
+  "ClassName": "Folder"
+}

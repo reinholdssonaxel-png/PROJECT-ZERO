@@ -1,7 +1,7 @@
 local C = require(script.Parent.Config)
 local G = require(script.Parent.Geometry)
 local Catalog = require(script.Parent.HeroCatalog)
-local Style = require(script.Parent.HeroStyle)
+local Style = require(script.Parent.MeshHeroStyle)
 local Factory = {}
 function Factory.create(name, faction, position, heroId)
  heroId = heroId or "VEX"
@@ -28,7 +28,20 @@ function Factory.create(name, faction, position, heroId)
 	end
 	local origin = CFrame.new(position)
 	for _, data in pieces do
-		local p = G.part(m, data[1], data[2], origin * CFrame.new(data[3]), dark)
+		local assets = game.ReplicatedStorage:FindFirstChild("ZeroAssets")
+		local body = assets and assets:FindFirstChild("HumanBody")
+		local source = body and body:FindFirstChild(data[1])
+		local p
+		if source then
+			p = source:Clone()
+			p.Size, p.CFrame, p.Color = data[2], origin * CFrame.new(data[3]), dark
+			p.Parent = m
+		else
+			p = G.part(m, data[1], data[2], origin * CFrame.new(data[3]), dark)
+			if data[1] == "Head" then
+				local mesh = Instance.new("SpecialMesh") mesh.MeshType = Enum.MeshType.Head mesh.Parent = p
+			end
+		end
 		p.Anchored = false
 		p.CanCollide = data[1] == "UpperTorso" or data[1] == "LowerTorso"
 		p.Massless = data[1] ~= "HumanoidRootPart"
@@ -38,6 +51,11 @@ function Factory.create(name, faction, position, heroId)
 			local joint = Instance.new("Motor6D")
 			joint.Name, joint.Part0, joint.Part1 = data[1] .. "Joint", parent, p
 			joint.C0 = parent.CFrame:ToObjectSpace(p.CFrame)
+			-- Place limb pivots at shoulders/elbows/hips/knees instead of their centers.
+			if data[1]:find("Arm") or data[1]:find("Leg") or data[1]:find("Hand") then
+				joint.C1 = CFrame.new(0,p.Size.Y/2,0)
+				joint.C0 *= joint.C1
+			end
 			joint.Parent = parent
 		end
 	end

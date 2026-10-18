@@ -17,7 +17,7 @@ Download the raw [ready-built Studio place](releases/PROJECT-ZERO.rbxlx), open i
 | Item | Behavior |
 | --- | --- |
 | PLAY | Training selection and server-validated VEX deployment; multiplayer/other modes are visibly Coming Soon |
-| HEROES | All eight 3D human R15 models, canonical HP/identity, Idle/Run/Fire/Reload previews |
+| HEROES | Eight fitted mesh-armored human R15 models; LEFT/RIGHT rotation, zoom/reset and Idle/Run/Fire/Reload previews |
 | ARMORY | Eight corresponding 3D weapon/equipment displays, including paired Atlas gauntlets |
 | SETTINGS | Project-wide sound volume, this game's FPS aim sensitivity and local effects/shadow profile; session-only |
 | CREDITS | Project identity and used asset authors |
@@ -34,7 +34,7 @@ Each team has two 18-stud doors, separated vestibules, a full-height cross-dock 
 
 West is a connected brick warehouse with alternating fire compartments and side portals; center is a working loading/weighbridge yard with dispatch buildings; east is a factory with machines, a ground flank and a dogleg catwalk. Doors and route metrics are balanced while the two ends use different masonry, cladding and service identities. [Layout and test evidence](docs/HAMNVERKET_V2.md).
 
-Art uses original structural geometry plus the previously reviewed, script-free pipe/container/helmet templates. No new unreviewed Toolbox code was added. Decorative assets never determine collision or cover. [Asset sources and terms](docs/ASSETS.md).
+Art uses original architecture, reviewed pipe/container templates and separately fitted hero meshes. The warehouse now has repeated sawtooth roof/northlight bays. VEX uses a reviewed tactical mesh helmet/carrier; the other heroes use reviewed, adapted Roblox AI mesh armor with distinct silhouettes and loadouts. Mesh weapons are shared between menu, third-person and VEX first-person displays. Imported art contains no gameplay scripts. [Sources, user-asset audit and terms](docs/ASSETS.md), [mesh verification](docs/HERO_ART.md).
 
 ## Build / edit
 
@@ -61,9 +61,10 @@ s.Source = [[
         local root = game.ServerStorage.ZeroTests
         local combat = require(root["Combat.spec"]).run()
         local heroes = require(root["Heroes.spec"]).run()
+        local armor = require(root["ArmorAnimation.spec"]).run()
         local map = require(root["Map.spec"]).run()
         local session = require(root["Session.spec"]).run(game.Players:GetPlayers()[1])
-        return game.HttpService:JSONEncode({combat=combat, heroes=heroes, map=map, session=session})
+        return game.HttpService:JSONEncode({combat=combat, heroes=heroes, armor=armor, map=map, session=session})
     end)
     workspace:SetAttribute("ZeroTestOK", ok)
     workspace:SetAttribute("ZeroTestResult", tostring(result))

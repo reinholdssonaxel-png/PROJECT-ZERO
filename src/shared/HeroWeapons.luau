@@ -4,6 +4,8 @@ local Weapons = {}
 function Weapons.create(heroId, parent, preview)
 	local hero = Catalog.Heroes[heroId]
 	if heroId == "VEX" then return G.rifle(parent) end
+	local mesh=G.meshWeapon(heroId,parent,preview)
+	if mesh then return mesh end
 	local m = Instance.new("Model") m.Name = "Weapon_" .. heroId
 	local metal, dark, accent = Color3.fromRGB(90,103,116), Color3.fromRGB(31,38,45), hero.Accent
 	local function p(name,size,pos,color,mat)

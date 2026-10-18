@@ -9,7 +9,37 @@ function Geometry.part(parent: Instance, name: string, size: Vector3, cf: CFrame
 	p.Parent = parent
 	return p
 end
+function Geometry.meshWeapon(heroId: string, parent: Instance, preview: boolean?): Model?
+	local assets=game.ReplicatedStorage:FindFirstChild("ZeroAssets")
+	local art=assets and assets:FindFirstChild("WeaponArt")
+	local template=art and art:FindFirstChild(heroId)
+	if not template or (heroId=="ATLAS" and not preview) then return nil end
+	local sizes={VEX=Vector3.new(.32,.8,2.9),TITAN=Vector3.new(.85,1.15,3.3),PHANTOM=Vector3.new(.25,.62,1.5),HAVOC=Vector3.new(.65,.95,2.3),SPECTRE=Vector3.new(.3,.85,4.2),NOVA=Vector3.new(.35,.75,2.55),ECHO=Vector3.new(.38,.78,2.6),ATLAS=Vector3.new(.95,.85,1.1)}
+	local m=template:Clone() m:ClearAllChildren() -- Retain AI provenance on the model.
+	m.Name=if heroId=="VEX" then "VX7" else "Weapon_"..heroId
+	local receiver=Geometry.part(m,"Receiver",Vector3.one*.1,CFrame.identity,Color3.new()) receiver.Transparency=1
+	m.PrimaryPart=receiver
+	local center,bounds=template:GetBoundingBox()
+	local ratio=sizes[heroId]/bounds
+	local function copy(offset: CFrame, hand: string?)
+		for _,source in template:GetDescendants() do if source:IsA("MeshPart") then
+			local p=source:Clone() p.Name="WeaponMesh"
+			local cf=center:ToObjectSpace(source.CFrame)
+			p.Size*=ratio p.CFrame=offset*CFrame.new(cf.Position*ratio)*cf.Rotation
+			p.Anchored,p.CanCollide,p.CanQuery,p.CanTouch=true,false,false,false
+			p:SetAttribute("GripHand",hand) p.Parent=m
+		end end
+	end
+	if heroId=="PHANTOM" or heroId=="ATLAS" then
+		for _,sign in {-1,1} do copy(CFrame.new(if preview then sign*.45 else 0,0,-.3),if sign<0 then "Left" else "Right") end
+	else copy(CFrame.new(0,-.05,-.45)) end
+	local muzzle=Geometry.part(m,"Barrel",Vector3.one*.05,CFrame.new(0,.05,-.45-sizes[heroId].Z/2),Color3.new()) muzzle.Transparency=1
+	m.Parent=parent
+	return m
+end
 function Geometry.rifle(parent: Instance): Model
+	local mesh=Geometry.meshWeapon("VEX",parent)
+	if mesh then return mesh end
 	local m = Instance.new("Model")
 	m.Name = "VX7"
 	local dark, orange = Color3.fromRGB(40, 47, 56), Color3.fromRGB(179, 91, 30)

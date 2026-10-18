@@ -44,4 +44,6 @@ The results path was exercised both by the controlled finishRound service call a
 
 ## Manual checklist
 
+Mesh revision: HEROES/ARMORY now include LEFT/RIGHT rotation, +/− zoom and RESET; model framing adapts to hero scale/aspect. VEX's main-menu/first-person/held weapon reuse the new mesh sources. AI mesh creation is disclosed in CREDITS. Actual input tests selected all eight new hero models and all eight mesh weapons and checked inspection controls; detailed moving-mount evidence is in [HERO_ART.md](HERO_ART.md).
+
 On a fresh Play session, verify all five nav buttons, hover behavior, all eight hero/weapon previews, pose buttons and locked deployment styling. Adjust each setting at its limits. Deploy VEX, attempt shooting/movement in preparation, then verify movement/aim/fire/reload/Dash after doors open. H must freeze controls and Back must restore them. Leave with M; the player must not respawn behind the menu. Play again and let the natural timer finish; check results, return and replay. Repeat at narrow/wide viewport sizes and in Studio Server & Clients before publishing.

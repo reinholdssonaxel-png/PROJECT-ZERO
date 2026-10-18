@@ -1,0 +1,537 @@
+{
+  "Children": [
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430070991",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          -1.500005841255188,
+          -0.8500485420227051,
+          -3.6656643942478695e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          0.9842666387557983,
+          0.3157655596733093,
+          1.0282666683197021
+        ]
+      },
+      "Name": "LeftHand",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430070997",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          1.5000054836273193,
+          -0.8500487208366394,
+          3.486905768568249e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          0.9842666387557983,
+          0.3157655596733093,
+          1.0282666683197021
+        ]
+      },
+      "Name": "RightHand",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071005",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          -1.5000054836273193,
+          -0.22407203912734985,
+          -3.4427273476467235e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.0010666847229004,
+          1.1175124645233154,
+          1.0018666982650757
+        ]
+      },
+      "Name": "LeftLowerArm",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071013",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          1.5000057220458984,
+          -0.22407221794128418,
+          3.709842530952301e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.0010666847229004,
+          1.1175124645233154,
+          1.0018666982650757
+        ]
+      },
+      "Name": "RightLowerArm",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071044",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          -1.500006079673767,
+          0.3686748147010803,
+          -4.690102457516332e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.0010666847229004,
+          1.24159836769104,
+          1.0018666982650757
+        ]
+      },
+      "Name": "LeftUpperArm",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071041",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          1.5000064373016357,
+          0.368674635887146,
+          2.46247054747073e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.0010666847229004,
+          1.24159836769104,
+          1.0018666982650757
+        ]
+      },
+      "Name": "RightUpperArm",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071039",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          -0.5000016093254089,
+          -2.850010871887207,
+          -5.45382363270619e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.0088740587234497,
+          0.3119938373565674,
+          1.0010666847229004
+        ]
+      },
+      "Name": "LeftFoot",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071049",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          -0.5000017285346985,
+          -2.200911521911621,
+          -9.23333232094592e-8,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          0.992843508720398,
+          1.3006644248962402,
+          0.9728000164031982
+        ]
+      },
+      "Name": "LeftLowerLeg",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071038",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          4.768489247908292e-8,
+          0.1999836564064026,
+          -1.3112921237734554e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.9432077407836914,
+          1.6980316638946533,
+          1.003999948501587
+        ]
+      },
+      "Name": "UpperTorso",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071065",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          -0.500001847743988,
+          -1.4207875728607178,
+          1.2938863847011817e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          0.992843508720398,
+          1.3629319667816162,
+          0.9727016687393188
+        ]
+      },
+      "Name": "LeftUpperLeg",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071082",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          0.5000021457672119,
+          -2.850010871887207,
+          2.890840562486119e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.0088740587234497,
+          0.3119938373565674,
+          1.0010666847229004
+        ]
+      },
+      "Name": "RightFoot",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071105",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          0.5000020861625671,
+          -2.200911521911621,
+          4.292087396606803e-7,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          0.992843508720398,
+          1.3006644248962402,
+          0.9728000164031982
+        ]
+      },
+      "Name": "RightLowerLeg",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071109",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          1.6689529047653195e-7,
+          -0.8000307679176331,
+          4.768548933498096e-8,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          1.9914121627807617,
+          0.4006533920764923,
+          1.003999948501587
+        ]
+      },
+      "Name": "LowerTorso",
+      "ClassName": "MeshPart"
+    },
+    {
+      "Properties": {
+        "CanQuery": false,
+        "CanCollide": false,
+        "TextureID": "",
+        "MeshId": "https://assetdelivery.roblox.com/v1/asset/?id=7430071119",
+        "CanTouch": false,
+        "CollisionFidelity": "Box",
+        "RenderFidelity": "Automatic",
+        "Anchored": true,
+        "Color": [
+          1,
+          1,
+          1
+        ],
+        "CFrame": [
+          0.5000020265579224,
+          -1.4207878112792969,
+          0.000047813104174565524,
+          1.0000038146972656,
+          -5.960487214906607e-8,
+          2.3841900542720396e-7,
+          -5.960487214906607e-8,
+          1.0000038146972656,
+          -5.960475846222835e-8,
+          2.3841900542720396e-7,
+          -5.960475846222835e-8,
+          1
+        ],
+        "Size": [
+          0.992843508720398,
+          1.3629319667816162,
+          0.9727016687393188
+        ]
+      },
+      "Name": "RightUpperLeg",
+      "ClassName": "MeshPart"
+    }
+  ],
+  "ClassName": "Model"
+}

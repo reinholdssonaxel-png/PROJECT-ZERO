@@ -2,6 +2,8 @@
 
 The old 184 × 290-stud container grid exposed both spawn doors to a straight center lane. This revision changes the circulation and real occluding architecture before adding visual detail.
 
+Mesh-art follow-up: repeated sawtooth roofs, northlight glazing and mullions give the west warehouse a coherent industrial roof profile. These visual additions do not alter cover/collision. The subsequent engine regression retained 1,680 blocked spawn rays and equal 178.24/175.28-stud exit routes for both teams. Hero mesh equipment remains nonqueryable and cannot invalidate physical cover tests.
+
 ## Spatial design
 
 - Quay: **320 × 520 studs**, approximately 90 × 146 m. Spawn centers: `(0, ±230)`.

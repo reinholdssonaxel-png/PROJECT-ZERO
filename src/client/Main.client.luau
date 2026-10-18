@@ -33,6 +33,14 @@ local function makeViewmodel()
 	G.part(viewmodel, "RightGlove", Vector3.new(.33, .35, .48), CFrame.new(.63, -.83, -.7), Color3.fromRGB(29, 34, 41))
 	G.part(viewmodel, "RightArm", Vector3.new(.38, .4, 1.15), CFrame.new(.68, -.92, -.05) * CFrame.Angles(-.15, 0, 0), Color3.fromRGB(48, 55, 64))
 	G.part(viewmodel, "LeftArm", Vector3.new(.38, .4, 1.25), CFrame.new(.05, -.89, -1.04) * CFrame.Angles(-.2, -.8, -.15), Color3.fromRGB(48, 55, 64))
+	local art=game.ReplicatedStorage.ZeroAssets:FindFirstChild("HeroArt")
+	local common=art and art:FindFirstChild("Common")
+	if common and common:FindFirstChild("Forearm") then
+		for _,side in {"Left","Right"} do
+			local sleeve=require(game.ReplicatedStorage.ZeroShared.ArmorFit).equip(common.Forearm,viewmodel,side.."Arm",side.."Sleeve",Vector3.new(.43,1,.43),CFrame.Angles(math.pi/2,0,0))
+			for _,p in sleeve:GetDescendants() do if p:IsA("BasePart") then p.Color=Color3.fromRGB(64,69,77) end end
+		end
+	end
 	for _, p in viewmodel:GetDescendants() do
 		if p:IsA("BasePart") then p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = false, false, false, false end
 	end
@@ -40,11 +48,14 @@ local function makeViewmodel()
 end
 local ammoConnection
 local function attach(m)
-	character = m humanoid = m:WaitForChild("Humanoid")
+	local nextHumanoid=m:WaitForChild("Humanoid",5)
+	local root=m:WaitForChild("HumanoidRootPart",5)
+	-- A rapid menu/deployment transition may remove a replicated model mid-attach.
+	if not nextHumanoid or not root or player.Character~=m then return end
+	character,humanoid = m,nextHumanoid
 	workspace.CurrentCamera.CameraSubject = humanoid
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
 	workspace.CurrentCamera.FieldOfView = 80
-	local root = m:WaitForChild("HumanoidRootPart")
 	yaw, pitch = math.atan2(-root.CFrame.LookVector.X, -root.CFrame.LookVector.Z), 0
 	workspace.CurrentCamera.CFrame = CFrame.lookAt(m.Head.Position, m.Head.Position + root.CFrame.LookVector * 30)
 	player.CameraMode = Enum.CameraMode.LockFirstPerson

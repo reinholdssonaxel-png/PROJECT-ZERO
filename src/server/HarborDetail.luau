@@ -67,6 +67,12 @@ function Detail.build(arena)
  for z=-72,72,24 do
   box("WarehouseButtress",Vector3.new(2,28,2),Vector3.new(-61.2,14,z),steel)
   box("WarehouseRoofVent",Vector3.new(30,2,8),Vector3.new(-104,31,z),steel)
+  -- Repeated sawtooth roof bays give the brick warehouse a coherent industrial profile.
+  local roof=box("SawtoothRoof",Vector3.new(78,.6,15),Vector3.new(-103,33.2,z),dark,Enum.Material.Metal,CFrame.Angles(-.2,0,0))
+  roof.CastShadow=true
+  local glazing=box("NorthlightGlazing",Vector3.new(74,3,.2),Vector3.new(-103,32.8,z+7.4),Color3.fromRGB(132,160,172),Enum.Material.Glass)
+  glazing.Transparency=.3
+  for _,x in {-131,-103,-75} do box("RoofGlazingMullion",Vector3.new(.2,3,.3),Vector3.new(x,32.8,z+7.2),steel) end
   light(Vector3.new(-103,26,z),Color3.fromRGB(226,201,157),30)
  end
  for z=-60,60,24 do

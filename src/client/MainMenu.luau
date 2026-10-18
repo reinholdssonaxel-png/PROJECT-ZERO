@@ -9,7 +9,7 @@ local Pose=require(game.ReplicatedStorage.ZeroShared.AnimationPose)
 local G=require(game.ReplicatedStorage.ZeroShared.Geometry)
 local Menu={}
 function Menu.create(player,flow)
- local self={isOpen=true,page="HOME",selected="VEX",pose="Idle",poseAt=0}
+ local self={isOpen=true,page="HOME",selected="VEX",pose="Idle",poseAt=0,orbit=0,zoom=1}
  local white,muted,orange=Color3.fromRGB(223,231,237),Color3.fromRGB(145,163,178),Color3.fromRGB(221,137,69)
  local gui=Instance.new("ScreenGui") gui.Name="ZeroMainMenu" gui.IgnoreGuiInset=true gui.ResetOnSpawn=false gui.DisplayOrder=30 gui.Parent=player:WaitForChild("PlayerGui")
  local bg=Instance.new("Frame") bg.Name="Backdrop" bg.Size=UDim2.fromScale(1,1) bg.BackgroundColor3=Color3.fromRGB(13,22,31) bg.BorderSizePixel=0 bg.Parent=gui
@@ -72,6 +72,13 @@ function Menu.create(player,flow)
   for i,id in Catalog.Order do button(cards,"Hero_"..id,id..(if id=="VEX" then "" else "  / PREVIEW"),UDim2.fromScale(0,(i-1)*.125),UDim2.fromScale(1,.105),function() choose(id) end) end
   local info=text(f,"HeroInfo","",UDim2.fromScale(.73,.3),UDim2.fromScale(.235,.4),white,24)
   local status=text(f,"HeroStatus","",UDim2.fromScale(.73,.71),UDim2.fromScale(.235,.12),orange,16)
+  local inspect=Instance.new("Frame") inspect.Name="Inspect" inspect.BackgroundTransparency=1 inspect.Position=UDim2.fromScale(.32,.78) inspect.Size=UDim2.fromScale(.39,.045) inspect.Parent=f
+  for i,d in {{"RotateLeft","LEFT",-.4,0},{"RotateRight","RIGHT",.4,0},{"ZoomIn","+",0,-.15},{"ZoomOut","−",0,.15},{"ResetView","RESET",0,0}} do
+   button(inspect,d[1],d[2],UDim2.fromScale((i-1)*.2,0),UDim2.fromScale(.185,1),function()
+    if d[1]=="ResetView" then self.orbit,self.zoom=0,1 else self.orbit+=d[3] self.zoom=math.clamp(self.zoom+d[4],.65,1.45) end
+    gui:SetAttribute("InspectYaw",self.orbit) gui:SetAttribute("InspectZoom",self.zoom)
+   end)
+  end
   local poses=Instance.new("Frame") poses.Name="Poses" poses.BackgroundTransparency=1 poses.Position=UDim2.fromScale(.32,.84) poses.Size=UDim2.fromScale(.39,.045) poses.Parent=f
   for i,a in {"Idle","Run","Fire","Reload"} do button(poses,"Pose_"..a,a,UDim2.fromScale((i-1)*.25,0),UDim2.fromScale(.235,1),function() self.pose=a self.poseAt=os.clock() gui:SetAttribute("PreviewAction",a) end) end
   heroFrames[mode]={cards=cards,info=info,status=status,poses=poses}
@@ -98,13 +105,14 @@ function Menu.create(player,flow)
   local low=not player:GetAttribute("ZeroReducedEffects") player:SetAttribute("ZeroReducedEffects",low) game.Lighting.GlobalShadows=not low refreshSettings()
  end)
  text(settings,"SettingsNote","Applies this session. FPS aim controls this game's camera.\nLOW reduces local effects and shadows. Roblox device quality stays in Roblox settings.",UDim2.fromScale(.055,.77),UDim2.fromScale(.69,.075),muted,15)
- text(pages.CREDITS,"Credits","PROJECT: ZERO\nAn original Roblox hero-shooter prototype\n\nNORRHAMN / 2042 • ZERO INITIATIVE\nLuau, Rojo and original fitted hero models\n\nPoly Haven / Jorge Camacho: CC0 industrial pipes\nCreator Store: Elttob, DesiredDestinyx1, legitperspective, circles_squared\nFull asset origins and usage terms: repository docs/ASSETS.md\n\nVisual prototype • only VEX currently playable",UDim2.fromScale(.055,.29),UDim2.fromScale(.66,.53),white,23)
+ text(pages.CREDITS,"Credits","PROJECT: ZERO\nAn original Roblox hero-shooter prototype\n\nNORRHAMN / 2042 • ZERO INITIATIVE\nLuau, Rojo and fitted human R15 models\nArmor meshes created with Roblox AI, then reviewed and adapted\n\nPoly Haven / Jorge Camacho: CC0 industrial pipes\nCreator Store: Elttob, DesiredDestinyx1, circles_squared\nSources, AI provenance and terms: repository docs/ASSETS.md\n\nVisual prototype • only VEX currently playable",UDim2.fromScale(.055,.29),UDim2.fromScale(.66,.53),white,23)
  local results=text(pages.RESULTS,"Results","",UDim2.fromScale(.055,.32),UDim2.fromScale(.53,.3),white,34)
  button(pages.RESULTS,"ReturnMenu","RETURN TO MAIN MENU",UDim2.fromScale(.055,.68),UDim2.fromScale(.43,.08),function() flow:FireServer("Menu") end)
  button(pages.RESULTS,"PlayAgain","PLAY AGAIN",UDim2.fromScale(.055,.79),UDim2.fromScale(.43,.065),function() flow:FireServer("Play") end)
  choose=function(id)
   local nextSubject=if self.page=="ARMORY" then Weapons.create(id,world,true) else Factory.create(id.."_Menu","Alpha",Vector3.zero,id)
-  if subject then subject:Destroy() end subject=nextSubject subject.Parent=world self.selected=id gui:SetAttribute("SelectedHero",id)
+  if subject then subject:Destroy() end subject=nextSubject subject.Parent=world self.selected=id self.orbit,self.zoom=0,1 gui:SetAttribute("SelectedHero",id)
+  gui:SetAttribute("InspectYaw",0) gui:SetAttribute("InspectZoom",1)
   if self.page=="ARMORY" then for _,p in subject:GetDescendants() do if p:IsA("BasePart") then p.Anchored=true p.CanCollide=false end end subject:ScaleTo(2.5)
   else for _,p in subject:GetDescendants() do if p:IsA("BasePart") then p.Anchored=p.Name=="HumanoidRootPart" p.CanCollide=false end end end
   local h=Catalog.Heroes[id]
@@ -161,15 +169,16 @@ function Menu.create(player,flow)
   local aspect=math.max(.15,viewport.AbsoluteSize.X/math.max(1,viewport.AbsoluteSize.Y))
   camera.FieldOfView=math.clamp(math.deg(2*math.atan(math.tan(math.rad(18.5))*math.max(1,.8/aspect))),37,82)
   if self.page=="ARMORY" then
-   subject:PivotTo(CFrame.new(0,2,0)*CFrame.Angles(0,1.2+math.sin(os.clock()*.25)*.25,0))
+   subject:PivotTo(CFrame.new(0,2,0)*CFrame.Angles(0,self.orbit+1.2+math.sin(os.clock()*.25)*.25,0))
    local center,size=subject:GetBoundingBox()
    local distance=math.max(10,size.Magnitude*.65/math.tan(math.rad(camera.FieldOfView/2))*math.max(1,1/aspect))
-   camera.CFrame=CFrame.lookAt(center.Position+Vector3.new(0,1,-distance),center.Position)
+   camera.CFrame=CFrame.lookAt(center.Position+Vector3.new(0,1,-distance*self.zoom),center.Position)
   else
-   subject.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,-.18+math.sin(os.clock()*.22)*.08,0)
+   subject.HumanoidRootPart.CFrame=CFrame.new(0,3.1,0)*CFrame.Angles(0,self.orbit-.18+math.sin(os.clock()*.22)*.08,0)
    local elapsed=os.clock()-self.poseAt local progress=if self.pose=="Reload" then (elapsed%2.5)/1.8 else (elapsed%.5)/.2
    Pose.apply(subject,os.clock(),if self.pose=="Run" and heroFrames[self.page] then 1 else 0,if heroFrames[self.page] then self.pose else "Idle",progress)
-   camera.CFrame=CFrame.lookAt(Vector3.new(7,4.7,-12),Vector3.new(0,2.8,0))
+   local distance=14*Catalog.Heroes[self.selected].Scale*self.zoom*math.max(1,.72/aspect)
+   camera.CFrame=CFrame.lookAt(Vector3.new(distance*.32,4.2,-distance),Vector3.new(0,2.8,0))
   end
  end)
  sync()

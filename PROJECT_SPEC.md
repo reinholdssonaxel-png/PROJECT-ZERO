@@ -105,3 +105,9 @@ Player can join in first person as VEX, move, aim, fire VX-7, reload, see health
 - HEROES reuses all eight R15 models; ARMORY displays each weapon/equipment set. Only VEX deploys. SETTINGS provides local/session audio, custom FPS aim sensitivity and effects/shadow controls. CREDITS lists real project/asset information.
 - MENU/SELECT/RESULTS have no combat character. INSPECT and PREPARE freeze movement server-side and reject combat. M returns to menu; H inspects during play. This is standard Roblox replication/RemoteEvents, not custom networking.
 - Existing VEX numerical combat balance and all canonical hero identities remain unchanged. Menu/map engine-test evidence and remaining published/multi-client/device gaps are documented in `docs/MAIN_MENU.md` and `docs/HAMNVERKET_V2.md`.
+
+## Mesh armor revision (2026-10-18)
+- All eight humans have fitted mesh helmets/cuirasses, native Roblox R15 body geometry under their equipment, separate shoulder/forearm/shin shells and distinct role-specific equipment. Rigid armor mounts to one limb; it does not replace the server's existing hit volumes.
+- VEX adapts reviewed free Creator Store tactical helmet/carrier assets. Other armor and weapon meshes were created with Roblox's AI tools, reviewed and fitted; this is disclosed in CREDITS and the asset registry. Badly segmented or franchise-derived candidates are excluded from the shipped build.
+- HEROES/ARMORY add rotation, zoom and reset. Motion uses stable stored bind poses and anatomical limb pivots. Authored Animator clips/skinned production art remain future work; seven gameplay kits remain locked.
+- HAMNVERKET retains protected spawn exits and three lanes, with repeated warehouse sawtooth roof/northlight architecture. See `docs/HERO_ART.md` for checks and remaining limits.
